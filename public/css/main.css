@@ -1,0 +1,20 @@
+/* ==============================
+   Main Stylesheet
+   Imports all partials in the correct order.
+   ============================== */
+
+/* 1. Base Styles (Variables, global rules, animations) */
+@import url("base/_variables.css");
+@import url("base/_base.css");
+@import url("base/_animations.css");
+
+/* 2. Layout (Header, Footer, Grid systems) */
+@import url("layout/_header.css");
+@import url("layout/_footer.css");
+
+/* 3. Components (Reusable elements like buttons, cards) */
+@import url("components/_buttons.css");
+@import url("components/_product-card.css");
+
+/* 4. Page-Specific Styles (Styles for unique pages) */
+@import url("pages/_home.css");

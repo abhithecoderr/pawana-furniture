@@ -1,0 +1,29 @@
+/* ==============================
+   Root Variables - Light & Luxurious Theme
+   ============================== */
+:root {
+  /* Color Palette: Inspired by natural materials and serene interiors. */
+  --color-bg-body: #f5f1eb; /* Softer warm off-white, like aged linen. */
+  --color-bg-card: #faf8f4; /* Gentle cream white, easier on eyes. */
+  --color-accent-primary: #6b7f73; /* Warmer muted sage with earthiness. */
+  --color-accent-secondary: #a67c52; /* Rich caramel/honey wood tone. */
+  --color-text-primary: #2d2a27; /* Softer espresso, less harsh. */
+  --color-text-secondary: #8a837c; /* Warm stone/taupe for subtext. */
+
+  /* Typography */
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Transitions & Animations */
+  --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: 0.2s ease-out;
+
+  /* UI Elements */
+  --border-radius: 8px;
+  --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  /* Breakpoints */
+  --breakpoint-md: 768px; /* Tablet */
+  --breakpoint-lg: 1024px; /* Desktop */
+}

@@ -1,0 +1,57 @@
+/* ==============================
+   Header
+   ============================== */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 4rem;
+  background: rgba(245, 241, 235, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(45, 42, 39, 0.06);
+  transition: background var(--transition-fast);
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-text-primary);
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+.logo span {
+  color: var(--color-accent-secondary);
+  font-weight: 400;
+}
+
+.nav-links a {
+  margin-left: 2.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-accent-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-smooth);
+}
+.nav-links a:hover {
+  color: var(--color-text-primary);
+}
+.nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}

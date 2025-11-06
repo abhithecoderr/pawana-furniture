@@ -1,0 +1,152 @@
+[
+  {
+    "name": "Classic Oak Bed",
+    "description": "Timeless elegance in solid oak",
+    "imageUrl": "/images/products/bed/bed1.webp",
+    "category": "beds"
+  },
+  {
+    "name": "Modern Platform Bed",
+    "description": "Minimalist design, maximum comfort",
+    "imageUrl": "/images/products/bed/bed2.webp",
+    "category": "beds"
+  },
+  {
+    "name": "Upholstered Bed",
+    "description": "Luxurious fabric headboard",
+    "imageUrl": "/images/products/bed/bed3.jpg",
+    "category": "beds"
+  },
+  {
+    "name": "Storage Bed",
+    "description": "Smart storage solutions",
+    "imageUrl": "/images/products/bed/bed4.jpg",
+    "category": "beds"
+  },
+  {
+    "name": "Four Poster Bed",
+    "description": "Grand statement piece",
+    "imageUrl": "/images/products/bed/bed5.webp",
+    "category": "beds"
+  },
+  {
+    "name": "Modern Sectional",
+    "description": "Spacious comfort for the family",
+    "imageUrl": "/images/products/sofa/sofa-product.jpg",
+    "category": "sofas"
+  },
+  {
+    "name": "Leather Chesterfield",
+    "description": "Classic British elegance",
+    "imageUrl": "/images/products/sofa/sofa2-product.jpg",
+    "category": "sofas"
+  },
+  {
+    "name": "Velvet Loveseat",
+    "description": "Luxurious fabric in rich tones",
+    "imageUrl": "/images/products/sofa/sofa3-product.avif",
+    "category": "sofas"
+  },
+  {
+    "name": "Minimalist Sofa",
+    "description": "Clean lines, modern appeal",
+    "imageUrl": "/images/products/sofa/sofa4-product.webp",
+    "category": "sofas"
+  },
+  {
+    "name": "Corner Sofa",
+    "description": "Maximize your living space",
+    "imageUrl": "/images/products/sofa/sofa5-product.jpg",
+    "category": "sofas"
+  },
+  {
+    "name": "Walnut Dining Table",
+    "description": "Rich grain for family gatherings",
+    "imageUrl": "/images/products/table/tables1.jpg",
+    "category": "tables"
+  },
+  {
+    "name": "Round Coffee Table",
+    "description": "Center your living room",
+    "imageUrl": "/images/products/table/tables2.jpg",
+    "category": "tables"
+  },
+  {
+    "name": "Console Table",
+    "description": "Elegant hallway statement",
+    "imageUrl": "/images/products/table/tables3.webp",
+    "category": "tables"
+  },
+  {
+    "name": "Oak Desk",
+    "description": "Workspace meets craftsmanship",
+    "imageUrl": "/images/products/table/tables4.webp",
+    "category": "tables"
+  },
+  {
+    "name": "Extendable Table",
+    "description": "Flexible dining solutions",
+    "imageUrl": "/images/products/table/tables5.jpg",
+    "category": "tables"
+  },
+  {
+    "name": "Leather Armchair",
+    "description": "Handstitched luxury seating",
+    "imageUrl": "/images/products/chair/chairs1.jpg",
+    "category": "chairs"
+  },
+  {
+    "name": "Dining Chairs Set",
+    "description": "Matching set of four",
+    "imageUrl": "/images/products/chair/chairs2.jpg",
+    "category": "chairs"
+  },
+  {
+    "name": "Accent Chair",
+    "description": "Bold statement piece",
+    "imageUrl": "/images/products/chair/chairs3.webp",
+    "category": "chairs"
+  },
+  {
+    "name": "Rocking Chair",
+    "description": "Traditional comfort reimagined",
+    "imageUrl": "/images/products/chair/chairs4.webp",
+    "category": "chairs"
+  },
+  {
+    "name": "Office Chair",
+    "description": "Ergonomic and elegant",
+    "imageUrl": "/images/products/chair/chairs5.webp",
+    "category": "chairs"
+  },
+  {
+    "name": "Oak Wardrobe",
+    "description": "Spacious storage solution",
+    "imageUrl": "/images/products/wardrobe/wardrobes1.jpg",
+    "category": "wardrobes"
+  },
+  {
+    "name": "Sliding Door Wardrobe",
+    "description": "Space-saving design",
+    "imageUrl": "/images/products/wardrobe/wardrobes2.jpg",
+    "category": "wardrobes"
+  },
+  {
+    "name": "Walk-in Closet",
+    "description": "Custom luxury storage",
+    "imageUrl": "/images/products/wardrobe/wardrobes3.jpg",
+    "category": "wardrobes"
+  },
+  {
+    "name": "Vintage Armoire",
+    "description": "Classic charm with character",
+    "imageUrl": "/images/products/wardrobe/wardrobes4.jpg",
+    "category": "wardrobes"
+  },
+  {
+    "name": "Modern Wardrobe",
+    "description": "Sleek minimalist aesthetics",
+    "imageUrl": "/images/products/wardrobe/wardrobes5.jpg",
+    "category": "wardrobes"
+  }
+]

@@ -1,0 +1,11 @@
+/* ==============================
+   Footer
+   ============================== */
+.site-footer {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: var(--color-bg-body);
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
