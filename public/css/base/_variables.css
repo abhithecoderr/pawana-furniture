@@ -23,6 +23,13 @@
   --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.05);
   --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
 
+   /* Dropdown Styles */
+   --dropdown-font-size: 0.95rem;
+   --sub-dropdown-font-size: 1rem;
+   --dropdown-link-padding: 0.2rem 0;
+   --dropdown-link-margin: 0.1rem 0;
+   --sub-dropdown-margin: 0.2rem 0;
+
   /* Breakpoints */
   --breakpoint-md: 768px; /* Tablet */
   --breakpoint-lg: 1024px; /* Desktop */

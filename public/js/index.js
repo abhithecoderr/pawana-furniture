@@ -127,6 +127,31 @@ if (carouselPrev) {
   });
 }
 
+// Enable touchpad horizontal scrolling
+if (carouselTrack) {
+  carouselTrack.addEventListener('wheel', (e) => {
+    const maxIndex = Math.max(0, activeItems.length - itemsToShow);
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      // Horizontal scroll - handle carousel
+      e.preventDefault();
+      if (e.deltaX > 10) {
+        // Scroll right
+        if (currentIndex < maxIndex) {
+          currentIndex++;
+          updateCarousel();
+        }
+      } else if (e.deltaX < -10) {
+        // Scroll left
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      }
+    }
+    // If deltaY > deltaX, allow default vertical scrolling
+  }, { passive: false });
+}
+
 // Category tab switching
 categoryTabs.forEach((tab, index) => {
   tab.addEventListener('click', () => {

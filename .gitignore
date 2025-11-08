@@ -3,5 +3,3 @@ node_modules/
 .DS_Store
 /dist
 /build
-public/images/
-public/videos/

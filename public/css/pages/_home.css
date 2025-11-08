@@ -123,6 +123,88 @@
   letter-spacing: 0.5px;
 }
 
+/* Why Us Section */
+.why-us {
+  padding: 3rem;
+  background-color: var(--color-bg-body);
+  text-align: center;
+}
+
+.why-us h2 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: var(--color-text-primary);
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.why-us h2::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background-color: var(--color-accent-secondary);
+}
+
+.why-us-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.why-us-item {
+  background: var(--color-bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-us-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.why-us-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  border-radius: 8px 8px 0 0;
+}
+
+.why-us-item:hover img {
+  transform: scale(1.05);
+}
+
+.text-content {
+  background: var(--color-bg-card);
+  padding: 0rem;
+  border-radius: 0 0 8px 8px;
+}
+
+.text-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+  margin: 0.3rem 0 0.2rem 0;
+  font-weight: 500;
+}
+
+.text-content p {
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.4;
+  padding: 1rem;
+}
+
 /* About Section */
 .about-section {
   padding: 6rem 5rem;
@@ -204,35 +286,25 @@
 
 /* Featured Section */
 .featured {
-  padding: 5rem;
+  padding: 4rem;
   text-align: center;
   background-color: var(--color-bg-body);
 }
 
 .featured h2 {
   font-family: var(--font-heading);
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   color: var(--color-text-primary);
-  margin-bottom: 3rem;
-  position: relative;
-  display: inline-block;
-}
-
-.featured h2::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 3px;
-  background-color: var(--color-accent-secondary);
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 .product-card {
@@ -433,16 +505,23 @@ letter-spacing: 0.5px;
   opacity: 1;
 }
 
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .carousel-container {
   overflow: hidden;
-  margin: 0 auto;
-  max-width: 1400px;
+  flex: 1;
+  position: relative;
 }
 
 .carousel-track {
   display: flex;
   gap: 2rem;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s ease-out;
   padding: 1rem 0;
 }
 
@@ -491,13 +570,7 @@ letter-spacing: 0.5px;
   margin: 0 1.2rem 1.2rem;
 }
 
-.carousel-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2.5rem;
-}
+
 
 .carousel-arrow {
   background: transparent;
@@ -523,11 +596,14 @@ letter-spacing: 0.5px;
 }
 
 .carousel-scrollbar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 200px;
   height: 4px;
   background: var(--color-bg-body);
   border-radius: 2px;
-  position: relative;
   overflow: hidden;
 }
 
@@ -578,6 +654,54 @@ letter-spacing: 0.5px;
 
 .process-step {
   text-align: center;
+}
+
+.process-step:nth-child(1) .step-image {
+  height: 250px;
+}
+
+.process-step:nth-child(1) .step-image img {
+  height: 250px;
+}
+
+.process-step:nth-child(1) .step-info h3 {
+  font-size: 1.4rem;
+}
+
+.process-step:nth-child(1) .step-info p {
+  font-size: 0.9rem;
+}
+
+.process-step:nth-child(2) .step-image {
+  height: 300px;
+}
+
+.process-step:nth-child(2) .step-image img {
+  height: 300px;
+}
+
+.process-step:nth-child(2) .step-info h3 {
+  font-size: 1.6rem;
+}
+
+.process-step:nth-child(2) .step-info p {
+  font-size: 1rem;
+}
+
+.process-step:nth-child(3) .step-image {
+  height: 350px;
+}
+
+.process-step:nth-child(3) .step-image img {
+  height: 350px;
+}
+
+.process-step:nth-child(3) .step-info h3 {
+  font-size: 1.8rem;
+}
+
+.process-step:nth-child(3) .step-info p {
+  font-size: 1.1rem;
 }
 
 .step-image {
