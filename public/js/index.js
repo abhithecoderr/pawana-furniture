@@ -90,11 +90,11 @@ function updateCarousel() {
   const gap = 32; // 2rem
   const offset = currentIndex * (itemWidth + gap);
   const maxIndex = Math.max(0, activeItems.length - itemsToShow);
-  
+
   if (carouselTrack) {
     carouselTrack.style.transform = `translateX(-${offset}px)`;
   }
-  
+
   // Update scrollbar thumb
   if (carouselThumb && maxIndex > 0) {
     const thumbPosition = (currentIndex / maxIndex) * 60; // 60% is remaining space

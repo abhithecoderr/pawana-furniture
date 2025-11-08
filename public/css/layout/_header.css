@@ -28,6 +28,14 @@
   font-weight: 400;
 }
 
+.logo:hover {
+  color: var(--color-text-primary);
+}
+
+.logo:hover span {
+  color: var(--color-accent-secondary);
+}
+
 /* Mobile Header */
 @media (max-width: 767px) {
   .site-header {
