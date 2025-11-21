@@ -1,0 +1,242 @@
+<!-- Set Detail Page -->
+<section class="set-detail-section">
+  <div class="set-detail-container">
+
+    <!-- Breadcrumb -->
+    <div class="set-breadcrumb">
+      <a href="/">Home</a> /
+      <a href="/room/<%= set.room.toLowerCase().replace(/ /g, '-') %>"><%= set.room %></a> /
+      <span><%= set.name %></span>
+    </div>
+
+    <!-- Main Content - Side by Side -->
+    <div class="set-content">
+
+      <!-- Left: Image -->
+      <div class="set-image-section">
+        <div class="set-image-main">
+          <img
+            id="mainSetImage"
+            src="<%= set.images && set.images.length > 0 ? set.images[0].url : '/images/placeholder.jpg' %>"
+            alt="<%= set.name %>"
+          />
+        </div>
+
+        <!-- Thumbnails Below Image -->
+        <% if (set.images && set.images.length > 1) { %>
+        <div class="set-thumbnails">
+          <% set.images.forEach((image, index) => { %>
+            <img
+              src="<%= image.url %>"
+              alt="<%= set.name %> - View <%= index + 1 %>"
+              class="thumbnail <%= index === 0 ? 'active' : '' %>"
+              onclick="changeMainImage('<%= image.url %>', this)"
+            />
+          <% }); %>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Right: Info -->
+      <div class="set-info">
+        <div class="set-header">
+          <div>
+            <h1 class="set-title" id="setTitle"><%= set.name %></h1>
+            <div class="set-meta">
+              <span class="set-room"><%= set.room %></span>
+              <span class="set-items-count" id="setItemsCount"><%= set.items ? set.items.length : 0 %> Pieces</span>
+            </div>
+          </div>
+          <span class="set-style-badge <%= set.style.toLowerCase() %>" id="setStyleBadge"><%= set.style %></span>
+        </div>
+
+        <% if (set.description) { %>
+        <p class="set-description" id="setDescription"><%= set.description %></p>
+        <% } %>
+
+        <!-- Style Toggle - Switches Dynamically -->
+        <% if (styleVariants && styleVariants.length > 0) { %>
+        <div class="style-toggle-section">
+          <h4>Available Styles</h4>
+          <div class="style-toggle-buttons">
+            <button
+              class="style-toggle-btn active"
+              data-set='<%= JSON.stringify({
+                name: set.name,
+                slug: set.slug,
+                style: set.style,
+                description: set.description || "",
+                images: set.images,
+                items: set.items
+              }) %>'
+            >
+              <%= set.style %>
+            </button>
+            <% styleVariants.forEach(variant => { %>
+              <button
+                class="style-toggle-btn"
+                data-set='<%= JSON.stringify({
+                  name: variant.name,
+                  slug: variant.slug,
+                  style: variant.style,
+                  description: variant.description || "",
+                  images: variant.images,
+                  items: variant.items
+                }) %>'
+              >
+                <%= variant.style %>
+              </button>
+            <% }); %>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- Enquiry Button -->
+        <button class="btn-primary enquiry-btn" onclick="openEnquiryForm()">
+          Get an Enquiry
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Individual Items in Set -->
+<section class="set-items-section" id="setItemsSection">
+  <div class="set-items-container">
+    <h2>Individual Furniture in This Set</h2>
+    <p class="section-subtitle">Each piece can also be purchased separately</p>
+
+    <div class="set-items-grid" id="setItemsGrid">
+      <% if (set.items && set.items.length > 0) { %>
+        <% set.items.forEach(item => { %>
+          <a href="/item/<%= item.slug %>" class="set-item-card">
+            <div class="set-item-image">
+              <img
+                src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+                alt="<%= item.name %>"
+              />
+            </div>
+            <div class="set-item-info">
+              <h3><%= item.name %></h3>
+              <p class="set-item-type"><%= item.type %></p>
+            </div>
+          </a>
+        <% }); %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Related Sets Section -->
+<% if (relatedSets && relatedSets.length > 0) { %>
+<section class="related-sets-section">
+  <div class="related-sets-container">
+    <h2>Similar Collections</h2>
+    <div class="sets-grid">
+      <% relatedSets.forEach(relatedSet => { %>
+        <a href="/set/<%= relatedSet.slug %>" class="set-card">
+          <img
+            src="<%= relatedSet.images && relatedSet.images.length > 0 ? relatedSet.images[0].url : '/images/placeholder.jpg' %>"
+            alt="<%= relatedSet.name %>"
+          />
+          <h3><%= relatedSet.name %></h3>
+          <p><%= relatedSet.style %> Style</p>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<script>
+// Change main image from thumbnails
+function changeMainImage(url, thumbnail) {
+  document.getElementById('mainSetImage').src = url;
+  document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+  thumbnail.classList.add('active');
+}
+
+// Enquiry form
+function openEnquiryForm() {
+  const setName = document.getElementById('setTitle').textContent;
+  alert(`Enquiry form for ${setName} - This will be implemented with a modal or redirect to contact page`);
+  // TODO: Implement enquiry modal or redirect
+}
+
+// Dynamic style toggle functionality
+document.querySelectorAll('.style-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Parse set data
+    const setData = JSON.parse(this.dataset.set);
+
+    // Update active button
+    document.querySelectorAll('.style-toggle-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+
+    // Update main image
+    if (setData.images && setData.images.length > 0) {
+      document.getElementById('mainSetImage').src = setData.images[0].url;
+    }
+
+    // Update thumbnails
+    const thumbnailsContainer = document.querySelector('.set-thumbnails');
+    if (thumbnailsContainer && setData.images && setData.images.length > 1) {
+      thumbnailsContainer.innerHTML = '';
+      setData.images.forEach((image, index) => {
+        const thumb = document.createElement('img');
+        thumb.src = image.url;
+        thumb.alt = `${setData.name} - View ${index + 1}`;
+        thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+        thumb.onclick = function() { changeMainImage(image.url, this); };
+        thumbnailsContainer.appendChild(thumb);
+      });
+    } else if (thumbnailsContainer) {
+      thumbnailsContainer.innerHTML = '';
+    }
+
+    // Update title
+    document.getElementById('setTitle').textContent = setData.name;
+
+    // Update items count
+    document.getElementById('setItemsCount').textContent = `${setData.items ? setData.items.length : 0} Pieces`;
+
+    // Update description
+    const descElement = document.getElementById('setDescription');
+    if (descElement) {
+      descElement.textContent = setData.description;
+    }
+
+    // Update style badge
+    const badge = document.getElementById('setStyleBadge');
+    badge.textContent = setData.style;
+    badge.className = `set-style-badge ${setData.style.toLowerCase()}`;
+
+    // Update individual items grid
+    const itemsGrid = document.getElementById('setItemsGrid');
+    if (itemsGrid && setData.items && setData.items.length > 0) {
+      itemsGrid.innerHTML = '';
+      setData.items.forEach(item => {
+        const card = document.createElement('a');
+        card.href = `/item/${item.slug}`;
+        card.className = 'set-item-card';
+        card.innerHTML = `
+          <div class="set-item-image">
+            <img
+              src="${item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg'}"
+              alt="${item.name}"
+            />
+          </div>
+          <div class="set-item-info">
+            <h3>${item.name}</h3>
+            <p class="set-item-type">${item.type}</p>
+          </div>
+        `;
+        itemsGrid.appendChild(card);
+      });
+    }
+
+    // Update URL without reload
+    window.history.pushState({}, '', `/set/${setData.slug}`);
+  });
+});
+</script>

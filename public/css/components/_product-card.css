@@ -1,32 +1,28 @@
 /* ==============================
-   Product Card Component
+   Product Card - Premium & Refined
    ============================== */
+
 .product-card {
-  background-color: var(--color-bg-card);
-  border-radius: 12px;
-  padding: 0;
-  text-align: left;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-    box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-    border-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 2px solid rgba(107, 127, 115, 0.1);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  position: relative;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  cursor: pointer;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
-  border-color: rgba(107, 127, 115, 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent);
 }
 
 .product-card img {
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border-radius: 10px 10px 0 0;
+  object-position: center;
+  display: block;
+  transition: transform var(--transition-slower);
+  border-radius: var(--radius-sm);
 }
 
 .product-card:hover img {
@@ -34,17 +30,24 @@
 }
 
 .product-card h3 {
-  margin: 1.5rem 1.5rem 0.5rem 1.5rem;
-  color: var(--color-text-primary);
+  margin: var(--space-4) 0 var(--space-2) 0;
   font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.3;
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+  font-weight: var(--font-semibold);
 }
 
 .product-card p {
-  font-size: 0.95rem;
-  color: var(--color-text-secondary);
-  margin: 0 1.5rem 1.5rem 1.5rem;
-  line-height: 1.5;
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--font-medium);
+}
+
+.product-card:active {
+  transform: translateY(-1px);
 }

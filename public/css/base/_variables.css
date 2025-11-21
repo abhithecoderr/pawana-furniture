@@ -1,53 +1,143 @@
-/* ==============================
-   Root Variables - Light & Luxurious Theme
-   ============================== */
 :root {
-  /* Color Palette: Inspired by natural materials and serene interiors. */
-  --color-bg-body: #f5f1eb; /* Softer warm off-white, like aged linen. */
-  --color-bg-card: #faf8f4; /* Gentle cream white, easier on eyes. */
-  --color-accent-primary: #6b7f73; /* Warmer muted sage with earthiness. */
-  --color-accent-secondary: #a67c52; /* Rich caramel/honey wood tone. */
-  --color-text-primary: #2d2a27; /* Softer espresso, less harsh. */
-  --color-text-secondary: #8a837c; /* Warm stone/taupe for subtext. */
+  /* ==============================
+     ELEGANT WOOD DESIGN SYSTEM
+     Sophisticated, Warm, Premium Latte Tones
+     ============================== */
 
-  /* Typography */
-  --font-heading: "Playfair Display", serif;
-  --font-body: "Inter", sans-serif;
+  /* --- Color Palette --- */
+  /* Elegant Warm Backgrounds */
+  --color-bg-body: #DCC8B6; /* Warm Latte - rich, comforting base */
+  --color-bg-card: #E8DCCF; /* Soft Almond - gentle contrast */
+  --color-bg-section-alt: #CFB8A3; /* Deep Taupe - section contrast */
+  --color-bg-dark: #3E2723; /* Deep Chocolate */
 
-  /* Transitions & Animations */
-  --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --transition-fast: 0.2s ease-out;
+  /* Core Brown Palette - Focused */
+  --color-primary: #5D4E37; /* Rich walnut brown */
+  --color-primary-dark: #3E2723; /* Deep chocolate */
+  --color-accent: #A67C52; /* Warm caramel */
+  --color-accent-light: #C19A6B; /* Light caramel */
+  --color-accent-warm: #8B6F47; /* Darker wood */
 
-  /* UI Elements */
-  --border-radius: 8px;
-  --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
+  /* Typography - Warm & Readable */
+  --color-text-primary: #2D1B12; /* Very Deep Brown - almost black but warm */
+  --color-text-secondary: #4A3728; /* Deep Walnut */
+  --color-text-muted: #6D5843; /* Medium Brown */
+  --color-text-inverse: #F5F0E6; /* Warm Cream (for text on dark backgrounds) */
 
-   /* Dropdown Styles */
-   --dropdown-font-size: 0.95rem;
-   --sub-dropdown-font-size: 1rem;
-   --dropdown-link-padding: 0.2rem 0;
-   --dropdown-link-margin: 0.1rem 0;
-   --sub-dropdown-margin: 0.2rem 0;
+  /* UI States - Refined */
+  --color-border: #BCAAA4; /* Warm Taupe border */
+  --color-border-light: #D7CCC8; /* Subtle Taupe border */
+  --color-overlay: rgba(62, 39, 35, 0.6); /* Chocolate overlay */
 
-  /* Spacing System */
-  --spacing-xs: 0.5rem;    /* 8px */
-  --spacing-sm: 0.75rem;   /* 12px */
-   --spacing-md: 1rem;      /* 16px */
-   --spacing-lg: 1.5rem;    /* 24px */
-   --spacing-xl: 2rem;      /* 32px */
-   --spacing-2xl: 3rem;     /* 48px */
-   --spacing-3xl: 4rem;     /* 64px */
-   --spacing-4xl: 6rem;     /* 96px */
+  /* --- Shadows (Warm Subtle) --- */
+  --shadow-xs: 0 1px 3px rgba(62, 39, 35, 0.04);
+  --shadow-sm: 0 2px 6px rgba(62, 39, 35, 0.06);
+  --shadow-md: 0 4px 12px rgba(62, 39, 35, 0.08);
+  --shadow-lg: 0 8px 24px rgba(62, 39, 35, 0.10);
+  --shadow-xl: 0 12px 32px rgba(62, 39, 35, 0.12);
+  --shadow-hover: 0 12px 32px rgba(62, 39, 35, 0.12);
 
-   /* Section Spacing */
-   --section-padding-mobile: var(--spacing-2xl) var(--spacing-md);
-   --section-padding-tablet: var(--spacing-3xl) var(--spacing-xl);
-   --section-padding-desktop: var(--spacing-4xl) var(--spacing-3xl);
+  /* --- Border Radius (Modern Subtle) --- */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
 
-   /* Breakpoints */
-   --breakpoint-sm: 480px;  /* Mobile */
-   --breakpoint-md: 768px;  /* Tablet */
-   --breakpoint-lg: 1024px;  /* Desktop */
-   --breakpoint-xl: 1440px; /* Large Desktop */
+  /* --- Typography Scale --- */
+  --font-heading: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-accent: "Italiana", serif;
+
+  /* Font Sizes - Smoother Scale (1.2 ratio) */
+  --text-xs: 0.694rem;     /* 11px */
+  --text-sm: 0.833rem;     /* 13px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.2rem;       /* 19px */
+  --text-xl: 1.44rem;      /* 23px */
+  --text-2xl: 1.728rem;    /* 28px */
+  --text-3xl: 2.074rem;    /* 33px */
+  --text-4xl: 2.488rem;    /* 40px */
+  --text-5xl: 2.986rem;    /* 48px */
+  --text-6xl: 3.583rem;    /* 57px */
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* --- Spacing Scale (8px Grid System) --- */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+
+  /* --- Consistent Section Spacing --- */
+  --section-padding-y: 6rem;     /* 96px - generous vertical */
+  --section-padding-x: 2rem;     /* 32px - comfortable horizontal */
+  --grid-gap: 2.5rem;            /* 40px - unified grid spacing */
+  --card-padding: 1.5rem;        /* 24px - internal card spacing */
+
+  /* --- Transitions (Smooth & Gentle) --- */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- Legacy Section Spacing (Updated) --- */
+  --section-padding-mobile: var(--space-16) var(--space-4);
+  --section-padding-tablet: var(--space-20) var(--space-8);
+  --section-padding-desktop: var(--section-padding-y) var(--section-padding-x);
+
+  /* --- Breakpoints --- */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* --- Z-Index Scale --- */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+
+  /* Legacy Support (for gradual migration) */
+  --spacing-xs: var(--space-2);
+  --spacing-sm: var(--space-3);
+  --spacing-md: var(--space-4);
+  --spacing-lg: var(--space-6);
+  --spacing-xl: var(--space-8);
+  --spacing-2xl: var(--space-12);
+  --spacing-3xl: var(--space-16);
+  --spacing-4xl: var(--space-24);
+
+  --color-accent-primary: var(--color-primary);
+  --color-accent-secondary: var(--color-accent);
+  --color-text-light: var(--color-text-inverse);
+  --border-radius: var(--radius-md);
+  --shadow-subtle: var(--shadow-sm);
+  --transition-smooth: var(--transition-slow);
 }

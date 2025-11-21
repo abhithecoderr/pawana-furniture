@@ -1,0 +1,195 @@
+<!-- Item Detail Page -->
+<section class="item-detail-section">
+  <div class="item-detail-container">
+
+    <!-- Breadcrumb -->
+    <div class="item-breadcrumb">
+      <a href="/">Home</a> /
+      <a href="/room/<%= item.room.toLowerCase().replace(/ /g, '-') %>"><%= item.room %></a> /
+      <span><%= item.name %></span>
+    </div>
+
+    <!-- Main Content - Side by Side -->
+    <div class="item-content">
+
+      <!-- Left: Image -->
+      <div class="item-image-section">
+        <div class="item-image-main">
+          <img
+            id="mainItemImage"
+            src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+            alt="<%= item.name %>"
+          />
+        </div>
+
+        <!-- Thumbnails Below Image -->
+        <% if (item.images && item.images.length > 1) { %>
+        <div class="item-thumbnails">
+          <% item.images.forEach((image, index) => { %>
+            <img
+              src="<%= image.url %>"
+              alt="<%= item.name %> - View <%= index + 1 %>"
+              class="thumbnail <%= index === 0 ? 'active' : '' %>"
+              onclick="changeMainImage('<%= image.url %>', this)"
+            />
+          <% }); %>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Right: Info -->
+      <div class="item-info">
+        <div class="item-header">
+          <div>
+            <h1 class="item-title" id="itemTitle"><%= item.name %></h1>
+            <div class="item-meta">
+              <span class="item-room"><%= item.room %></span>
+              <span class="item-type" id="itemType"><%= item.type %></span>
+            </div>
+          </div>
+          <span class="item-style-badge <%= item.style.toLowerCase() %>" id="itemStyleBadge"><%= item.style %></span>
+        </div>
+
+        <% if (item.description) { %>
+        <p class="item-description" id="itemDescription"><%= item.description %></p>
+        <% } %>
+
+        <!-- Style Toggle - Switches Dynamically -->
+        <% if (styleVariants && styleVariants.length > 0) { %>
+        <div class="style-toggle-section">
+          <h4>Available Styles</h4>
+          <div class="style-toggle-buttons">
+            <button
+              class="style-toggle-btn active"
+              data-item='<%= JSON.stringify({
+                name: item.name,
+                slug: item.slug,
+                style: item.style,
+                type: item.type,
+                description: item.description || "",
+                images: item.images
+              }) %>'
+            >
+              <%= item.style %>
+            </button>
+            <% styleVariants.forEach(variant => { %>
+              <button
+                class="style-toggle-btn"
+                data-item='<%= JSON.stringify({
+                  name: variant.name,
+                  slug: variant.slug,
+                  style: variant.style,
+                  type: variant.type,
+                  description: variant.description || "",
+                  images: variant.images
+                }) %>'
+              >
+                <%= variant.style %>
+              </button>
+            <% }); %>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- Enquiry Button -->
+        <button class="btn-primary enquiry-btn" onclick="openEnquiryForm()">
+          Get an Enquiry
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Related Items Section -->
+<% if (relatedItems && relatedItems.length > 0) { %>
+<section class="related-items-section">
+  <div class="related-items-container">
+    <h2>You May Also Like</h2>
+    <div class="product-grid">
+      <% relatedItems.forEach(relatedItem => { %>
+        <a href="/item/<%= relatedItem.slug %>" class="product-card">
+          <img
+            src="<%= relatedItem.images && relatedItem.images.length > 0 ? relatedItem.images[0].url : '/images/placeholder.jpg' %>"
+            alt="<%= relatedItem.name %>"
+          />
+          <h3><%= relatedItem.name %></h3>
+          <div class="product-card-meta">
+            <span class="item-style-badge <%= relatedItem.style.toLowerCase() %>"><%= relatedItem.style %></span>
+            <p><%= relatedItem.type %> · <%= relatedItem.room %></p>
+          </div>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+
+<script>
+// Change main image from thumbnails
+function changeMainImage(url, thumbnail) {
+  document.getElementById('mainItemImage').src = url;
+  document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+  thumbnail.classList.add('active');
+}
+
+// Enquiry form
+function openEnquiryForm() {
+  const itemName = document.getElementById('itemTitle').textContent;
+  alert(`Enquiry form for ${itemName} - This will be implemented with a modal or redirect to contact page`);
+  // TODO: Implement enquiry modal or redirect
+}
+
+// Dynamic style toggle functionality
+document.querySelectorAll('.style-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Parse item data
+    const itemData = JSON.parse(this.dataset.item);
+
+    // Update active button
+    document.querySelectorAll('.style-toggle-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+
+    // Update main image
+    if (itemData.images && itemData.images.length > 0) {
+      document.getElementById('mainItemImage').src = itemData.images[0].url;
+    }
+
+    // Update thumbnails
+    const thumbnailsContainer = document.querySelector('.item-thumbnails');
+    if (thumbnailsContainer && itemData.images && itemData.images.length > 1) {
+      thumbnailsContainer.innerHTML = '';
+      itemData.images.forEach((image, index) => {
+        const thumb = document.createElement('img');
+        thumb.src = image.url;
+        thumb.alt = `${itemData.name} - View ${index + 1}`;
+        thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+        thumb.onclick = function() { changeMainImage(image.url, this); };
+        thumbnailsContainer.appendChild(thumb);
+      });
+    } else if (thumbnailsContainer) {
+      thumbnailsContainer.innerHTML = '';
+    }
+
+    // Update title
+    document.getElementById('itemTitle').textContent = itemData.name;
+
+    // Update type
+    document.getElementById('itemType').textContent = itemData.type;
+
+    // Update description
+    const descElement = document.getElementById('itemDescription');
+    if (descElement) {
+      descElement.textContent = itemData.description;
+    }
+
+    // Update style badge
+    const badge = document.getElementById('itemStyleBadge');
+    badge.textContent = itemData.style;
+    badge.className = `item-style-badge ${itemData.style.toLowerCase()}`;
+
+    // Update URL without reload
+    window.history.pushState({}, '', `/item/${itemData.slug}`);
+  });
+});
+</script>

@@ -7,7 +7,7 @@
     </p>
     <div class="hero-actions">
       <a href="/contact" class="btn-primary">Start Your Custom Order</a>
-      <a href="#process" class="btn-secondary">How It Works</a>
+      <a href="/catalogue" class="btn-secondary">Explore Collection</a>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -26,161 +26,114 @@
   </div>
   </section>
 
-  <section class="why-us">
-   <h2>Why Choose Us</h2>
-   <div class="why-us-grid">
-     <div class="why-us-item">
-     <img src="/images/why-us/quality.jpg" alt="Built with Quality Materials" >
-     <div class="text-content">
-     <h3>Only The Finest Materials</h3>
-     <p>We use solid hardwoods and source our fabrics from trusted, reputable suppliers. This means your furniture isn't just beautiful on day one—it's built to handle daily life and last for years to come.</p>
-     </div>
-     </div>
-     <div class="why-us-item">
-       <img src="/images/why-us/workshop.jpg" alt="A Modern, Efficient Workshop">
-       <div class="text-content">
-       <h3>A Modern Workshop</h3>
-     <p>Our workshop is equipped with state-of-the-art tools for precision, combined with traditional techniques for strength. This blend allows us to build your furniture efficiently without compromising on the details that matter.</p>
-     </div>
-     </div>
 
-       <div class="why-us-item">
-       <img src="/images/why-us/detail.avif" alt="Attention to Detail">
-       <div class="text-content">
-       <h3>Attention to Detail</h3>
-       <p>Every piece reflects meticulous craftsmanship, from precise joinery to flawless finishes. We pay close attention to every detail, ensuring your furniture is not just functional but a true work of art.</p>
-       </div>
-       </div>
-     <div class="why-us-item">
-     <img src="/images/why-us/gurantee.jpg" alt="Guarantee On Every Product">
-     <div class="text-content">
-         <h3>Delivered on Time</h3>
-         <p>We build everything to the highest standard, and we stand behind our work. Every piece comes with a clear guarantee on its structure and joinery, so you can invest with confidence.</p>
-     </div>
-     </div>
-
-   </div>
- </section>
 
  <section class="featured">
   <h2>Our Signature Pieces</h2>
   <div class="product-grid">
-    <div class="product-card">
-      <img src="/images/sofa.jpg" alt="Sofa" />
-      <h3>Modern Oak Sofa</h3>
-      <p>Rich oak wood and premium linen for lasting comfort.</p>
-    </div>
-    <div class="product-card">
-      <img src="/images/table.webp" alt="Table" />
-      <h3>Walnut Dining Table</h3>
-      <p>Elegant craftsmanship in deep walnut tones.</p>
-    </div>
-    <div class="product-card">
-      <img src="/images/chair.jpg" alt="Chair" />
-      <h3>Leather Accent Chair</h3>
-      <p>Handstitched perfection with a rustic touch.</p>
-    </div>
+    <% featuredItems.forEach(item => { %>
       <div class="product-card">
-       <img src="/images/wardrobe.jpg" alt="Wardrobe" />
-       <h3>Elegant Wardrobe</h3>
-       <p>Custom storage solutions with timeless design.</p>
-     </div>
-     <div class="product-card">
-       <img src="/images/bed-featured.jpg" alt="Bed" />
-       <h3>Luxury Bed Frame</h3>
-       <p>Handcrafted beds for ultimate comfort and style.</p>
-     </div>
-     <div class="product-card">
-       <img src="/images/cabinet-featured.webp" alt="Cabinet" />
-       <h3>Display Cabinet</h3>
-       <p>Showcase your treasures in our custom cabinets.</p>
-     </div>
-   </div>
+        <a href="/item/<%= item.slug %>">
+          <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>" />
+          <h3><%= item.name %></h3>
+          <div class="product-card-meta">
+            <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
+            <p><%= item.type %> · <%= item.room %></p>
+          </div>
+        </a>
+      </div>
+    <% }) %>
   </div>
 </section>
-
-
 
 <section class="carousel-section">
   <div class="carousel-header">
     <h2>A Quick Look At Our Offerings</h2>
     <div class="category-controls">
-      <button class="category-arrow category-prev" aria-label="Previous category">‹</button>
       <nav class="category-nav">
-        <button class="category-tab active" data-category="beds">Beds</button>
-        <button class="category-tab" data-category="sofas">Sofas</button>
-        <button class="category-tab" data-category="tables">Tables</button>
-        <button class="category-tab" data-category="chairs">Chairs</button>
-        <button class="category-tab" data-category="wardrobes">Wardrobes</button>
+        <button class="category-tab active" data-category="items">Items</button>
+        <button class="category-tab" data-category="sets">Sets</button>
       </nav>
-      <button class="category-arrow category-next" aria-label="Next category">›</button>
     </div>
   </div>
 
   <div class="carousel-wrapper">
-  <button class="carousel-arrow carousel-prev" aria-label="Previous product">‹</button>
-  <div class="carousel-container">
-    <div class="carousel-track" id="carousel-track">
-      <!-- Products will be loaded dynamically from JSON -->
-  </div>
-    <div class="carousel-scrollbar">
-        <div class="carousel-thumb"></div>
+    <button class="carousel-arrow carousel-prev" aria-label="Previous product">‹</button>
+    <div class="carousel-container">
+      <div class="carousel-track" id="carousel-track">
+        <!-- Items -->
+        <% carouselItems.forEach(item => { %>
+          <div class="carousel-item active-category" data-category="items">
+            <a href="/item/<%= item.slug %>">
+              <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>">
+              <h4><%= item.name %></h4>
+              <p><%= item.style %> · <%= item.room %></p>
+            </a>
+          </div>
+        <% }) %>
+        <!-- View All Items Card -->
+        <div class="carousel-item active-category view-all-card" data-category="items">
+          <a href="/catalogue?type=item" class="view-all-link">
+            <div class="view-all-content">
+              <span class="view-all-icon">→</span>
+              <span>View All Items</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Sets -->
+        <% carouselSets.forEach(set => { %>
+          <div class="carousel-item" data-category="sets">
+            <a href="/set/<%= set.slug %>">
+              <img src="<%= set.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= set.name %>">
+              <h4><%= set.name %></h4>
+              <p><%= set.style %> · <%= set.room %></p>
+            </a>
+          </div>
+        <% }) %>
+        <!-- View All Sets Card -->
+        <div class="carousel-item view-all-card" data-category="sets">
+          <a href="/catalogue?type=set" class="view-all-link">
+            <div class="view-all-content">
+              <span class="view-all-icon">→</span>
+              <span>View All Sets</span>
+            </div>
+          </a>
+        </div>
       </div>
+      <div class="carousel-scrollbar"><div class="carousel-thumb"></div></div>
     </div>
     <button class="carousel-arrow carousel-next" aria-label="Next product">›</button>
   </div>
 </section>
 
-<section class="categories">
-  <div class="categories-header">
-    <h2>Browse by Type</h2>
-    <a href="/catalogue" class="view-all-link">View All →</a>
-  </div>
-  <div class="category-strip">
-    <a href="/catalogue?category=beds" class="category-item">
-      <div class="category-image">
-        <img src="/images/category/bed1.jpg" alt="Beds" />
-      </div>
-      <span class="category-name">Beds</span>
-    </a>
-    <a href="/catalogue?category=sofas" class="category-item">
-      <div class="category-image">
-        <img src="/images/category/sofa2.jpg" alt="Sofas" />
-      </div>
-      <span class="category-name">Sofas</span>
-    </a>
-    <a href="/catalogue?category=tables" class="category-item">
-      <div class="category-image">
-        <img src="/images/category/table1.webp" alt="Tables" />
-      </div>
-      <span class="category-name">Tables</span>
-    </a>
-    <a href="/catalogue?category=chairs" class="category-item">
-      <div class="category-image">
-        <img src="/images/category/chair1.jpg" alt="Chairs" />
-      </div>
-      <span class="category-name">Chairs</span>
-    </a>
-    <a href="/catalogue?category=wardrobes" class="category-item">
-      <div class="category-image">
-        <img src="/images/category/wardrobe1.jpg" alt="Wardrobes" />
-      </div>
-      <span class="category-name">Wardrobes</span>
-    </a>
-    <a href="/catalogue?category=cabinets" class="category-item">
-      <div class="category-image">
-        <img src="/images/category/cabinet.jpg" alt="Cabinets" />
-      </div>
-      <span class="category-name">Cabinets</span>
-    </a>
-    <a href="/catalogue?category=desks" class="category-item">
-      <div class="category-image">
-        <img src="/images/category/desk.webp" alt="Desks" />
-      </div>
-      <span class="category-name">Desks</span>
-    </a>
+
+
+<!-- Browse by Rooms Section -->
+<section class="browse-rooms-section">
+  <div class="browse-rooms-container">
+    <h2>Browse by Rooms</h2>
+    <p class="browse-rooms-subtitle">Explore our curated collections for every space in your home</p>
+
+    <div class="rooms-grid">
+      <% rooms.forEach(room => { %>
+        <div class="room-card">
+          <a href="/room/<%= room.slug %>">
+            <div class="room-image">
+              <img src="<%= room.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= room.name %>">
+              <div class="room-overlay">
+                <span class="room-name"><%= room.name %></span>
+                <span class="room-arrow">→</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% }); %>
+    </div>
   </div>
 </section>
+
+
 
 <section class="process-section" id="process">
   <div class="process-container">
@@ -239,6 +192,42 @@
   </div>
 </section>
 
+ <section class="why-us">
+   <h2>Why Choose Us</h2>
+   <div class="why-us-grid">
+     <div class="why-us-item">
+     <img src="/images/why-us/quality.jpg" alt="Built with Quality Materials" >
+     <div class="text-content">
+     <h3>Only The Finest Materials</h3>
+     <p>We use solid hardwoods and source our fabrics from trusted, reputable suppliers. This means your furniture isn't just beautiful on day one—it's built to handle daily life and last for years to come.</p>
+     </div>
+     </div>
+     <div class="why-us-item">
+       <img src="/images/why-us/workshop.jpg" alt="A Modern, Efficient Workshop">
+       <div class="text-content">
+       <h3>A Modern Workshop</h3>
+     <p>Our workshop is equipped with state-of-the-art tools for precision, combined with traditional techniques for strength. This blend allows us to build your furniture efficiently without compromising on the details that matter.</p>
+     </div>
+     </div>
+
+       <div class="why-us-item">
+       <img src="/images/why-us/detail.avif" alt="Attention to Detail">
+       <div class="text-content">
+       <h3>Attention to Detail</h3>
+       <p>Every piece reflects meticulous craftsmanship, from precise joinery to flawless finishes. We pay close attention to every detail, ensuring your furniture is not just functional but a true work of art.</p>
+       </div>
+       </div>
+     <div class="why-us-item">
+     <img src="/images/why-us/gurantee.jpg" alt="Guarantee On Every Product">
+     <div class="text-content">
+         <h3>Delivered on Time</h3>
+         <p>We build everything to the highest standard, and we stand behind our work. Every piece comes with a clear guarantee on its structure and joinery, so you can invest with confidence.</p>
+     </div>
+     </div>
+
+   </div>
+ </section>
+
     <div class="process-cta">
       <h3>Ready to Start Your Custom Order?</h3>
       <p>Get in touch with us for a personalized consultation.</p>
@@ -257,3 +246,4 @@
     </div>
   </div>
 </section>
+

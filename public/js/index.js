@@ -1,16 +1,15 @@
-// Simple header effect
-
-// Smooth scroll for anchor links (future sections)
+// ========== Smooth scroll for anchor links ==========
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
-    document.querySelector(this.getAttribute("href")).scrollIntoView({
-      behavior: "smooth"
-    });
+    const targetEl = document.querySelector(this.getAttribute("href"));
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
+    }
   });
 });
 
-// Scroll animations for product cards
+// ========== Scroll animations for product cards ==========
 const observerOptions = {
   threshold: 0.2,
   rootMargin: '0px 0px -50px 0px'
@@ -29,7 +28,7 @@ document.querySelectorAll('.product-card').forEach(card => {
   observer.observe(card);
 });
 
-// Carousel functionality
+// ========== Carousel functionality ==========
 const carouselTrack = document.querySelector('#carousel-track');
 const carouselPrev = document.querySelector('.carousel-prev');
 const carouselNext = document.querySelector('.carousel-next');
@@ -39,151 +38,124 @@ const categoryPrev = document.querySelector('.category-prev');
 const categoryNext = document.querySelector('.category-next');
 
 let currentIndex = 0;
-let currentCategory = 'beds';
+let currentCategory = categoryTabs[0]?.dataset.category || 'items';
 let activeItems = [];
-let allCarouselItems = [];
+let allCarouselItems = Array.from(document.querySelectorAll('.carousel-item'));
 const itemsToShow = 4;
 
-// Load carousel products from JSON
-async function loadCarouselProducts() {
-  try {
-    const response = await fetch('/data/carousel-products.json');
-    const products = await response.json();
-    renderCarouselProducts(products);
-  } catch (error) {
-    console.error('Error loading carousel products:', error);
-  }
-}
-
-function renderCarouselProducts(products) {
-  if (!carouselTrack) return;
-  
-  carouselTrack.innerHTML = products.map(product => `
-    <div class="carousel-item" data-category="${product.category}">
-      <img src="${product.imageUrl}" alt="${product.name}">
-      <h4>${product.name}</h4>
-      <p>${product.description}</p>
-    </div>
-  `).join('');
-  
-  // Update references after rendering
-  allCarouselItems = document.querySelectorAll('.carousel-item');
-  
-  // Initialize carousel
-  filterItemsByCategory(currentCategory);
-  updateCarousel();
-}
-
+// Filter visible items by category
 function filterItemsByCategory(category) {
+  // First, hide all items and remove active class
   allCarouselItems.forEach(item => {
     if (item.dataset.category === category) {
       item.classList.add('active-category');
+      item.style.display = 'block'; // Ensure it's visible for calculation
     } else {
       item.classList.remove('active-category');
+      item.style.display = 'none'; // Ensure it's hidden
     }
   });
-  activeItems = Array.from(allCarouselItems).filter(item => item.dataset.category === category);
+
+  // Update active items list
+  activeItems = allCarouselItems.filter(item => item.dataset.category === category);
+
+  // Reset index when switching categories
+  currentIndex = 0;
+
+  // Force layout update
+  updateCarousel();
 }
 
+// Update carousel position
 function updateCarousel() {
-  const itemWidth = activeItems[0]?.offsetWidth || 280;
-  const gap = 32; // 2rem
+  if (!carouselTrack || activeItems.length === 0) return;
+
+  // Get width of the first active item
+  const firstItem = activeItems[0];
+  const itemWidth = firstItem ? firstItem.offsetWidth : 280;
+  const gap = 32; // Should match CSS gap
+
   const offset = currentIndex * (itemWidth + gap);
   const maxIndex = Math.max(0, activeItems.length - itemsToShow);
 
-  if (carouselTrack) {
-    carouselTrack.style.transform = `translateX(-${offset}px)`;
-  }
+  // Apply transform
+  carouselTrack.style.transform = `translateX(-${offset}px)`;
 
-  // Update scrollbar thumb
-  if (carouselThumb && maxIndex > 0) {
-    const thumbPosition = (currentIndex / maxIndex) * 60; // 60% is remaining space
-    carouselThumb.style.left = `${thumbPosition}%`;
-  } else if (carouselThumb) {
-    carouselThumb.style.left = '0%';
+  // Update scrollbar
+  if (carouselThumb) {
+    if (maxIndex > 0) {
+      const thumbPosition = (currentIndex / maxIndex) * 60; // 60% is max width of thumb track? Adjust as needed
+      // Better logic: thumb width is relative to visible area
+      // For now, keep existing logic but ensure it doesn't break
+      carouselThumb.style.left = `${Math.min(thumbPosition, 100)}%`;
+      carouselThumb.style.display = 'block';
+    } else {
+      carouselThumb.style.display = 'none';
+    }
   }
 
   // Update button states
-  if (carouselPrev) carouselPrev.style.opacity = currentIndex === 0 ? '0.3' : '0.7';
-  if (carouselNext) carouselNext.style.opacity = currentIndex >= maxIndex ? '0.3' : '0.7';
+  if (carouselPrev) {
+    carouselPrev.style.opacity = currentIndex === 0 ? '0.3' : '1';
+    carouselPrev.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+  }
+  if (carouselNext) {
+    carouselNext.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+    carouselNext.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
+  }
 }
 
-if (carouselNext) {
-  carouselNext.addEventListener('click', () => {
-    const maxIndex = Math.max(0, activeItems.length - itemsToShow);
-    if (currentIndex < maxIndex) {
-      currentIndex++;
-      updateCarousel();
-    }
-  });
-}
+// Button navigation
+carouselNext?.addEventListener('click', () => {
+  const maxIndex = Math.max(0, activeItems.length - itemsToShow);
+  if (currentIndex < maxIndex) {
+    currentIndex++;
+    updateCarousel();
+  }
+});
 
-if (carouselPrev) {
-  carouselPrev.addEventListener('click', () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateCarousel();
-    }
-  });
-}
-
-// Enable touchpad horizontal scrolling
-if (carouselTrack) {
-  carouselTrack.addEventListener('wheel', (e) => {
-    const maxIndex = Math.max(0, activeItems.length - itemsToShow);
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-      // Horizontal scroll - handle carousel
-      e.preventDefault();
-      if (e.deltaX > 10) {
-        // Scroll right
-        if (currentIndex < maxIndex) {
-          currentIndex++;
-          updateCarousel();
-        }
-      } else if (e.deltaX < -10) {
-        // Scroll left
-        if (currentIndex > 0) {
-          currentIndex--;
-          updateCarousel();
-        }
-      }
-    }
-    // If deltaY > deltaX, allow default vertical scrolling
-  }, { passive: false });
-}
+carouselPrev?.addEventListener('click', () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateCarousel();
+  }
+});
 
 // Category tab switching
-categoryTabs.forEach((tab, index) => {
+categoryTabs.forEach((tab) => {
   tab.addEventListener('click', () => {
+    // Update active tab UI
     categoryTabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
+
+    // Update logic
     currentCategory = tab.dataset.category;
-    currentIndex = 0;
     filterItemsByCategory(currentCategory);
-    updateCarousel();
   });
 });
 
-// Category arrow navigation
-if (categoryNext) {
-  categoryNext.addEventListener('click', () => {
-    const currentTabIndex = Array.from(categoryTabs).findIndex(tab => tab.classList.contains('active'));
-    const nextIndex = (currentTabIndex + 1) % categoryTabs.length;
-    categoryTabs[nextIndex].click();
-  });
-}
+// Category arrow navigation (if exists)
+categoryNext?.addEventListener('click', () => {
+  const currentTabIndex = Array.from(categoryTabs).findIndex(tab => tab.classList.contains('active'));
+  const nextIndex = (currentTabIndex + 1) % categoryTabs.length;
+  categoryTabs[nextIndex].click();
+});
 
-if (categoryPrev) {
-  categoryPrev.addEventListener('click', () => {
-    const currentTabIndex = Array.from(categoryTabs).findIndex(tab => tab.classList.contains('active'));
-    const prevIndex = (currentTabIndex - 1 + categoryTabs.length) % categoryTabs.length;
-    categoryTabs[prevIndex].click();
-  });
-}
+categoryPrev?.addEventListener('click', () => {
+  const currentTabIndex = Array.from(categoryTabs).findIndex(tab => tab.classList.contains('active'));
+  const prevIndex = (currentTabIndex - 1 + categoryTabs.length) % categoryTabs.length;
+  categoryTabs[prevIndex].click();
+});
 
-// Initialize carousel when DOM is ready
+// ========== Initialize carousel ==========
 if (carouselTrack) {
-  loadCarouselProducts();
+  // Initial filter
+  filterItemsByCategory(currentCategory);
+
+  // Wait for layout to stabilize then update again (for correct widths)
+  setTimeout(updateCarousel, 100);
 }
 
-window.addEventListener('resize', updateCarousel);
+window.addEventListener('resize', () => {
+  updateCarousel();
+});

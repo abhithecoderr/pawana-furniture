@@ -1,20 +1,28 @@
 /* ==============================
-   Main Stylesheet
-   Imports all partials in the correct order.
+   MAIN STYLESHEET
+   Imports all partials
    ============================== */
 
-/* 1. Base Styles (Variables, global rules, animations) */
-@import url("base/_variables.css");
-@import url("base/_base.css");
-@import url("base/_animations.css");
+/* 1. Base */
+@import 'base/_variables.css';
+@import 'base/_base.css';
+@import 'base/_animations.css';
 
-/* 2. Layout (Header, Footer, Grid systems) */
-@import url("layout/_header.css");
-@import url("layout/_footer.css");
+/* 2. Layout */
+@import 'layout/_header.css';
+@import 'layout/_footer.css';
 
-/* 3. Components (Reusable elements like buttons, cards) */
-@import url("components/_buttons.css");
-@import url("components/_product-card.css");
+/* 3. Components */
+@import 'components/_buttons.css';
+@import 'components/_product-card.css';
+@import 'components/_carousel.css';
 
-/* 4. Page-Specific Styles (Styles for unique pages) */
-@import url("pages/_home.css");
+/* 4. Pages */
+@import 'pages/_home.css';
+@import 'pages/_item.css';
+@import 'pages/_set.css';
+@import 'pages/_room.css';
+@import 'pages/_catalogue.css';
+@import 'pages/_about.css';
+@import 'pages/_services.css';
+@import 'pages/_contact.css';
