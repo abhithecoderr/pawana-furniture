@@ -57,6 +57,7 @@
         </button>
       </div>
     </div>
+  </section>
 
 
 <!-- Related Sets Section -->
@@ -65,13 +66,10 @@
 <section class="carousel-section">
   <div class="carousel-header set-carousel-header">
     <h2>Similar <%= set.style %> Sets for <%= set.room %></h2>
-    <div class="carousel-arrows-top">
-      <button class="carousel-arrow carousel-prev" aria-label="Previous set">‹</button>
-      <button class="carousel-arrow carousel-next" aria-label="Next set">›</button>
-    </div>
   </div>
 
   <div class="carousel-wrapper set-carousel-wrapper">
+    <button class="carousel-arrow carousel-prev" aria-label="Previous set">‹</button>
     <div class="carousel-container">
       <div class="carousel-track" id="carousel-track">
         <% similarSets.forEach(similarSet => { %>
@@ -86,6 +84,7 @@
       </div>
       <div class="carousel-scrollbar"><div class="carousel-thumb"></div></div>
     </div>
+    <button class="carousel-arrow carousel-next" aria-label="Next set">›</button>
   </div>
 </section>
 <% } %>

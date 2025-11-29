@@ -20,15 +20,15 @@ router.get("/:slug", async (req, res) => {
       _id: { $ne: set._id },
     }).populate("items");
 
-    // Get "You may also like" sets (same room, mixed styles, excluding current set)
-    // We can exclude the similar sets if we want, but "mixed styles" usually implies a broader range.
-    // For now, let's just get everything else in the room to ensure we have enough content.
-    const youMayAlsoLikeSets = await FurnitureSet.find({
+    // Get "You may also like" sets (same room, different styles - mixed from other two styles)
+    let youMayAlsoLikeSets = await FurnitureSet.find({
       room: set.room,
+      style: { $ne: set.style }, // Exclude current style to get mixed styles
       _id: { $ne: set._id },
-      // Optional: Exclude similar sets if we want strictly different styles here
-      // _id: { $nin: [set._id, ...similarSets.map(s => s._id)] }
-    }).limit(6).populate("items");
+    }).populate("items");
+
+    // Randomize and limit to 6
+    youMayAlsoLikeSets = youMayAlsoLikeSets.sort(() => Math.random() - 0.5).slice(0, 6);
 
     res.render("pages/set", {
       title: set.name,

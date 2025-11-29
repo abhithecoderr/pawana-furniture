@@ -16,10 +16,13 @@ router.get("/:slug/:type", async (req, res) => {
     }
 
     // Get items filtered by room and type
-    const items = await FurnitureItem.find({
+    let items = await FurnitureItem.find({
       room: room.name,
       type: new RegExp(`^${type}$`, 'i') // Case-insensitive match
     });
+
+    // Randomize items
+    items = items.sort(() => Math.random() - 0.5);
 
     // Format type for display (e.g., "chair" -> "Chairs")
     const typeDisplay = type.charAt(0).toUpperCase() + type.slice(1) +
@@ -49,10 +52,12 @@ router.get("/:slug", async (req, res) => {
     }
 
     // Get all sets for this room
-    const sets = await FurnitureSet.find({ room: room.name }).populate("items");
+    let sets = await FurnitureSet.find({ room: room.name }).populate("items");
+    sets = sets.sort(() => Math.random() - 0.5);
 
     // Get all individual items for this room
-    const items = await FurnitureItem.find({ room: room.name });
+    let items = await FurnitureItem.find({ room: room.name });
+    items = items.sort(() => Math.random() - 0.5);
 
     res.render("pages/room", {
       title: room.name,

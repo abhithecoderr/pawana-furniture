@@ -10,8 +10,12 @@ router.get("/", async (req, res) => {
     const { style, room, type, view } = req.query;
 
     // Fetch ALL items and sets (no filtering on server side - let client handle it)
-    const items = await FurnitureItem.find({}).sort({ createdAt: -1 });
-    const sets = await FurnitureSet.find({}).sort({ createdAt: -1 });
+    let items = await FurnitureItem.find({});
+    let sets = await FurnitureSet.find({});
+
+    // Randomize the order
+    items = items.sort(() => Math.random() - 0.5);
+    sets = sets.sort(() => Math.random() - 0.5);
 
     // Get unique values for filters
     const allRooms = await FurnitureItem.distinct("room");

@@ -307,6 +307,55 @@
   letter-spacing: 0.05em;
 }
 
+/* Carousel Section - Clean, Compact, Transparent */
+.carousel-section {
+  background-color: transparent !important;
+  padding: var(--space-12) 0;
+}
+
+/* Carousel Overrides for Set Page - Match You May Also Like Width */
+.set-carousel-header {
+  max-width: 1400px;
+  margin: 0 auto 2rem auto;
+  padding: 0 var(--space-4);
+}
+
+.set-carousel-header h2 {
+  margin-bottom: 0;
+  text-align: center;
+  font-size: var(--text-3xl);
+}
+
+.set-carousel-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Let carousel items use natural image dimensions - no constraints */
+.set-carousel-wrapper .carousel-item {
+  flex: 0 0 auto; /* Auto width based on content */
+}
+
+.set-carousel-wrapper .carousel-item img {
+  width: auto; /* Natural width */
+  height: 450px; /* Fixed height, let width be natural */
+  object-fit: cover;
+  display: block;
+}
+
+.set-carousel-wrapper .carousel-item h4 {
+  font-size: var(--text-lg);
+  margin: var(--space-4) 0 var(--space-2) 0;
+}
+
+.set-carousel-wrapper .carousel-item p {
+  font-size: var(--text-xs);
+}
+
 /* Related Items Section (You May Also Like) */
 .related-items-section {
   padding: var(--section-padding-desktop);
@@ -314,8 +363,7 @@
 }
 
 .related-items-container {
-  max-width: 1800px; /* Wider container */
-  width: 95%;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -329,54 +377,20 @@
   line-height: var(--leading-tight);
 }
 
-/* Product Grid - 3 per row */
+/* Product Grid - 3 per row with 4:3 aspect ratio */
 .related-items-section .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-8);
   width: 100%;
 }
 
-/* Carousel Overrides for Set Page */
-.set-carousel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1800px; /* Wider header */
-  width: 95%;
-  margin: 0 auto 2rem auto;
-}
-
-.set-carousel-header h2 {
-  margin-bottom: 0;
-  text-align: left;
-  font-size: var(--text-3xl);
-}
-
-.carousel-arrows-top {
-  display: flex;
-  gap: 1rem;
-}
-
-.set-carousel-wrapper {
-  max-width: 1800px; /* Wider wrapper */
-  width: 95%;
-  margin: 0 auto;
-}
-
-/* Override carousel item size for Set Page to be 4:3 */
-.set-carousel-wrapper .carousel-item {
-  flex: 0 0 440px; /* Wider items */
-}
-
-.set-carousel-wrapper .carousel-item img {
-  height: 330px; /* 4:3 Aspect Ratio (440x330) */
-}
-
-/* Ensure Carousel Section Background */
-.carousel-section {
-  background-color: var(--color-bg-section-alt) !important; /* Force background */
-  padding: var(--section-padding-y) 0; /* Add vertical padding */
+/* Force 4:3 aspect ratio for You May Also Like images */
+.related-items-section .product-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
 }
 
 /* Mobile Responsive */
@@ -396,6 +410,11 @@
 
   .set-items-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  /* Carousel - 2 items visible on tablet */
+  .set-carousel-wrapper .carousel-item {
+    flex: 0 0 calc((100% - 2rem) / 2);
   }
 
   /* Similar Items - 2 per row on tablet */
@@ -431,6 +450,21 @@
 
   .set-items-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Carousel - 1 item visible on mobile */
+  .set-carousel-wrapper .carousel-item {
+    flex: 0 0 100%;
+  }
+
+  .set-carousel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .carousel-arrows-top {
+    align-self: flex-end;
   }
 
   /* Similar Items - 1 per row on mobile */
