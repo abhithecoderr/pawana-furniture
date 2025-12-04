@@ -107,8 +107,9 @@
 }
 
 .hero-actions .btn-primary:hover {
-  background: white;
-  color: var(--color-primary);
+  background: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+  color: white;
 }
 
 .hero-actions .btn-secondary {
@@ -121,8 +122,9 @@
 }
 
 .hero-actions .btn-secondary:hover {
-  background: var(--color-text-inverse);
-  color: var(--color-primary);
+  background: white;
+  border-color: white;
+  color: var(--color-text-primary);
 }
 
 .hero-stats {
@@ -273,22 +275,23 @@
 }
 
 .room-card {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: block;
   text-decoration: none;
   transition: transform var(--transition-base);
+  overflow: hidden;
+  border-radius: var(--radius-sm);
 }
 
 .room-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .room-image {
   position: relative;
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 3/5;
   overflow: hidden;
-  border-radius: var(--radius-sm);
 }
 
 .room-image img {
@@ -302,13 +305,20 @@
   transform: scale(1.05);
 }
 
+.room-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+  padding: 1.5rem 1rem 1rem;
+}
+
 .room-name {
   font-family: var(--font-heading);
-  font-size: var(--text-sm);
-  color: var(--color-primary);
-  font-weight: var(--font-medium);
-  margin-top: var(--space-2);
-  text-align: center;
+  font-size: var(--text-base);
+  color: white;
+  font-weight: var(--font-semibold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }

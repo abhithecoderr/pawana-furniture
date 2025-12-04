@@ -86,43 +86,69 @@
       <!-- Sets -->
       <div class="catalogue-sets-grid">
         <% sets.forEach(set => { %>
-          <a href="/set/<%= set.slug %>" class="set-card"
+          <div class="set-card-wrapper"
              data-style="<%= set.style %>"
              data-room="<%= set.room %>"
              data-type="set">
-            <div class="set-card-badge">Set</div>
-            <img
-              src="<%= set.images && set.images.length > 0 ? set.images[0].url : '/images/placeholder.jpg' %>"
-              alt="<%= set.name %>"
-            />
-            <h3><%= set.name %></h3>
-            <div class="set-card-meta">
-              <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
-              <p><%= set.room %></p>
-            </div>
-            <p class="model-number"><strong>Model:</strong> <%= set.code %></p>
-          </a>
+            <a href="/set/<%= set.slug %>" class="set-card">
+              <div class="set-card-badge">Set</div>
+              <img
+                src="<%= set.images && set.images.length > 0 ? set.images[0].url : '/images/placeholder.jpg' %>"
+                alt="<%= set.name %>"
+              />
+              <h3><%= set.name %></h3>
+              <div class="set-card-meta">
+                <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
+                <p><%= set.room %></p>
+              </div>
+              <p class="model-number"><strong>Model:</strong> <%= set.code %></p>
+            </a>
+            <button class="wishlist-btn"
+                    data-id="<%= set._id %>"
+                    data-type="set"
+                    data-name="<%= set.name %>"
+                    data-slug="<%= set.slug %>"
+                    data-image="<%= set.images && set.images.length > 0 ? set.images[0].url : '/images/placeholder.jpg' %>"
+                    onclick="handleWishlistClick(event, this)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
         <% }); %>
       </div>
 
       <!-- Items -->
       <div class="catalogue-items-grid">
         <% items.forEach(item => { %>
-          <a href="/item/<%= item.slug %>" class="product-card"
+          <div class="product-card-wrapper"
              data-style="<%= item.style %>"
              data-room="<%= item.room %>"
              data-type="<%= item.type %>">
-            <img
-              src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
-              alt="<%= item.name %>"
-            />
-            <h3><%= item.name %></h3>
-            <div class="product-card-meta">
-              <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-              <p><%= item.type %> · <%= item.room %></p>
-            </div>
-            <p class="model-number"><strong>Model:</strong> <%= item.code %></p>
-          </a>
+            <a href="/item/<%= item.slug %>" class="product-card">
+              <img
+                src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+                alt="<%= item.name %>"
+              />
+              <h3><%= item.name %></h3>
+              <div class="product-card-meta">
+                <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
+                <p><%= item.type %> · <%= item.room %></p>
+              </div>
+              <p class="model-number"><strong>Model:</strong> <%= item.code %></p>
+            </a>
+            <button class="wishlist-btn"
+                    data-id="<%= item._id %>"
+                    data-type="item"
+                    data-name="<%= item.name %>"
+                    data-slug="<%= item.slug %>"
+                    data-image="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+                    onclick="handleWishlistClick(event, this)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
         <% }); %>
       </div>
 

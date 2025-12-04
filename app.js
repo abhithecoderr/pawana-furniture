@@ -11,6 +11,8 @@ import catalogueRoute from "./src/routes/catalogue.js";
 import aboutRoute from "./src/routes/about.js";
 import servicesRoute from "./src/routes/services.js";
 import contactRoute from "./src/routes/contact.js";
+import searchRoute from "./src/routes/search.js";
+import wishlistRoute from "./src/routes/wishlist.js";
 import { navDataMiddleware } from "./src/middleware/navData.js";
 
 dotenv.config();
@@ -41,6 +43,8 @@ app.use("/catalogue", catalogueRoute);
 app.use("/about", aboutRoute);
 app.use("/services", servicesRoute);
 app.use("/contact", contactRoute);
+app.use("/api/search", searchRoute);
+app.use("/wishlist", wishlistRoute);
 
 mongoose
   .connect(process.env.DB_URI)

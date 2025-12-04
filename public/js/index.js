@@ -120,6 +120,43 @@ function initializeCarousel(trackId, prevSelector, nextSelector, thumbId) {
   window.addEventListener('resize', () => {
     updateCarousel();
   });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const minSwipeDistance = 50;
+
+  carouselTrack.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  carouselTrack.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const distance = touchStartX - touchEndX;
+
+    if (Math.abs(distance) > minSwipeDistance) {
+      const firstItem = activeItems[0];
+      const itemWidth = firstItem ? firstItem.offsetWidth : 280;
+      const gap = 32;
+      const containerWidth = carouselTrack.parentElement.offsetWidth;
+      const itemsToShow = Math.max(1, Math.floor(containerWidth / (itemWidth + gap)));
+      const maxIndex = Math.max(0, activeItems.length - itemsToShow);
+
+      if (distance > 0 && currentIndex < maxIndex) {
+        // Swipe left - next
+        currentIndex++;
+        updateCarousel();
+      } else if (distance < 0 && currentIndex > 0) {
+        // Swipe right - previous
+        currentIndex--;
+        updateCarousel();
+      }
+    }
+  }
 }
 
 // Initialize both carousels
