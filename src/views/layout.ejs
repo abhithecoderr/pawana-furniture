@@ -77,13 +77,28 @@
            <a href="/contact">Contact</a>
        </nav>
        <div class="header-actions">
-         <!-- Search Icon -->
-         <button class="header-icon search-icon" aria-label="Search">
-           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-             <circle cx="11" cy="11" r="8"></circle>
-             <path d="m21 21-4.35-4.35"></path>
-           </svg>
-         </button>
+         <!-- Inline Search -->
+         <div class="search-wrapper">
+           <button class="header-icon search-icon" aria-label="Search">
+             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <circle cx="11" cy="11" r="8"></circle>
+               <path d="m21 21-4.35-4.35"></path>
+             </svg>
+           </button>
+           <div class="search-box">
+             <input type="text" placeholder="Search furniture..." class="search-input">
+             <button class="search-close" aria-label="Close search">
+               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <line x1="18" y1="6" x2="6" y2="18"></line>
+                 <line x1="6" y1="6" x2="18" y2="18"></line>
+               </svg>
+             </button>
+           </div>
+           <!-- Search Results Dropdown -->
+           <div class="search-dropdown">
+             <div class="search-results"></div>
+           </div>
+         </div>
          <!-- Wishlist Icon -->
          <div class="wishlist-wrapper">
            <a href="/wishlist" class="header-icon wishlist-icon" aria-label="Wishlist">
@@ -102,26 +117,6 @@
          </div>
        </div>
     </header>
-
-    <!-- Search Overlay -->
-    <div class="search-overlay">
-      <div class="search-overlay-content">
-        <div class="search-input-wrapper">
-          <svg class="search-input-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input type="text" placeholder="Search furniture by name, style, room..." autofocus>
-          <button class="search-close" aria-label="Close search">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-        <div class="search-results"></div>
-      </div>
-    </div>
 
     <!-- Main Content -->
     <main>
@@ -144,6 +139,8 @@
         // Header Scroll Effect - Hide on scroll down, show on scroll up
         const header = document.querySelector('.site-header');
         let lastScrollY = window.scrollY;
+        let scrollUpDistance = 0;
+        let isNavHidden = false;
         let ticking = false;
 
         if (header) {
@@ -151,19 +148,37 @@
             if (!ticking) {
               window.requestAnimationFrame(() => {
                 const currentScrollY = window.scrollY;
+                const scrollDelta = lastScrollY - currentScrollY;
 
-                // Add scrolled class after 50px
-                if (currentScrollY > 50) {
+                // Get hero section height (if on home page)
+                const heroSection = document.querySelector('.hero');
+                const heroHeight = heroSection ? heroSection.offsetHeight : 300;
+
+                // Add scrolled class only after passing hero section
+                if (currentScrollY > heroHeight - 60) {
                   header.classList.add('scrolled');
                 } else {
                   header.classList.remove('scrolled');
                 }
 
-                // Hide/show based on scroll direction
-                if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                  header.classList.add('nav-hidden');
+                // Track scroll direction
+                if (scrollDelta > 0) {
+                  // Scrolling up
+                  scrollUpDistance += scrollDelta;
+
+                  // Only show navbar after 100px of upward scrolling
+                  if (scrollUpDistance >= 100 && isNavHidden) {
+                    header.classList.remove('nav-hidden');
+                    isNavHidden = false;
+                  }
                 } else {
-                  header.classList.remove('nav-hidden');
+                  // Scrolling down - reset upward distance
+                  scrollUpDistance = 0;
+
+                  if (currentScrollY > 100 && !isNavHidden) {
+                    header.classList.add('nav-hidden');
+                    isNavHidden = true;
+                  }
                 }
 
                 lastScrollY = currentScrollY;

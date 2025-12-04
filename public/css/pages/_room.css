@@ -2,9 +2,20 @@
    Room Page - Redesigned
    ============================== */
 
+/* Room Page Breadcrumb Section */
+.room-page-section {
+  padding: var(--space-16) var(--space-6) 0;
+  background-color: var(--color-bg-card);
+}
+
+.room-page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 /* Hero Section - Much Smaller and Subtle */
 .room-hero {
-  padding: var(--space-16) var(--space-6) var(--space-12);
+  padding: var(--space-8) var(--space-6) var(--space-12);
   background-color: var(--color-bg-card);
   border-bottom: 1px solid var(--color-border);
   display: flex;
@@ -71,9 +82,6 @@
   gap: var(--space-8);
 }
 
-
-
-
 /* Mobile Responsive */
 @media (max-width: 1023px) {
   .sets-grid {
@@ -107,6 +115,4 @@
     grid-template-columns: 1fr;
     gap: var(--space-6);
   }
-
-
 }

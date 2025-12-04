@@ -155,47 +155,50 @@
 /* ==============================
    Wishlist Button on Cards
    ============================== */
+
+/* Card name row - flex container for name + heart */
+.card-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-name-row h3 {
+  flex: 1;
+  margin: 0;
+}
+
 .wishlist-btn {
-  position: absolute;
-  bottom: var(--space-3);
-  right: var(--space-3);
-  width: 36px;
-  height: 36px;
+  position: relative;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: transparent;
   border: none;
-  border-radius: 50%;
   cursor: pointer;
-  color: var(--color-text-muted);
+  color: var(--color-primary);
   transition: all 0.2s ease;
-  z-index: 5;
+  flex-shrink: 0;
 }
 
 .wishlist-btn:hover {
-  background: white;
-  color: #e53935;
-  transform: scale(1.1);
+  color: #8B4513;
+  transform: scale(1.15);
 }
 
 .wishlist-btn.active {
-  color: #e53935;
+  color: #8B4513;
 }
 
 .wishlist-btn.active svg {
-  fill: #e53935;
+  fill: #8B4513;
 }
 
 /* Card wrapper for catalogue/room pages */
 .set-card-wrapper,
 .product-card-wrapper {
   position: relative;
-}
-
-.set-card-wrapper .wishlist-btn,
-.product-card-wrapper .wishlist-btn {
-  position: absolute;
-  bottom: var(--space-3);
-  right: var(--space-3);
 }

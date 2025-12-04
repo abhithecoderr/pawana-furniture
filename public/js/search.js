@@ -1,24 +1,25 @@
-// ========== Search Functionality ==========
+// ========== Inline Search Functionality ==========
 
 let searchTimeout = null;
 const SEARCH_DEBOUNCE = 300;
+let hasTyped = false;
 
-// Toggle search overlay
-function toggleSearchOverlay(show) {
-  const overlay = document.querySelector('.search-overlay');
-  const searchInput = document.querySelector('.search-overlay input');
+// Toggle search expansion
+function toggleSearch(expand) {
+  const wrapper = document.querySelector('.search-wrapper');
+  const searchInput = wrapper?.querySelector('.search-input');
 
-  if (overlay) {
-    if (show) {
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
+  if (wrapper) {
+    if (expand) {
+      wrapper.classList.add('expanded');
       if (searchInput) {
         setTimeout(() => searchInput.focus(), 100);
       }
+      showSearchSuggestions();
     } else {
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
+      wrapper.classList.remove('expanded');
       clearSearchResults();
+      hasTyped = false;
     }
   }
 }
@@ -53,9 +54,10 @@ function displaySearchResults(data) {
 
   let html = '';
 
+  // Show max 3 items total for compact view
   if (sets.length > 0) {
-    html += '<div class="search-category"><h4>Furniture Sets</h4>';
-    html += sets.map(set => `
+    html += '<div class="search-category"><h4>Sets</h4>';
+    html += sets.slice(0, 2).map(set => `
       <a href="/set/${set.slug}" class="search-result-item">
         <img src="${set.images?.[0]?.url || '/images/placeholder.jpg'}" alt="${set.name}">
         <div class="search-result-info">
@@ -68,8 +70,8 @@ function displaySearchResults(data) {
   }
 
   if (items.length > 0) {
-    html += '<div class="search-category"><h4>Individual Pieces</h4>';
-    html += items.map(item => `
+    html += '<div class="search-category"><h4>Items</h4>';
+    html += items.slice(0, 3).map(item => `
       <a href="/item/${item.slug}" class="search-result-item">
         <img src="${item.images?.[0]?.url || '/images/placeholder.jpg'}" alt="${item.name}">
         <div class="search-result-info">
@@ -93,14 +95,11 @@ function showSearchSuggestions() {
     <div class="search-suggestions">
       <h4>Popular Searches</h4>
       <div class="suggestion-tags">
-        <button class="suggestion-tag" data-query="Royal">Royal Style</button>
+        <button class="suggestion-tag" data-query="Royal">Royal</button>
         <button class="suggestion-tag" data-query="Modern">Modern</button>
-        <button class="suggestion-tag" data-query="Traditional">Traditional</button>
-        <button class="suggestion-tag" data-query="Living Room">Living Room</button>
-        <button class="suggestion-tag" data-query="Bedroom">Bedroom</button>
+        <button class="suggestion-tag" data-query="Sofa">Sofa</button>
+        <button class="suggestion-tag" data-query="Bed">Bed</button>
         <button class="suggestion-tag" data-query="Dining">Dining</button>
-        <button class="suggestion-tag" data-query="Sofa">Sofas</button>
-        <button class="suggestion-tag" data-query="Bed">Beds</button>
       </div>
     </div>
   `;
@@ -108,9 +107,10 @@ function showSearchSuggestions() {
   // Add click handlers to suggestion tags
   resultsContainer.querySelectorAll('.suggestion-tag').forEach(tag => {
     tag.addEventListener('click', () => {
-      const searchInput = document.querySelector('.search-overlay input');
+      const searchInput = document.querySelector('.search-input');
       if (searchInput) {
         searchInput.value = tag.dataset.query;
+        hasTyped = true;
         performSearch(tag.dataset.query);
       }
     });
@@ -119,7 +119,7 @@ function showSearchSuggestions() {
 
 // Clear search results
 function clearSearchResults() {
-  const searchInput = document.querySelector('.search-overlay input');
+  const searchInput = document.querySelector('.search-input');
   const resultsContainer = document.querySelector('.search-results');
 
   if (searchInput) searchInput.value = '';
@@ -128,51 +128,64 @@ function clearSearchResults() {
 
 // Initialize search functionality
 document.addEventListener('DOMContentLoaded', () => {
-  // Search icon click
+  const wrapper = document.querySelector('.search-wrapper');
   const searchIcon = document.querySelector('.search-icon');
-  if (searchIcon) {
-    searchIcon.addEventListener('click', () => toggleSearchOverlay(true));
-  }
+  const closeSearch = document.querySelector('.search-box .search-close');
+  const searchInput = document.querySelector('.search-input');
+
+  if (!wrapper) return;
+
+  // Expand on hover over search icon
+  searchIcon?.addEventListener('mouseenter', () => {
+    toggleSearch(true);
+  });
 
   // Close search button
-  const closeSearch = document.querySelector('.search-close');
-  if (closeSearch) {
-    closeSearch.addEventListener('click', () => toggleSearchOverlay(false));
-  }
+  closeSearch?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleSearch(false);
+  });
 
   // Search input with debounce
-  const searchInput = document.querySelector('.search-overlay input');
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        performSearch(e.target.value);
-      }, SEARCH_DEBOUNCE);
-    });
+  searchInput?.addEventListener('input', (e) => {
+    hasTyped = e.target.value.length > 0;
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      performSearch(e.target.value);
+    }, SEARCH_DEBOUNCE);
+  });
 
-    // Keyboard shortcuts
-    searchInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        toggleSearchOverlay(false);
-      }
-    });
-  }
+  // Keyboard shortcuts
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      toggleSearch(false);
+    }
+  });
 
-  // Close on overlay background click
-  const overlay = document.querySelector('.search-overlay');
-  if (overlay) {
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        toggleSearchOverlay(false);
-      }
-    });
-  }
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) {
+      toggleSearch(false);
+    }
+  });
+
+  // Close when mouse leaves if user hasn't typed anything
+  wrapper.addEventListener('mouseleave', () => {
+    if (!hasTyped && wrapper.classList.contains('expanded')) {
+      // Small delay to prevent accidental closing
+      setTimeout(() => {
+        if (!hasTyped && !wrapper.matches(':hover')) {
+          toggleSearch(false);
+        }
+      }, 300);
+    }
+  });
 
   // Keyboard shortcut to open search (Ctrl/Cmd + K)
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
-      toggleSearchOverlay(true);
+      toggleSearch(true);
     }
   });
 });

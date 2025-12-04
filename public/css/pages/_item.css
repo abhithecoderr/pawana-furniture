@@ -13,7 +13,12 @@
 }
 
 /* Breadcrumb */
-.item-breadcrumb {
+.item-breadcrumb,
+.set-breadcrumb,
+.page-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: var(--text-xs);
   color: var(--color-text-muted);
   margin-bottom: var(--space-8);
@@ -21,12 +26,45 @@
   letter-spacing: 0.05em;
 }
 
-.item-breadcrumb a {
+/* Page breadcrumb - larger for room pages */
+.page-breadcrumb {
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+}
+
+.breadcrumb-section {
+  padding: var(--space-4) var(--space-6);
+  background: transparent;
+}
+
+.breadcrumb-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.breadcrumb-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  margin-right: 0.75rem;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-back:hover {
+  color: var(--color-primary);
+}
+
+.item-breadcrumb a,
+.set-breadcrumb a,
+.page-breadcrumb a {
   color: var(--color-text-secondary);
   transition: color var(--transition-fast);
 }
 
-.item-breadcrumb a:hover {
+.item-breadcrumb a:hover,
+.set-breadcrumb a:hover,
+.page-breadcrumb a:hover {
   color: var(--color-primary);
 }
 
@@ -286,7 +324,7 @@
 }
 
 /* Ensure related items are square */
-.related-items-section .product-card img {
+.related-item-image {
   aspect-ratio: 1 / 1;
   object-fit: cover;
 }

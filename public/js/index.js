@@ -157,6 +157,40 @@ function initializeCarousel(trackId, prevSelector, nextSelector, thumbId) {
       }
     }
   }
+
+  // Trackpad/wheel horizontal scroll support
+  let wheelTimeout = null;
+  let accumulatedDelta = 0;
+  const wheelThreshold = 70;
+
+  carouselTrack.parentElement.addEventListener('wheel', (e) => {
+    // Check if horizontal scroll (trackpad gesture)
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 3) {
+      e.preventDefault();
+      accumulatedDelta += e.deltaX;
+
+      clearTimeout(wheelTimeout);
+      wheelTimeout = setTimeout(() => {
+        if (Math.abs(accumulatedDelta) > wheelThreshold) {
+          const firstItem = activeItems[0];
+          const itemWidth = firstItem ? firstItem.offsetWidth : 280;
+          const gap = 32;
+          const containerWidth = carouselTrack.parentElement.offsetWidth;
+          const itemsToShow = Math.max(1, Math.floor(containerWidth / (itemWidth + gap)));
+          const maxIndex = Math.max(0, activeItems.length - itemsToShow);
+
+          if (accumulatedDelta > 0 && currentIndex < maxIndex) {
+            currentIndex++;
+            updateCarousel();
+          } else if (accumulatedDelta < 0 && currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+          }
+        }
+        accumulatedDelta = 0;
+      }, 30);
+    }
+  }, { passive: false });
 }
 
 // Initialize both carousels
@@ -187,3 +221,44 @@ initializeCarousel(
   '[data-carousel="similar-sets"].carousel-next',
   null // No scrollbar for similar sets
 );
+
+// ========== Auto-scroll for Signature Pieces ==========
+(function initAutoScroll() {
+  const signatureTrack = document.querySelector('#signature-carousel-track');
+  if (!signatureTrack) return;
+
+  const items = signatureTrack.querySelectorAll('.carousel-item');
+  if (items.length <= 1) return;
+
+  let autoScrollIndex = 0;
+  const autoScrollDuration = 25000; // 25 seconds for full cycle
+  const itemDuration = autoScrollDuration / items.length;
+
+  function autoScroll() {
+    const containerWidth = signatureTrack.parentElement.offsetWidth;
+    const itemWidth = items[0].offsetWidth;
+    const gap = 32;
+    const itemsVisible = Math.floor(containerWidth / (itemWidth + gap));
+    const maxIndex = Math.max(0, items.length - itemsVisible);
+
+    autoScrollIndex++;
+    if (autoScrollIndex > maxIndex) {
+      autoScrollIndex = 0;
+    }
+
+    const offset = autoScrollIndex * (itemWidth + gap);
+    signatureTrack.style.transform = `translateX(-${offset}px)`;
+  }
+
+  // Start auto-scroll
+  setInterval(autoScroll, itemDuration);
+
+  // Pause on hover
+  signatureTrack.addEventListener('mouseenter', () => {
+    signatureTrack.dataset.paused = 'true';
+  });
+
+  signatureTrack.addEventListener('mouseleave', () => {
+    signatureTrack.dataset.paused = 'false';
+  });
+})();
