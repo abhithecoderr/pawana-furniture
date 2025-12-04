@@ -5,59 +5,48 @@ import Room from "../models/Room.js";
 
 const router = express.Router();
 
-const FEATURED_ITEMS = [
-  "traditional-sofa",
-  "traditional-table",
-  "modern-side-table",
-  "traditional-bench",
-  "royal-table",
-  "royal-console",
+const FEATURED_ITEMS_CODES = [
+  "LM-011",
+  "LM-002",
+  "LR-007",
+  "LR-013",
+  "LT-019",
+  "LT-001",
 ];
 
-const FEATURED_SETS = [
-  "royal-bedroom-set",
-  "traditional-dining-room-set",
-  "royal-office-set",
-  "royal-showpieces-set",
-  "traditional-living-room-set",
-  "modern-bedroom-set"
+const CAROUSEL_ITEMS_CODES = [
+  "LM-005",
+  "LM-008",
+  "LM-014",
+  "LR-017",
+  "LR-009",
+  "LR-004",
+  "LT-011",
+  "LT-024",
+  "LT-010",
 ];
 
-const CAROUSEL_ITEMS_SLUGS = [
-  "traditional-chair",
-  "traditional-side-table",
-  "traditional-console",
-  "modern-table",
-  "royal-bench",
-  "royal-cabinet",
-  "modern-console"
-];
-
-const CAROUSEL_SETS_SLUGS = [
-  "royal-bedroom-set",
-  "traditional-dining-room-set",
-  "royal-office-set",
-  "royal-showpieces-set",
-  "traditional-living-room-set",
-  "modern-bedroom-set"
+const CAROUSEL_SETS_CODES = [
+  "LR-07",
+  "LR-05",
+  "LT-02",
+  "LT-01",
+  "LM-03",
+  "LM-01",
 ];
 
 router.get("/", async (req, res) => {
   try {
     const featuredItems = await FurnitureItem.find({
-      slug: { $in: FEATURED_ITEMS },
-    });
-
-    const featuredSets = await FurnitureSet.find({
-      slug: { $in: FEATURED_SETS },
+      code: { $in: FEATURED_ITEMS_CODES },
     });
 
     const carouselItems = await FurnitureItem.find({
-      slug: { $in: CAROUSEL_ITEMS_SLUGS },
+      code: { $in: CAROUSEL_ITEMS_CODES },
     });
 
     const carouselSets = await FurnitureSet.find({
-      slug: { $in: CAROUSEL_SETS_SLUGS },
+      code: { $in: CAROUSEL_SETS_CODES },
     });
 
     // Fetch all furniture items
@@ -78,7 +67,6 @@ router.get("/", async (req, res) => {
       title: "Home",
       pageClass: "page-home", // Identifier for home page
       featuredItems,
-      featuredSets,
       carouselItems,
       carouselSets,
       groupedItems,

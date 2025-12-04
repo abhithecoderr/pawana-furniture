@@ -28,158 +28,118 @@ document.querySelectorAll('.product-card').forEach(card => {
   observer.observe(card);
 });
 
-// ========== Carousel functionality ==========
-const carouselTrack = document.querySelector('#carousel-track');
-const carouselPrev = document.querySelector('.carousel-prev');
-const carouselNext = document.querySelector('.carousel-next');
-const carouselThumb = document.querySelector('.carousel-thumb');
-const categoryTabs = document.querySelectorAll('.category-tab');
-const categoryPrev = document.querySelector('.category-prev');
-const categoryNext = document.querySelector('.category-next');
+// ========== Dual Carousel functionality for Home Page ==========
+function initializeCarousel(trackId, prevSelector, nextSelector, thumbId) {
+  const carouselTrack = document.querySelector(`#${trackId}`);
+  const carouselPrev = document.querySelector(`${prevSelector}`);
+  const carouselNext = document.querySelector(`${nextSelector}`);
+  const carouselThumb = document.querySelector(`#${thumbId}`);
 
-let currentIndex = 0;
-let currentCategory = categoryTabs[0]?.dataset.category || 'items';
-let activeItems = [];
-let allCarouselItems = Array.from(document.querySelectorAll('.carousel-item'));
-const itemsToShow = 4;
+  if (!carouselTrack) return; // Exit if carousel doesn't exist
 
-// Filter visible items by category
-function filterItemsByCategory(category) {
-  // First, hide all items and remove active class
-  allCarouselItems.forEach(item => {
-    if (item.dataset.category === category) {
-      item.classList.add('active-category');
-      item.style.display = 'block'; // Ensure it's visible for calculation
-    } else {
-      item.classList.remove('active-category');
-      item.style.display = 'none'; // Ensure it's hidden
+  let currentIndex = 0;
+  const activeItems = Array.from(carouselTrack.querySelectorAll('.carousel-item'));
+
+  // Update carousel position
+  function updateCarousel() {
+    if (activeItems.length === 0) return;
+
+    const firstItem = activeItems[0];
+    const itemWidth = firstItem ? firstItem.offsetWidth : 280;
+    const gap = 32;
+
+    // Calculate how many items fit in the visible area
+    const containerWidth = carouselTrack.parentElement.offsetWidth;
+    const itemsToShow = Math.max(1, Math.floor(containerWidth / (itemWidth + gap)));
+
+    const offset = currentIndex * (itemWidth + gap);
+    const maxIndex = Math.max(0, activeItems.length - itemsToShow);
+
+    // Ensure currentIndex doesn't exceed maxIndex
+    if (currentIndex > maxIndex) {
+      currentIndex = maxIndex;
     }
-  });
 
-  // Update active items list
-  activeItems = allCarouselItems.filter(item => item.dataset.category === category);
+    // Apply transform
+    carouselTrack.style.transform = `translateX(-${offset}px)`;
 
-  // Reset index when switching categories
-  currentIndex = 0;
+    // Update scrollbar
+    if (carouselThumb) {
+      if (maxIndex > 0) {
+        const visibleRatio = itemsToShow / activeItems.length;
+        const thumbWidth = Math.max(10, visibleRatio * 100);
+        carouselThumb.style.width = `${thumbWidth}%`;
 
-  // Force layout update
-  updateCarousel();
-}
+        const scrollProgress = currentIndex / maxIndex;
+        const maxLeft = 100 - thumbWidth;
+        const thumbLeft = scrollProgress * maxLeft;
 
-// Update carousel position
-function updateCarousel() {
-  if (!carouselTrack || activeItems.length === 0) return;
+        carouselThumb.style.left = `${thumbLeft}%`;
+        carouselThumb.style.display = 'block';
+      } else {
+        carouselThumb.style.display = 'none';
+      }
+    }
 
-  // Get width of the first active item
-  const firstItem = activeItems[0];
-  const itemWidth = firstItem ? firstItem.offsetWidth : 280;
-  const gap = 32; // Should match CSS gap
-
-  // Calculate how many items fit in the visible area
-  const containerWidth = document.querySelector('.carousel-container').offsetWidth;
-  const itemsToShow = Math.max(1, Math.floor(containerWidth / (itemWidth + gap)));
-
-  const offset = currentIndex * (itemWidth + gap);
-  const maxIndex = Math.max(0, activeItems.length - itemsToShow);
-
-  // Ensure currentIndex doesn't exceed maxIndex (e.g. on resize)
-  if (currentIndex > maxIndex) {
-    currentIndex = maxIndex;
-  }
-
-  // Apply transform
-  carouselTrack.style.transform = `translateX(-${offset}px)`;
-
-  // Update scrollbar
-  if (carouselThumb) {
-    if (maxIndex > 0) {
-      // Calculate thumb width based on visible ratio
-      const visibleRatio = itemsToShow / activeItems.length;
-      const thumbWidth = Math.max(10, visibleRatio * 100); // Min 10% width
-      carouselThumb.style.width = `${thumbWidth}%`;
-
-      // Calculate position
-      const scrollProgress = currentIndex / maxIndex;
-      const maxLeft = 100 - thumbWidth;
-      const thumbLeft = scrollProgress * maxLeft;
-
-      carouselThumb.style.left = `${thumbLeft}%`;
-      carouselThumb.style.display = 'block';
-    } else {
-      carouselThumb.style.display = 'none';
+    // Update button states
+    if (carouselPrev) {
+      carouselPrev.style.opacity = currentIndex === 0 ? '0.3' : '1';
+      carouselPrev.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+    }
+    if (carouselNext) {
+      carouselNext.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+      carouselNext.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
     }
   }
 
-  // Update button states
-  if (carouselPrev) {
-    carouselPrev.style.opacity = currentIndex === 0 ? '0.3' : '1';
-    carouselPrev.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
-  }
-  if (carouselNext) {
-    carouselNext.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
-    carouselNext.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
-  }
-}
+  // Button navigation
+  carouselNext?.addEventListener('click', () => {
+    const firstItem = activeItems[0];
+    const itemWidth = firstItem ? firstItem.offsetWidth : 280;
+    const gap = 32;
+    const containerWidth = carouselTrack.parentElement.offsetWidth;
+    const itemsToShow = Math.max(1, Math.floor(containerWidth / (itemWidth + gap)));
 
-// Button navigation
-carouselNext?.addEventListener('click', () => {
-  // Recalculate maxIndex here as well to be safe
-  const firstItem = activeItems[0];
-  const itemWidth = firstItem ? firstItem.offsetWidth : 280;
-  const gap = 32;
-  const containerWidth = document.querySelector('.carousel-container').offsetWidth;
-  const itemsToShow = Math.max(1, Math.floor(containerWidth / (itemWidth + gap)));
+    const maxIndex = Math.max(0, activeItems.length - itemsToShow);
 
-  const maxIndex = Math.max(0, activeItems.length - itemsToShow);
-
-  if (currentIndex < maxIndex) {
-    currentIndex++;
-    updateCarousel();
-  }
-});
-
-carouselPrev?.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateCarousel();
-  }
-});
-
-// Category tab switching
-categoryTabs.forEach((tab) => {
-  tab.addEventListener('click', () => {
-    // Update active tab UI
-    categoryTabs.forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-
-    // Update logic
-    currentCategory = tab.dataset.category;
-    filterItemsByCategory(currentCategory);
+    if (currentIndex < maxIndex) {
+      currentIndex++;
+      updateCarousel();
+    }
   });
-});
 
-// Category arrow navigation (if exists)
-categoryNext?.addEventListener('click', () => {
-  const currentTabIndex = Array.from(categoryTabs).findIndex(tab => tab.classList.contains('active'));
-  const nextIndex = (currentTabIndex + 1) % categoryTabs.length;
-  categoryTabs[nextIndex].click();
-});
+  carouselPrev?.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
 
-categoryPrev?.addEventListener('click', () => {
-  const currentTabIndex = Array.from(categoryTabs).findIndex(tab => tab.classList.contains('active'));
-  const prevIndex = (currentTabIndex - 1 + categoryTabs.length) % categoryTabs.length;
-  categoryTabs[prevIndex].click();
-});
-
-// ========== Initialize carousel ==========
-if (carouselTrack) {
-  // Initial filter
-  filterItemsByCategory(currentCategory);
-
-  // Wait for layout to stabilize then update again (for correct widths)
+  // Initialize
   setTimeout(updateCarousel, 100);
+  window.addEventListener('resize', () => {
+    updateCarousel();
+  });
 }
 
-window.addEventListener('resize', () => {
-  updateCarousel();
-});
+// Initialize both carousels
+initializeCarousel(
+  'items-carousel-track',
+  '[data-carousel="items"].carousel-prev',
+  '[data-carousel="items"].carousel-next',
+  'items-thumb'
+);
+
+initializeCarousel(
+  'sets-carousel-track',
+  '[data-carousel="sets"].carousel-prev',
+  '[data-carousel="sets"].carousel-next',
+  'sets-thumb'
+);
+
+initializeCarousel(
+  'signature-carousel-track',
+  '[data-carousel="signature"].carousel-prev',
+  '[data-carousel="signature"].carousel-next',
+  'signature-thumb'
+);

@@ -342,7 +342,7 @@
 
 .set-carousel-wrapper .carousel-item img {
   width: auto; /* Natural width */
-  height: 450px; /* Fixed height, let width be natural */
+  height: 400px; /* Fixed height, let width be natural */
   object-fit: cover;
   display: block;
 }
