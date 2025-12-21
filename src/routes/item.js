@@ -24,7 +24,7 @@ router.get("/:slug", async (req, res) => {
     const relatedItems = await FurnitureItem.find({
       room: item.room,
       type: { $ne: item.type },
-    }).limit(6);
+    }).limit(9);
 
     res.render("pages/item", {
       title: item.name,

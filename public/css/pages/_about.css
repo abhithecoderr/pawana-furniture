@@ -29,7 +29,7 @@
 
 /* Story Section */
 .about-story {
-  padding: 5rem 0;
+  padding: 0 0 5rem 0;
   background: var(--color-bg-section-alt);
 }
 

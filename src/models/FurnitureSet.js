@@ -44,9 +44,10 @@ const furnitureSetSchema = new mongoose.Schema({
   description: String
 });
 
+
 // Auto-generate slug from name
 furnitureSetSchema.pre("validate", function (next) {
-  if (this.name) {
+  if (this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true, strict: true });
   }
   next();

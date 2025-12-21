@@ -9,39 +9,13 @@
   padding: 0 var(--space-6);
 }
 
-.breadcrumb {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: var(--space-4) 0;
-  /* Removed background color */
-  background-color: transparent;
-}
+/* Breadcrumb styles moved to components/_breadcrumb.css */
 
-.breadcrumb a {
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-.breadcrumb a:hover {
-  color: var(--color-accent);
-}
-.breadcrumb span {
-  color: var(--color-text-primary);
-  font-weight: var(--font-semibold);
-}
-
-/* Hero Section - Full Width Dark Image */
+/* Hero Section - Matching Contact/About/Services Style */
 .room-hero {
-  padding: var(--space-24) var(--space-6);
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/living-room-hero.avif') no-repeat center center/cover;
-  border-bottom: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-inverse);
+  padding: 3rem 2rem;
   text-align: center;
 }
 
@@ -53,26 +27,23 @@
 
 .room-hero-content h1 {
   font-family: var(--font-heading);
-  font-size: var(--text-4xl);
-  color: #ffffff;
-  margin-bottom: var(--space-3);
-  font-weight: var(--font-semibold);
-  line-height: var(--leading-tight);
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-size: var(--text-3xl);
+  color: var(--color-text-inverse);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .room-hero-content p {
-  font-size: var(--text-lg);
-  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--text-base);
+  color: var(--color-text-inverse);
+  opacity: 0.95;
   margin: 0 auto;
   max-width: 600px;
-  line-height: var(--leading-relaxed);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 /* Items Section */
 .room-type-items-section {
-  padding: var(--space-10) var(--space-6);
+  padding: 0 var(--space-6) var(--space-6);
   background-color: var(--color-bg-body);
 }
 
@@ -85,17 +56,17 @@
   gap: var(--space-4);
 }
 
-.room-type-header-left {
-  text-align: left;
-}
 
 .room-type-header h2 {
   font-family: var(--font-heading);
-  font-size: var(--text-3xl);
+  font-size: var(--text-2xl);
   color: var(--color-text-primary);
   margin-bottom: var(--space-1);
+  margin-top: var(--space-8);
   font-weight: var(--font-semibold);
   line-height: var(--leading-tight);
+  text-align: center;
+  width: 100%;
 }
 
 .room-type-header .results-count {

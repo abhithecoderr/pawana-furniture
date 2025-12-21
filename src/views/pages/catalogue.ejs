@@ -8,6 +8,20 @@
 
 <section class="catalogue-section">
   <div class="catalogue-container">
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+      <div class="breadcrumb-container">
+        <div class="page-breadcrumb">
+          <a href="javascript:history.back()" class="breadcrumb-back" aria-label="Go back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+          </a>
+          <a href="/">Home</a> /
+          <span>Catalogue</span>
+        </div>
+      </div>
+    </section>
 
     <!-- Products Area with Top Filters -->
     <div class="catalogue-products">
@@ -112,9 +126,8 @@
               </div>
               <div class="set-card-meta">
                 <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
-                <p><%= set.room %></p>
+                <p><%= set.room %> · <%= set.code %></p>
               </div>
-              <p class="model-number"><strong>Model:</strong> <%= set.code %></p>
             </a>
           </div>
         <% }); %>
@@ -148,9 +161,8 @@
               </div>
               <div class="product-card-meta">
                 <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-                <p><%= item.type %> · <%= item.room %></p>
+                <p><%= item.type %> · <%= item.room %> · <%= item.code %></p>
               </div>
-              <p class="model-number"><strong>Model:</strong> <%= item.code %></p>
             </a>
           </div>
         <% }); %>

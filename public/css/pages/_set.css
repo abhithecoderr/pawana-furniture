@@ -3,7 +3,7 @@
    ============================== */
 
 .set-detail-section {
-  padding: var(--space-16) var(--space-6);
+  padding: 0 var(--space-6) var(--space-16);
   background-color: var(--color-bg-card);
 }
 
@@ -12,23 +12,7 @@
   margin: 0 auto;
 }
 
-/* Breadcrumb */
-.set-breadcrumb {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-8);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.set-breadcrumb a {
-  color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
-}
-
-.set-breadcrumb a:hover {
-  color: var(--color-accent);
-}
+/* Breadcrumb styles moved to components/_breadcrumb.css */
 
 /* Main Content - Side by Side */
 .set-content {

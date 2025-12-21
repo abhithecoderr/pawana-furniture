@@ -17,7 +17,9 @@
 @import 'components/_product-card.css';
 @import 'components/_set-card.css';
 @import 'components/_carousel.css';
+@import 'components/_marquee.css';
 @import 'components/_animations.css';
+@import 'components/_breadcrumb.css';
 
 /* 4. Pages */
 @import 'pages/_home.css';

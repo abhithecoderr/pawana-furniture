@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   try {
     const { q } = req.query;
 
-    if (!q || q.trim().length < 2) {
+    if (!q || q.trim().length < 1) {
       return res.json({ items: [], sets: [] });
     }
 
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
         { type: searchRegex },
         { room: searchRegex }
       ]
-    }).limit(10).select("name slug code style type room images");
+    }).limit(20).select("name slug code style type room images");
 
     // Search sets by name, code, style, room
     const sets = await FurnitureSet.find({
@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
         { style: searchRegex },
         { room: searchRegex }
       ]
-    }).limit(10).select("name slug code style room images");
+    }).limit(20).select("name slug code style room images");
 
     res.json({ items, sets });
   } catch (error) {

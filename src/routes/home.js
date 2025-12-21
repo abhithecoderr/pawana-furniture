@@ -5,7 +5,7 @@ import Room from "../models/Room.js";
 
 const router = express.Router();
 
-const FEATURED_ITEMS_CODES = [
+const SIGNATURE_ITEMS_CODES = [
   "LM-011",
   "LM-002",
   "LR-007",
@@ -14,7 +14,7 @@ const FEATURED_ITEMS_CODES = [
   "LT-001",
 ];
 
-const CAROUSEL_ITEMS_CODES = [
+const FEATURED_ITEMS_CODES = [
   "LM-005",
   "LM-008",
   "LM-014",
@@ -26,7 +26,7 @@ const CAROUSEL_ITEMS_CODES = [
   "LT-010",
 ];
 
-const CAROUSEL_SETS_CODES = [
+const FEATURED_SETS_CODES = [
   "LR-07",
   "LR-05",
   "LT-02",
@@ -38,15 +38,15 @@ const CAROUSEL_SETS_CODES = [
 router.get("/", async (req, res) => {
   try {
     const featuredItems = await FurnitureItem.find({
-      code: { $in: FEATURED_ITEMS_CODES },
+      code: { $in: SIGNATURE_ITEMS_CODES },
     });
 
     const carouselItems = await FurnitureItem.find({
-      code: { $in: CAROUSEL_ITEMS_CODES },
+      code: { $in: FEATURED_ITEMS_CODES },
     });
 
     const carouselSets = await FurnitureSet.find({
-      code: { $in: CAROUSEL_SETS_CODES },
+      code: { $in: FEATURED_SETS_CODES },
     });
 
     // Fetch all furniture items

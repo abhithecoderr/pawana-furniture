@@ -4,8 +4,8 @@
 
 /* Room Page Breadcrumb Section */
 .room-page-section {
-  padding: var(--space-16) var(--space-6) 0;
-  background-color: var(--color-bg-card);
+  padding: var(--space-4) var(--space-6) 0;
+  background-color: transparent;
 }
 
 .room-page-container {
@@ -13,44 +13,39 @@
   margin: 0 auto;
 }
 
-/* Hero Section - Much Smaller and Subtle */
+/* Hero Section - Matching Contact/About/Services Style */
 .room-hero {
-  padding: var(--space-8) var(--space-6) var(--space-12);
-  background-color: var(--color-bg-card);
-  border-bottom: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-inverse);
+  padding: 3rem 2rem;
+  text-align: center;
 }
 
 .room-hero-content {
   max-width: 1400px;
   margin: 0 auto;
-  /* Center the hero content */
   text-align: center;
 }
 
 .room-hero-content h1 {
   font-family: var(--font-heading);
   font-size: var(--text-3xl);
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-2);
-  font-weight: var(--font-semibold);
-  line-height: var(--leading-tight);
+  color: var(--color-text-inverse);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .room-hero-content p {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  /* Center the paragraph and set max width */
+  font-size: var(--text-base);
+  color: var(--color-text-inverse);
+  opacity: 0.95;
   margin: 0 auto;
   max-width: 600px;
-  line-height: var(--leading-relaxed);
 }
 
 /* Room Sets Section */
 .room-sets-section {
-  padding: var(--space-10) var(--space-6);
+  padding: 0 var(--space-6) var(--space-6);
   background-color: var(--color-bg-body);
 }
 
@@ -73,6 +68,7 @@
   color: var(--color-text-secondary);
   margin-bottom: var(--space-8);
   line-height: var(--leading-relaxed);
+  text-align: center;
 }
 
 /* Sets Grid - Fixed 3 Columns, Wider Images */

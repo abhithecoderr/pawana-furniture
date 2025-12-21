@@ -125,7 +125,47 @@
 
     <!-- Footer -->
     <footer class="site-footer">
-      <p>© <%= new Date().getFullYear() %> Pawana Furniture. All rights reserved.</p>
+      <div class="section-container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="logo" style="color: #fff;">
+              <span class="logo-text">Pawana<span class="logo-text-light">Furniture</span></span>
+            </a>
+            <p>Redefining luxury interiors with timeless design and sustainable practices. Workshop in Rajpura.</p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="/catalogue">All Collections</a></li>
+              <li><a href="/catalogue?sort=newest">New Arrivals</a></li>
+              <li><a href="/room/living-room">Living Room</a></li>
+              <li><a href="/room/bedroom">Bedroom</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="/services">Our Services</a></li>
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/contact">Contact Us</a></li>
+              <li><a href="/wishlist">Your Wishlist</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Stay in the loop</h4>
+            <form class="newsletter" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="Email Address" required>
+              <button class="btn btn-gold" style="width: 100%">Subscribe</button>
+            </form>
+          </div>
+        </div>
+        <div class="copyright">
+          &copy; <%= new Date().getFullYear() %> Pawana Furniture. All rights reserved.
+        </div>
+      </div>
     </footer>
 
     <script src="/js/index.js"></script>

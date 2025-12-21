@@ -31,7 +31,7 @@
 
 /* Catalogue Section */
 .catalogue-section {
-  padding: var(--space-6) var(--space-6);
+  padding: 0 var(--space-6) var(--space-6);
   background-color: var(--color-bg-body);
 }
 

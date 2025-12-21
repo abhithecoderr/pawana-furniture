@@ -29,7 +29,7 @@
 
 /* Intro Section */
 .services-intro {
-  padding: 4rem 0 2rem;
+  padding: 0 0 2rem;
   background: var(--color-bg-body);
   text-align: center;
 }

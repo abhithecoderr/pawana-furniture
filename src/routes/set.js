@@ -28,7 +28,7 @@ router.get("/:slug", async (req, res) => {
     }).populate("items");
 
     // Randomize and limit to 6
-    youMayAlsoLikeSets = youMayAlsoLikeSets.sort(() => Math.random() - 0.5).slice(0, 6);
+    youMayAlsoLikeSets = youMayAlsoLikeSets.sort(() => Math.random() - 0.5).slice(0, 9);
 
     res.render("pages/set", {
       title: set.name,

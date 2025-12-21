@@ -29,7 +29,7 @@ const roomSchema = new mongoose.Schema({
 });
 
 roomSchema.pre("validate", function (next) {
-  if (this.name) {
+  if (this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true, strict: true });
   }
   next();

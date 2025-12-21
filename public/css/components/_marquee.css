@@ -1,0 +1,68 @@
+/* ==============================
+   MARQUEE SCROLL (Signature Pieces)
+   ============================== */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.home-marquee {
+  padding: var(--space-10) 0;
+  background-color: var(--color-bg-section-alt);
+  overflow: hidden; /* Hide the overflow */
+}
+
+.home-marquee .carousel-header {
+  margin-bottom: var(--space-10); /* Generous gap to match 'Browse by Rooms' feel */
+}
+
+.home-marquee .marquee-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.home-marquee .marquee-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.home-marquee .marquee-track {
+  display: flex;
+  width: max-content; /* Allow it to be wider than the screen */
+  gap: var(--space-8); /* 32px gap */
+  animation: marquee 60s linear infinite; /* Slow, continuous scroll */
+  will-change: transform;
+}
+
+.home-marquee .marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Marquee item - fixed width */
+.home-marquee .marquee-item {
+  width: 450px; /* Balanced width */
+  flex-shrink: 0;
+}
+
+.home-marquee .marquee-item img {
+  width: 100%;
+  height: 450px; /* Impactful but not overwhelming */
+  object-fit: cover;
+  transition: transform var(--transition-slower);
+  border-radius: var(--radius-sm);
+}
+
+.home-marquee .marquee-item:hover img {
+  transform: scale(1.02);
+}
+
+.home-marquee .marquee-item h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--color-text-primary);
+  margin: var(--space-4) 0 0 0;
+  font-weight: var(--font-normal);
+}
+
+/* Marquee item p is now handled by _product-card.css classes */

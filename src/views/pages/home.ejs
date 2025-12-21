@@ -24,24 +24,37 @@
 </section>
 
 <!-- Signature Pieces Carousel -->
-<section class="home-carousel">
+<!-- Signature Pieces Marquee -->
+<section class="home-marquee">
   <div class="section-container">
     <div class="carousel-header">
       <h2 class="section-title">Our Signature Pieces</h2>
-      <div class="carousel-nav">
-        <button class="carousel-arrow carousel-prev" data-carousel="signature" aria-label="Previous">‹</button>
-        <button class="carousel-arrow carousel-next" data-carousel="signature" aria-label="Next">›</button>
-      </div>
     </div>
-    <div class="carousel-wrapper">
-      <div class="carousel-container">
-        <div class="carousel-track" id="signature-carousel-track">
+    <div class="marquee-wrapper">
+      <div class="marquee-container">
+        <div class="marquee-track">
           <% featuredItems.forEach(item => { %>
-          <div class="carousel-item active-category" data-category="signature">
-            <a href="/item/<%= item.slug %>">
+          <div class="marquee-item">
+            <a href="/item/<%= item.slug %>" class="product-card">
               <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>">
-              <h3><%= item.name %></h3>
-              <p><%= item.style %> · <%= item.room %></p>
+              <div class="card-name-row" style="margin-top: 1rem;">
+                <h3><%= item.name %></h3>
+                <button class="wishlist-btn"
+                        data-id="<%= item._id %>"
+                        data-type="item"
+                        data-name="<%= item.name %>"
+                        data-slug="<%= item.slug %>"
+                        data-image="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+                        onclick="event.preventDefault(); handleWishlistClick(event, this)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="product-card-meta">
+                <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
+                <p><%= item.type %> · <%= item.room %> · <%= item.code %></p>
+              </div>
             </a>
           </div>
           <% }) %>
@@ -66,10 +79,26 @@
         <div class="carousel-track" id="items-carousel-track">
           <% carouselItems.forEach(item => { %>
           <div class="carousel-item active-category" data-category="items">
-            <a href="/item/<%= item.slug %>">
+            <a href="/item/<%= item.slug %>" class="product-card">
               <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>">
-              <h4><%= item.name %></h4>
-              <p><%= item.style %> · <%= item.room %></p>
+              <div class="card-name-row">
+                <h3><%= item.name %></h3>
+                <button class="wishlist-btn"
+                        data-id="<%= item._id %>"
+                        data-type="item"
+                        data-name="<%= item.name %>"
+                        data-slug="<%= item.slug %>"
+                        data-image="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+                        onclick="event.preventDefault(); handleWishlistClick(event, this)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="product-card-meta">
+                <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
+                <p><%= item.type %> · <%= item.room %> · <%= item.code %></p>
+              </div>
             </a>
           </div>
           <% }) %>
@@ -94,10 +123,27 @@
         <div class="carousel-track" id="sets-carousel-track">
           <% carouselSets.forEach(set => { %>
           <div class="carousel-item active-category" data-category="sets">
-            <a href="/set/<%= set.slug %>">
+            <a href="/set/<%= set.slug %>" class="set-card">
+              <div class="set-card-badge">Set</div>
               <img src="<%= set.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= set.name %>">
-              <h4><%= set.name %></h4>
-              <p><%= set.style %> · <%= set.room %></p>
+              <div class="card-name-row">
+                <h3><%= set.name %></h3>
+                <button class="wishlist-btn"
+                        data-id="<%= set._id %>"
+                        data-type="set"
+                        data-name="<%= set.name %>"
+                        data-slug="<%= set.slug %>"
+                        data-image="<%= set.images && set.images.length > 0 ? set.images[0].url : '/images/placeholder.jpg' %>"
+                        onclick="event.preventDefault(); handleWishlistClick(event, this)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="set-card-meta">
+                <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
+                 <p><%= set.room %> · <%= set.code %></p>
+              </div>
             </a>
           </div>
           <% }) %>

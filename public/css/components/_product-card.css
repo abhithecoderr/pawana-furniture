@@ -10,6 +10,7 @@
   text-decoration: none;
   color: inherit;
   transition: transform var(--transition-base);
+  position: relative; /* Context */
 }
 
 .item-card:hover,
@@ -26,23 +27,58 @@
   display: block;
   background: var(--color-bg-card);
   transition: transform var(--transition-slower);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .item-card:hover img,
 .product-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.05); /* Zoom effect needs overflow hidden on container usually, but works here if wrapper handles it */
+}
+
+/* Card Name Row - Title + Wishlist */
+.card-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: 0.25rem;
+  width: 100%;
 }
 
 /* Item Title */
 .item-card h3,
-.product-card h3 {
+.product-card h3,
+.card-name-row h3 {
   font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: var(--font-normal);
   color: var(--color-text-primary);
-  margin: 0 0 0.3rem 0;
-  line-height: var(--leading-tight);
+  margin: 0;
+  line-height: 1.3;
+  flex: 1; /* Take up available space */
+}
+
+/* Wishlist Button */
+.wishlist-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px; /* Optical alignment with text cap-height */
+}
+
+.wishlist-btn:hover {
+  color: var(--color-maroon);
+  transform: scale(1.15);
+}
+
+.wishlist-btn svg {
+  stroke-width: 1.5px;
 }
 
 /* Item Card Meta */
@@ -57,37 +93,39 @@
 
 .item-card-meta p,
 .product-card-meta p {
-  font-size: 0.8rem;
+  font-size: 0.75rem; /* Slightly smaller for elegance */
   color: var(--color-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.08em;
   margin: 0;
-  font-weight: var(--font-normal);
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 /* Model Number */
 .model-number {
   display: block;
   margin-top: 0.75rem;
-  font-size: 0.9rem;
-  color: var(--color-text-primary);
-  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
   letter-spacing: 0.02em;
 }
 
 .model-number strong {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-text-primary);
+  margin-right: 4px;
 }
 
 /* Style Badges - Solid Colors */
 .item-style-badge {
   display: inline-block;
-  padding: 0.3rem 0.85rem;
+  padding: 0.25rem 0.75rem;
   font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 500;
+  letter-spacing: 1px;
+  font-weight: 600;
   border: none;
   border-radius: 2px;
 }
