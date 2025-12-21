@@ -65,14 +65,13 @@
             src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
             alt="<%= item.name %>"
           />
-          <h3><%= item.name %></h3>
+          <div class="card-name-row">
+            <h3><%= item.name %></h3>
+          </div>
           <div class="item-card-meta">
             <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-            <p><%= item.room %> · <%= item.type %></p>
+            <p><%= item.room %> · <%= item.type %> <% if (item.code) { %> · <%= item.code %><% } %></p>
           </div>
-          <% if (item.code) { %>
-          <p class="model-number"><strong>Model:</strong> <%= item.code %></p>
-          <% } %>
         </a>
       <% }); %>
     </div>

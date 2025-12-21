@@ -14,10 +14,10 @@
 }
 
 /* Hero Section - Matching Contact/About/Services Style */
-.room-hero {
+section.room-hero {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: var(--color-text-inverse);
-  padding: 3rem 2rem;
+  padding: 1.5rem 2rem !important; /* Making it more specific and using !important to override conflicts */
   text-align: center;
 }
 

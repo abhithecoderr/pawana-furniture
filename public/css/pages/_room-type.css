@@ -47,6 +47,11 @@
   background-color: var(--color-bg-body);
 }
 
+/* Increase gap between items in the grid */
+.room-type-items-section .catalogue-items-grid {
+  gap: var(--space-10);
+}
+
 .room-type-header {
   margin-bottom: var(--space-8);
   display: flex;

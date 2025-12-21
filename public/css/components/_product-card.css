@@ -9,13 +9,7 @@
   display: block;
   text-decoration: none;
   color: inherit;
-  transition: transform var(--transition-base);
   position: relative; /* Context */
-}
-
-.item-card:hover,
-.product-card:hover {
-  transform: translateY(-2px);
 }
 
 /* Image - Square Aspect Ratio */
@@ -26,13 +20,7 @@
   object-fit: cover;
   display: block;
   background: var(--color-bg-card);
-  transition: transform var(--transition-slower);
   margin-bottom: 1.25rem;
-}
-
-.item-card:hover img,
-.product-card:hover img {
-  transform: scale(1.05); /* Zoom effect needs overflow hidden on container usually, but works here if wrapper handles it */
 }
 
 /* Card Name Row - Title + Wishlist */
@@ -146,10 +134,4 @@
 .item-style-badge.modern {
   background: #5a5a5a;
   color: #ffffff;
-}
-
-/* Active State */
-.item-card:active,
-.product-card:active {
-  transform: translateY(0);
 }

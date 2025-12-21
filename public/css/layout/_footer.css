@@ -97,6 +97,32 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+.newsletter .btn {
+  background: var(--color-primary-dark); /* Deep chocolate brown background */
+  border-color: var(--color-primary-dark);
+  color: var(--color-text-inverse);
+  width: 100%;
+  padding: 1rem 2.5rem; /* Maintain original button padding */
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: var(--font-medium);
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: var(--transition-base);
+  font-family: var(--font-body);
+  text-decoration: none;
+}
+
+.newsletter .btn:hover {
+  background: var(--color-primary); /* Rich mahogany brown on hover */
+  color: var(--color-text-inverse);
+  transform: translateY(-1px);
+}
+.newsletter .btn:active {
+  transform: translateY(0);
+}
+
 /* Copyright */
 .copyright {
   text-align: center;
@@ -131,5 +157,11 @@
 
   .site-footer {
     padding: 4rem 0 2rem;
+  }
+  
+  .newsletter .btn {
+    font-size: 0.75rem;
+    padding: 0.875rem 2rem;
+    letter-spacing: 1.5px;
   }
 }

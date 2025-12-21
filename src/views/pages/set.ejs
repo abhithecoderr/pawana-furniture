@@ -218,4 +218,19 @@ document.querySelectorAll('.style-toggle-btn').forEach(btn => {
     window.history.pushState({}, '', `/set/${setData.slug}`);
   });
 });
-</script>
+
+// Hide carousel navigation arrows if there are fewer than 4 items
+document.addEventListener('DOMContentLoaded', function() {
+  const carouselTrack = document.getElementById('similar-sets-carousel-track');
+  if (carouselTrack) {
+    const items = carouselTrack.querySelectorAll('.carousel-item:not([data-cloned])');
+    const carouselHeader = document.querySelector('.set-carousel-header');
+    
+    if (items.length < 4) {
+      const nav = carouselHeader.querySelector('.carousel-nav');
+      if (nav) {
+        nav.style.display = 'none';
+      }
+    }
+  }
+});

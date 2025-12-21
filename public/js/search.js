@@ -26,10 +26,16 @@ function toggleSearch(expand) {
 
 // Perform search
 async function performSearch(query) {
+  const resultsContainer = document.querySelector('.search-results');
+  if (!resultsContainer) return;
+
   if (!query || query.trim().length < 2) {
     showSearchSuggestions();
     return;
   }
+
+  // Show loading state
+  resultsContainer.innerHTML = '<div class="search-loading">Searching...</div>';
 
   try {
     const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
@@ -37,6 +43,7 @@ async function performSearch(query) {
     displaySearchResults(data);
   } catch (error) {
     console.error('Search error:', error);
+    resultsContainer.innerHTML = '<p class="search-no-results">An error occurred. Please try again.</p>';
   }
 }
 
@@ -54,15 +61,18 @@ function displaySearchResults(data) {
 
   let html = '';
 
-  // Show max 3 items total for compact view
+  // Show sets first (all sets, not just 2)
   if (sets.length > 0) {
     html += '<div class="search-category"><h4>Sets</h4>';
-    html += sets.slice(0, 2).map(set => `
+    html += sets.map(set => `
       <a href="/set/${set.slug}" class="search-result-item">
         <img src="${set.images?.[0]?.url || '/images/placeholder.jpg'}" alt="${set.name}">
         <div class="search-result-info">
           <span class="search-result-name">${set.name}</span>
-          <span class="search-result-meta">${set.style} · ${set.room}</span>
+          <span class="search-result-meta">
+            <span>${set.style}</span>
+            <span>${set.room}</span>
+          </span>
         </div>
       </a>
     `).join('');
@@ -71,12 +81,16 @@ function displaySearchResults(data) {
 
   if (items.length > 0) {
     html += '<div class="search-category"><h4>Items</h4>';
-    html += items.slice(0, 3).map(item => `
+    // Show more items (increase from 6 to 15)
+    html += items.slice(0, 15).map(item => `
       <a href="/item/${item.slug}" class="search-result-item">
         <img src="${item.images?.[0]?.url || '/images/placeholder.jpg'}" alt="${item.name}">
         <div class="search-result-info">
           <span class="search-result-name">${item.name}</span>
-          <span class="search-result-meta">${item.type} · ${item.style}</span>
+          <span class="search-result-meta">
+            <span>${item.type}</span>
+            <span>${item.style}</span>
+          </span>
         </div>
       </a>
     `).join('');
@@ -100,13 +114,19 @@ function showSearchSuggestions() {
         <button class="suggestion-tag" data-query="Sofa">Sofa</button>
         <button class="suggestion-tag" data-query="Bed">Bed</button>
         <button class="suggestion-tag" data-query="Dining">Dining</button>
+        <button class="suggestion-tag" data-query="Traditional">Traditional</button>
+        <button class="suggestion-tag" data-query="Living Room">Living Room</button>
+        <button class="suggestion-tag" data-query="Bedroom">Bedroom</button>
       </div>
     </div>
   `;
 
   // Add click handlers to suggestion tags
   resultsContainer.querySelectorAll('.suggestion-tag').forEach(tag => {
-    tag.addEventListener('click', () => {
+    tag.addEventListener('click', (e) => {
+      // Prevent the click from bubbling up to the document level
+      e.stopPropagation();
+      
       const searchInput = document.querySelector('.search-input');
       if (searchInput) {
         searchInput.value = tag.dataset.query;
@@ -177,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!hasTyped && !wrapper.matches(':hover')) {
           toggleSearch(false);
         }
-      }, 300);
+      }, 100);
     }
   });
 

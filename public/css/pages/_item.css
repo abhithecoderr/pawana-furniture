@@ -20,6 +20,7 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--space-16);
   align-items: start;
+  margin-top: var(--space-6); /* Adding space below breadcrumb */
 }
 
 /* Main Image - Left Side, No Background */

@@ -140,6 +140,7 @@
 .info-icon {
   font-size: 2rem;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .info-content h3 {
@@ -244,31 +245,71 @@
   margin-bottom: 3rem;
 }
 
-.faq-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .faq-item {
-  background: var(--color-bg-section-alt);
-  padding: 1.5rem;
+  background: var(--color-primary); /* Using primary color */
   border-radius: 8px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border);
+  margin-bottom: 0.75rem; /* Reduced spacing */
+  transition: background-color 0.3s ease;
 }
 
-.faq-item h3 {
+.faq-item.active {
+  background: var(--color-primary-dark); /* Darker background when active */
+}
+
+.faq-question {
+  width: 100%;
+  padding: 1.25rem 1.5rem; /* Slightly reduced padding */
   font-family: var(--font-heading);
   font-size: var(--text-lg);
-  color: var(--color-text-primary);
-  margin-bottom: 0.75rem;
+  color: var(--color-text-inverse); /* Using the inverse text color */
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
 
-.faq-item p {
+.faq-question:hover {
+  background: rgba(0, 0, 0, 0.1); /* Subtle darkening on hover */
+  color: #fff;
+}
+
+.faq-toggle {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-toggle {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  padding: 0 1.5rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+  padding: 0 1.5rem 1.5rem;
+  max-height: 500px; /* Should be enough for any answer */
+}
+
+.faq-answer p {
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse); /* Using the inverse text color */
   margin: 0;
 }
 
@@ -288,13 +329,27 @@
 
   .contact-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .contact-form {
     padding: 1.5rem;
   }
 
+  .contact-info-card {
+    margin-bottom: 1rem;
+  }
+
+  .social-links {
+    margin-top: 1rem;
+  }
+
   .faq-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .faq-item {
+    padding: 1.25rem;
   }
 }
