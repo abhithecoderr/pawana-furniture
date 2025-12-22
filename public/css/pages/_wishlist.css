@@ -135,24 +135,6 @@
   margin-bottom: var(--space-8);
 }
 
-/* Responsive */
-@media (max-width: 1023px) {
-  .wishlist-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 767px) {
-  .wishlist-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-  }
-
-  .wishlist-hero h1 {
-    font-size: var(--text-3xl);
-  }
-}
-
 /* ==============================
    Wishlist Button on Cards
    ============================== */

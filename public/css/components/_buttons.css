@@ -49,14 +49,3 @@
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
-
-/* Mobile adjustments */
-@media (max-width: 767px) {
-  .btn-primary,
-  .btn-secondary,
-  .btn-gold {
-    font-size: 0.75rem;
-    padding: 0.875rem 2rem;
-    letter-spacing: 1.5px;
-  }
-}

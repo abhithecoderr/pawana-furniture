@@ -32,3 +32,8 @@
 @import 'pages/_services.css';
 @import 'pages/_contact.css';
 @import 'pages/_wishlist.css';
+
+/* 5. Responsiveness (must be last to override base styles) */
+@import 'responsiveness/_responsive-base.css';
+@import 'responsiveness/_responsive-components.css';
+@import 'responsiveness/_responsive-pages.css';

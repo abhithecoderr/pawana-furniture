@@ -198,37 +198,3 @@
   justify-content: center;
   flex-wrap: wrap;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .about-hero {
-    padding: 1rem 1.5rem 0.75rem;
-  }
-
-  .about-hero-content h1 {
-    font-size: var(--text-2xl);
-  }
-
-  .about-hero-content p {
-    font-size: var(--text-sm);
-  }
-
-  .about-content {
-    flex-direction: column;
-  }
-
-  .values-grid,
-  .process-steps {
-    grid-template-columns: 1fr;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn-primary, .btn-secondary {
-    width: 100%;
-    max-width: 300px;
-  }
-}

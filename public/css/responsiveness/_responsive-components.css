@@ -1,0 +1,186 @@
+/* ==============================
+   RESPONSIVE COMPONENTS STYLES
+   Contains media queries for:
+   - Carousel
+   - Product Card
+   - Set Card
+   ============================== */
+
+/* ==============================
+   CAROUSEL RESPONSIVE
+   ============================== */
+
+@media (max-width: 767px) {
+  .carousel-section {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .carousel-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .carousel-header h2 {
+    font-size: 1.35rem;
+  }
+
+  .category-controls {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .category-nav {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+    padding: 0.3rem;
+  }
+
+  .category-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .carousel-container {
+    margin: 0 -0.75rem;
+  }
+
+  .carousel-track {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  .carousel-item {
+    flex: 0 0 240px;
+  }
+
+  .carousel-item img {
+    height: 280px;
+  }
+
+  .carousel-item h4 {
+    font-size: 0.95rem;
+    margin: var(--space-2) 0 var(--space-1) 0;
+  }
+
+  .carousel-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+
+  .category-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .carousel-section {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .carousel-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .carousel-item {
+    flex: 0 0 300px;
+  }
+
+  .carousel-item img {
+    height: 360px;
+  }
+}
+
+/* ==============================
+   PRODUCT CARD RESPONSIVE
+   ============================== */
+
+@media (max-width: 767px) {
+  .product-card {
+    border-radius: var(--radius-sm);
+  }
+
+  .product-card .image-container {
+    aspect-ratio: 1/1;
+  }
+
+  .product-card-info {
+    padding: var(--space-2) var(--space-1);
+  }
+
+  .product-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .product-card .product-type,
+  .product-card .card-meta {
+    font-size: 0.65rem;
+  }
+}
+
+/* ==============================
+   SET CARD RESPONSIVE
+   ============================== */
+
+@media (max-width: 767px) {
+  .set-card {
+    border-radius: var(--radius-sm);
+  }
+
+  .set-card .image-container {
+    aspect-ratio: 4/3;
+  }
+
+  .set-card-info {
+    padding: var(--space-2) var(--space-1);
+  }
+
+  .set-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .set-card .set-meta,
+  .set-card .card-meta {
+    font-size: 0.65rem;
+  }
+
+  .set-style-badge {
+    font-size: 0.55rem;
+    padding: 0.15rem 0.4rem;
+  }
+}
+
+/* ==============================
+   MARQUEE RESPONSIVE
+   ============================== */
+
+@media (max-width: 767px) {
+  .marquee-track {
+    gap: 1rem;
+  }
+
+  .marquee-item {
+    width: 180px;
+  }
+
+  .brands-marquee .brand-card {
+    height: 120px;
+  }
+
+  .brands-marquee .brand-card img {
+    width: 100px;
+    height: 70px;
+  }
+
+  .projects-marquee .project-meta h3 {
+    font-size: 1rem;
+  }
+
+  .projects-marquee .project-meta p {
+    font-size: 0.7rem;
+  }
+}
