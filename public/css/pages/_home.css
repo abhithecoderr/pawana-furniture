@@ -29,7 +29,7 @@
    ============================== */
 
 .hero {
-  background: url("https://res.cloudinary.com/dwa2d4onb/image/upload/v1763909874/image_2_tw9km5.jpg") center center / cover no-repeat;
+  background: url("https://res.cloudinary.com/duiix4ryu/image/upload/v1766513296/pawana-hero2_yz5hg9.webp") center center / cover no-repeat;
   min-height: 100vh;
   max-height: 100vh;
   display: flex;
@@ -65,11 +65,13 @@
   transform: translateY(0);
   padding: 2rem 3rem;
   border-radius: 8px;
-  background: rgba(61, 40, 23, 0.15);
+  /* background: rgba(61, 40, 23, 0.15); */
   backdrop-filter: blur(1px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  margin-bottom: 5rem;
+  margin-bottom: 8rem;
 }
+
+.hero-content {}
 
 .hero-badge {
   display: inline-block;
@@ -90,7 +92,7 @@
 
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 7vw, 3.5rem);
+  font-size: clamp(2.5rem, 7vw, 2.6rem);
   color: var(--color-text-inverse);
   margin-bottom: 2rem;
   line-height: 1.15;

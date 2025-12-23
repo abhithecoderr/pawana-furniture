@@ -1,5 +1,0 @@
-This website is for a furniture company who takes orders from clients to build custom furniture for them. This website's aim is to present their work in a way that feels credible, luxury, quality work, and easy to make an order for your own furniture by contacting them.
-
-It is not a buy furniture store, its more of a business showcase and contact profile so they can start working on a piece when a client approaches.
-
-Ignore game.html, and site.html
