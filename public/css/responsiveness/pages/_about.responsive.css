@@ -1,0 +1,113 @@
+/* ==============================
+   ABOUT PAGE RESPONSIVE
+   ============================== */
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .about-hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .about-hero-content p {
+    font-size: 0.85rem;
+  }
+
+  .about-story {
+    padding: 0 0 3rem 0;
+  }
+
+  .about-container {
+    padding: 0 1rem;
+  }
+
+  .about-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-image img {
+    height: 250px;
+  }
+
+  .about-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+  }
+
+  .about-values,
+  .about-process {
+    padding: 3rem 0;
+  }
+
+  .about-values h2,
+  .about-process h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .values-grid,
+  .process-steps {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .value-card {
+    padding: 1.5rem;
+  }
+
+  .value-icon {
+    font-size: 2rem;
+  }
+
+  .value-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .value-card p {
+    font-size: 0.85rem;
+  }
+
+  .step-number {
+    font-size: 2.5rem;
+  }
+
+  .process-step h3 {
+    font-size: 1.1rem;
+  }
+
+  .process-step p {
+    font-size: 0.85rem;
+  }
+
+  .about-cta {
+    padding: 3rem 0;
+  }
+
+  .about-cta .cta-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-cta .cta-content p {
+    font-size: 0.9rem;
+  }
+
+  .about-cta .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .about-cta .btn-primary,
+  .about-cta .btn-secondary {
+    width: 100%;
+    max-width: 280px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+  }
+}

@@ -1,0 +1,56 @@
+/* ==============================
+   WISHLIST PAGE RESPONSIVE
+   ============================== */
+
+@media (max-width: 1023px) {
+  .wishlist-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .wishlist-hero {
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .wishlist-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .wishlist-hero p {
+    font-size: 0.85rem;
+  }
+
+  .wishlist-section {
+    padding: 0 var(--space-4) var(--space-8);
+  }
+
+  .wishlist-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .wishlist-card-info {
+    padding: var(--space-3);
+  }
+
+  .wishlist-card-info h3 {
+    font-size: 0.9rem;
+  }
+
+  .wishlist-card-type {
+    font-size: 0.7rem;
+  }
+
+  .wishlist-empty-state {
+    padding: var(--space-12);
+  }
+
+  .wishlist-empty-state h2 {
+    font-size: 1.3rem;
+  }
+
+  .wishlist-empty-state p {
+    font-size: 0.85rem;
+  }
+}

@@ -8,8 +8,8 @@
       <div class="breadcrumb-container">
         <div class="page-breadcrumb">
           <a href="javascript:history.back()" class="breadcrumb-back" aria-label="Go back">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12h18M3 12l6-6M3 12l6 6"/>
             </svg>
           </a>
           <a href="/">Home</a> /
@@ -71,7 +71,42 @@
   </div>
 </section>
 
-<!-- Related Items Section -->
+<!-- Similar Items Carousel -->
+<% if (similarItems && similarItems.length > 0) { %>
+<section class="home-carousel">
+  <div class="section-container">
+    <div class="carousel-header">
+      <h2 class="section-title">Similar <%= item.style %> <%= item.type %> for <%= item.room %></h2>
+      <div class="carousel-nav">
+        <button class="carousel-arrow carousel-prev" data-carousel="similar-items" aria-label="Previous item">‹</button>
+        <button class="carousel-arrow carousel-next" data-carousel="similar-items" aria-label="Next item">›</button>
+      </div>
+    </div>
+    <div class="carousel-wrapper">
+      <div class="carousel-container">
+        <div class="carousel-track" id="similar-items-carousel-track">
+          <% similarItems.forEach(similarItem => { %>
+          <div class="carousel-item active-category" data-category="similar-items">
+            <a href="/item/<%= similarItem.slug %>" class="product-card">
+              <img src="<%= similarItem.images && similarItem.images.length > 0 ? similarItem.images[0].url : '/images/placeholder.jpg' %>" alt="<%= similarItem.name %>">
+              <div class="card-name-row">
+                <h3><%= similarItem.name %></h3>
+              </div>
+              <div class="product-card-meta">
+                <span class="item-style-badge <%= similarItem.style.toLowerCase() %>"><%= similarItem.style %></span>
+                <p><%= similarItem.room %> · <%= similarItem.type %> · <%= similarItem.code %></p>
+              </div>
+            </a>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- You May Also Like Section -->
 <% if (relatedItems && relatedItems.length > 0) { %>
 <section class="related-items-section">
   <div class="related-items-container">
@@ -80,14 +115,16 @@
       <% relatedItems.forEach(relatedItem => { %>
         <a href="/item/<%= relatedItem.slug %>" class="product-card">
           <img
-            class="related-item-image"
+            class="related-item-image square"
             src="<%= relatedItem.images && relatedItem.images.length > 0 ? relatedItem.images[0].url : '/images/placeholder.jpg' %>"
             alt="<%= relatedItem.name %>"
           />
-          <h3><%= relatedItem.name %></h3>
+          <div class="card-name-row">
+            <h3><%= relatedItem.name %></h3>
+          </div>
           <div class="product-card-meta">
             <span class="item-style-badge <%= relatedItem.style.toLowerCase() %>"><%= relatedItem.style %></span>
-            <p><%= relatedItem.type %> · <%= relatedItem.room %></p>
+            <p><%= relatedItem.room %> · <%= relatedItem.type %> · <%= relatedItem.code %></p>
           </div>
         </a>
       <% }); %>

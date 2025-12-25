@@ -1,0 +1,129 @@
+/* ==============================
+   SET PAGE RESPONSIVE
+   ============================== */
+
+@media (max-width: 1023px) {
+  .set-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .set-image-main img {
+    max-height: 400px;
+  }
+
+  .set-title {
+    font-size: 1.3rem;
+  }
+
+  .set-items-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  /* Similar Items - 2 per row on tablet */
+  .related-items-section .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 767px) {
+  .set-detail-section {
+    padding: 0 var(--space-4) var(--space-8);
+  }
+
+  .set-items-section,
+  .related-items-section {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .set-content {
+    margin-top: var(--space-4);
+  }
+
+  .set-image-main img {
+    max-height: 300px;
+  }
+
+  .set-title {
+    font-size: 1.15rem;
+  }
+
+  .set-description {
+    font-size: 0.85rem;
+  }
+
+  .set-header {
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .set-room,
+  .set-items-count {
+    font-size: 0.65rem;
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .thumbnail {
+    width: 45px;
+    height: 45px;
+  }
+
+  .style-toggle-section {
+    padding: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .style-toggle-section h4 {
+    font-size: 0.65rem;
+  }
+
+  .style-toggle-btn {
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.65rem;
+  }
+
+  .enquiry-btn {
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.8rem;
+  }
+
+  .set-items-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .set-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .set-item-info {
+    padding: var(--space-2);
+  }
+
+  .set-item-info h3 {
+    font-size: 0.9rem;
+  }
+
+  .set-item-type {
+    font-size: 0.65rem;
+  }
+
+  /* Similar Items - 1 per row on mobile */
+  .related-items-section .product-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .related-items-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-6);
+  }
+}

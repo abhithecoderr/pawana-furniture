@@ -20,16 +20,25 @@ router.get("/:slug", async (req, res) => {
       _id: { $ne: item._id }, // Exclude current item
     });
 
-    // Get related items (same room, different type)
+    // Get similar items (same room, same type, same style) for the carousel
+    const similarItems = await FurnitureItem.find({
+      room: item.room,
+      type: item.type,
+      style: item.style,
+      _id: { $ne: item._id },
+    }).limit(6);
+
+    // Get related items (same room, different types - mixed) for "You may also like"
     const relatedItems = await FurnitureItem.find({
       room: item.room,
       type: { $ne: item.type },
-    }).limit(9);
+    }).limit(6);
 
     res.render("pages/item", {
       title: item.name,
       item,
       styleVariants,
+      similarItems,
       relatedItems,
     });
   } catch (error) {

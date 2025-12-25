@@ -1,0 +1,104 @@
+/* ==============================
+   SERVICES PAGE RESPONSIVE
+   ============================== */
+
+@media (max-width: 768px) {
+  .services-hero {
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .services-hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .services-hero-content p {
+    font-size: 0.85rem;
+  }
+
+  .services-intro {
+    padding: 0 0 1.5rem;
+  }
+
+  .intro-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .intro-content p {
+    font-size: 0.9rem;
+  }
+
+  .services-list {
+    padding: 1.5rem 0 2rem;
+  }
+
+  .services-list .services-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .service-item {
+    padding: 1.25rem;
+  }
+
+  .service-icon {
+    font-size: 2rem;
+  }
+
+  .service-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .service-content p {
+    font-size: 0.85rem;
+  }
+
+  .service-content ul {
+    grid-template-columns: 1fr;
+  }
+
+  .service-content ul li {
+    font-size: 0.85rem;
+  }
+
+  .services-cta {
+    padding: 3rem 0;
+  }
+
+  .services-cta .cta-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .services-cta .cta-content p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .services-cta .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .services-cta .btn-primary,
+  .services-cta .btn-secondary {
+    width: 100%;
+    max-width: 280px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .services-list .services-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .services-list .services-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}

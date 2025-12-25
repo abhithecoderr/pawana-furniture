@@ -20,6 +20,7 @@
 @import 'components/_marquee.css';
 @import 'components/_animations.css';
 @import 'components/_breadcrumb.css';
+@import 'components/_related-items.css';
 
 /* 4. Pages */
 @import 'pages/_home.css';
@@ -36,4 +37,15 @@
 /* 5. Responsiveness (must be last to override base styles) */
 @import 'responsiveness/_responsive-base.css';
 @import 'responsiveness/_responsive-components.css';
-@import 'responsiveness/_responsive-pages.css';
+
+/* Page-specific responsive styles */
+@import 'responsiveness/pages/_home.responsive.css';
+@import 'responsiveness/pages/_services.responsive.css';
+@import 'responsiveness/pages/_about.responsive.css';
+@import 'responsiveness/pages/_contact.responsive.css';
+@import 'responsiveness/pages/_catalogue.responsive.css';
+@import 'responsiveness/pages/_wishlist.responsive.css';
+@import 'responsiveness/pages/_set.responsive.css';
+@import 'responsiveness/pages/_item.responsive.css';
+@import 'responsiveness/pages/_room.responsive.css';
+@import 'responsiveness/pages/_room-type.responsive.css';

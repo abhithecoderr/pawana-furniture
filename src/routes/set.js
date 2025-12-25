@@ -18,7 +18,7 @@ router.get("/:slug", async (req, res) => {
       room: set.room,
       style: set.style,
       _id: { $ne: set._id },
-    }).populate("items");
+    }).populate("items").limit(6);
 
     // Get "You may also like" sets (same room, different styles - mixed from other two styles)
     let youMayAlsoLikeSets = await FurnitureSet.find({

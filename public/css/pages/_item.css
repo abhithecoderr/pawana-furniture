@@ -189,38 +189,7 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Related Items Section */
+/* Related Items Section - Item page specific */
 .related-items-section {
-  padding: var(--section-padding-desktop);
   background-color: var(--color-bg-body);
-}
-
-.related-items-container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.related-items-container h2 {
-  font-family: var(--font-heading);
-  font-size: var(--text-3xl);
-  color: var(--color-text-primary);
-  text-align: center;
-  margin-bottom: var(--space-10);
-  font-weight: var(--font-semibold);
-  line-height: var(--leading-tight);
-}
-
-/* Similar Items - 3 per row */
-.related-items-section .product-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-8);
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Ensure related items are square */
-.related-item-image {
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
 }

@@ -1,0 +1,38 @@
+/* ==============================
+   ROOM PAGE RESPONSIVE
+   ============================== */
+
+@media (max-width: 1023px) {
+  .sets-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+@media (max-width: 767px) {
+  section.room-hero {
+    padding: 1rem 1rem 0.75rem !important;
+  }
+
+  .room-hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .room-hero-content p {
+    font-size: 0.85rem;
+  }
+
+  .room-sets-section {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .room-sets-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .sets-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}

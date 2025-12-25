@@ -1,0 +1,79 @@
+/* ==============================
+   ROOM TYPE PAGE RESPONSIVE
+   ============================== */
+
+@media (max-width: 767px) {
+  .room-type-container {
+    padding: 0 var(--space-4);
+  }
+
+  .breadcrumb {
+    font-size: 0.6rem;
+    padding: var(--space-2) 0;
+  }
+
+  .breadcrumb-section {
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .room-type-items-section {
+    padding: var(--space-4) var(--space-4) var(--space-6);
+  }
+
+  .explore-types-section {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .room-hero {
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .room-hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .room-hero-content p {
+    font-size: 0.85rem;
+  }
+
+  .room-type-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .room-type-header h2 {
+    font-size: 1.3rem;
+    margin-top: var(--space-4);
+  }
+
+  .room-type-header .results-count {
+    font-size: 0.75rem;
+  }
+
+  .room-type-items-section .catalogue-items-grid {
+    gap: var(--space-4);
+  }
+
+  .explore-types-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .types-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .type-card {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .type-card h3 {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .types-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

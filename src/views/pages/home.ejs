@@ -32,7 +32,7 @@
     </div>
     <div class="marquee-wrapper">
       <div class="marquee-container">
-        <div class="marquee-track">
+        <div class="marquee-track" id="signature-marquee">
           <% featuredItems.forEach(item => { %>
           <div class="marquee-item">
             <a href="/item/<%= item.slug %>" class="product-card">
@@ -53,7 +53,7 @@
               </div>
               <div class="product-card-meta">
                 <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-                <p><%= item.type %> · <%= item.room %> · <%= item.code %></p>
+                <p><%= item.room %> · <%= item.type %> · <%= item.code %></p>
               </div>
             </a>
           </div>
@@ -97,7 +97,7 @@
               </div>
               <div class="product-card-meta">
                 <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-                <p><%= item.type %> · <%= item.room %> · <%= item.code %></p>
+                <p><%= item.room %> · <%= item.type %> · <%= item.code %></p>
               </div>
             </a>
           </div>
@@ -142,7 +142,7 @@
               </div>
               <div class="set-card-meta">
                 <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
-                 <p><%= set.room %> · <%= set.code %></p>
+                <p><%= set.room %> · <%= set.code %></p>
               </div>
             </a>
           </div>

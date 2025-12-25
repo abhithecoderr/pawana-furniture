@@ -642,6 +642,53 @@
   background: var(--color-bg-card);
 }
 
+/* Search Results Header with Filter */
+.search-results-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(200, 185, 165, 0.3);
+  background: transparent;
+}
+
+.search-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-filter label {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-filter select {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.search-filter select:hover,
+.search-filter select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.search-results-content {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
 .search-category:last-child {
   border-bottom: none;
 }
@@ -670,7 +717,7 @@
 
 .search-result-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   padding: 0.75rem;
   text-decoration: none;
@@ -689,8 +736,8 @@
 }
 
 .search-result-item img {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
@@ -721,24 +768,49 @@
 }
 
 .search-result-meta {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
+  margin-top: 0.25rem;
 }
 
-.search-result-meta span {
-  position: relative;
-  padding-right: 0.75rem;
+/* Style Badges for Search Results */
+.search-style-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  border: none;
+  border-radius: 2px;
 }
 
-.search-result-meta span:not(:last-child)::after {
-  content: '•';
-  position: absolute;
-  right: 0;
-  top: 0;
-  color: var(--color-text-muted);
+/* Royal - Dark Maroon */
+.search-style-badge.royal {
+  background: var(--color-maroon);
+  color: #ffffff;
+}
+
+/* Traditional - Warm Brown */
+.search-style-badge.traditional {
+  background: #8B7355;
+  color: #ffffff;
+}
+
+/* Modern - Cool Gray */
+.search-style-badge.modern {
+  background: #5a5a5a;
+  color: #ffffff;
+}
+
+.search-result-text {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 .search-no-results {
@@ -749,10 +821,15 @@
 }
 
 .search-no-results::before {
-  content: '🔍';
+  content: '';
   display: block;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238b7355' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M15 9l-6 6M9 9l6 6' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.7;
 }
 
 .search-loading {
@@ -763,10 +840,14 @@
 }
 
 .search-loading::before {
-  content: '🔍';
+  content: '';
   display: block;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b4423' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
   animation: pulse 1.5s ease-in-out infinite;
 }
 

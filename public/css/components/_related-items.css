@@ -1,0 +1,52 @@
+/* ==============================
+   Related Items Section Component
+   Shared by item.css and set.css
+   ============================== */
+
+.related-items-section {
+  padding: var(--space-10) var(--space-6);
+}
+
+.related-items-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.related-items-container h2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: var(--space-8);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+/* Product Grid - 3 per row */
+.related-items-section .product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.related-items-section .product-grid .product-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.related-items-section .product-grid .product-card img {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+/* Square image variant */
+.related-item-image.square,
+.related-set-image.square {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}

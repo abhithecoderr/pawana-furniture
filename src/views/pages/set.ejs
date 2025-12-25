@@ -8,8 +8,8 @@
       <div class="breadcrumb-container">
         <div class="page-breadcrumb">
           <a href="javascript:history.back()" class="breadcrumb-back" aria-label="Go back">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12h18M3 12l6-6M3 12l6 6"/>
             </svg>
           </a>
           <a href="/">Home</a> /
@@ -74,10 +74,10 @@
 <!-- Related Sets Section -->
 <!-- Similar Sets Carousel -->
 <% if (similarSets && similarSets.length > 0) { %>
-<section class="carousel-section set-carousel-section">
-  <div class="set-carousel-container">
-    <div class="carousel-header set-carousel-header">
-      <h2>Similar <%= set.style %> Sets for <%= set.room %></h2>
+<section class="home-carousel">
+  <div class="section-container">
+    <div class="carousel-header">
+      <h2 class="section-title">Similar <%= set.style %> Sets for <%= set.room %></h2>
       <div class="carousel-nav">
         <button class="carousel-arrow carousel-prev" data-carousel="similar-sets" aria-label="Previous set">‹</button>
         <button class="carousel-arrow carousel-next" data-carousel="similar-sets" aria-label="Next set">›</button>
@@ -87,13 +87,19 @@
       <div class="carousel-container">
         <div class="carousel-track" id="similar-sets-carousel-track">
           <% similarSets.forEach(similarSet => { %>
-            <div class="carousel-item active-category" data-category="similar-sets">
-              <a href="/set/<%= similarSet.slug %>">
-                <img src="<%= similarSet.images && similarSets[0].images.length > 0 ? similarSet.images[0].url : '/images/placeholder.jpg' %>" alt="<%= similarSet.name %>">
-                <h4><%= similarSet.name %></h4>
-                <p><%= similarSet.style %> · <%= similarSet.room %></p>
-              </a>
-            </div>
+          <div class="carousel-item active-category" data-category="similar-sets">
+            <a href="/set/<%= similarSet.slug %>" class="set-card">
+              <div class="set-card-badge">Set</div>
+              <img src="<%= similarSet.images && similarSet.images.length > 0 ? similarSet.images[0].url : '/images/placeholder.jpg' %>" alt="<%= similarSet.name %>">
+              <div class="card-name-row">
+                <h3><%= similarSet.name %></h3>
+              </div>
+              <div class="set-card-meta">
+                <span class="set-style-badge <%= similarSet.style.toLowerCase() %>"><%= similarSet.style %></span>
+                <p><%= similarSet.room %> · <%= similarSet.code %></p>
+              </div>
+            </a>
+          </div>
           <% }); %>
         </div>
       </div>
@@ -109,16 +115,18 @@
     <h2>You May Also Like</h2>
     <div class="product-grid">
       <% youMayAlsoLikeSets.forEach(otherSet => { %>
-        <a href="/set/<%= otherSet.slug %>" class="product-card">
+        <a href="/set/<%= otherSet.slug %>" class="set-card">
+          <div class="set-card-badge">Set</div>
           <img
-          class="related-set-image"
             src="<%= otherSet.images && otherSet.images.length > 0 ? otherSet.images[0].url : '/images/placeholder.jpg' %>"
             alt="<%= otherSet.name %>"
           />
-          <h3><%= otherSet.name %></h3>
-          <div class="product-card-meta">
-            <span class="item-style-badge <%= otherSet.style.toLowerCase() %>"><%= otherSet.style %></span>
-            <p><%= otherSet.room %></p>
+          <div class="card-name-row">
+            <h3><%= otherSet.name %></h3>
+          </div>
+          <div class="set-card-meta">
+            <span class="set-style-badge <%= otherSet.style.toLowerCase() %>"><%= otherSet.style %></span>
+            <p><%= otherSet.room %> · <%= otherSet.code %></p>
           </div>
         </a>
       <% }); %>
@@ -219,18 +227,5 @@ document.querySelectorAll('.style-toggle-btn').forEach(btn => {
   });
 });
 
-// Hide carousel navigation arrows if there are fewer than 4 items
-document.addEventListener('DOMContentLoaded', function() {
-  const carouselTrack = document.getElementById('similar-sets-carousel-track');
-  if (carouselTrack) {
-    const items = carouselTrack.querySelectorAll('.carousel-item:not([data-cloned])');
-    const carouselHeader = document.querySelector('.set-carousel-header');
-    
-    if (items.length < 4) {
-      const nav = carouselHeader.querySelector('.carousel-nav');
-      if (nav) {
-        nav.style.display = 'none';
-      }
-    }
-  }
-});
+</script>
+

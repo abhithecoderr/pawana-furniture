@@ -29,7 +29,7 @@ async function performSearch(query) {
   const resultsContainer = document.querySelector('.search-results');
   if (!resultsContainer) return;
 
-  if (!query || query.trim().length < 2) {
+  if (!query || query.trim().length < 1) {
     showSearchSuggestions();
     return;
   }
@@ -59,20 +59,36 @@ function displaySearchResults(data) {
     return;
   }
 
-  let html = '';
+  // Store data for filtering
+  window.searchResultsData = { items, sets };
 
-  // Show sets first (all sets, not just 2)
+  // Build results with filter dropdown
+  let html = `
+    <div class="search-results-header">
+      <div class="search-filter">
+        <label for="search-filter-select">Show:</label>
+        <select id="search-filter-select">
+          <option value="all">All</option>
+          <option value="sets">Sets</option>
+          <option value="items">Items</option>
+        </select>
+      </div>
+    </div>
+    <div class="search-results-content">
+  `;
+
+  // Show sets first
   if (sets.length > 0) {
-    html += '<div class="search-category"><h4>Sets</h4>';
+    html += '<div class="search-category" data-type="sets"><h4>Sets</h4>';
     html += sets.map(set => `
       <a href="/set/${set.slug}" class="search-result-item">
         <img src="${set.images?.[0]?.url || '/images/placeholder.jpg'}" alt="${set.name}">
         <div class="search-result-info">
           <span class="search-result-name">${set.name}</span>
-          <span class="search-result-meta">
-            <span>${set.style}</span>
-            <span>${set.room}</span>
-          </span>
+          <div class="search-result-meta">
+            <span class="search-style-badge ${set.style.toLowerCase()}">${set.style}</span>
+            <span class="search-result-text">${set.room}</span>
+          </div>
         </div>
       </a>
     `).join('');
@@ -80,24 +96,47 @@ function displaySearchResults(data) {
   }
 
   if (items.length > 0) {
-    html += '<div class="search-category"><h4>Items</h4>';
+    html += '<div class="search-category" data-type="items"><h4>Items</h4>';
     // Show more items (increase from 6 to 15)
     html += items.slice(0, 15).map(item => `
       <a href="/item/${item.slug}" class="search-result-item">
         <img src="${item.images?.[0]?.url || '/images/placeholder.jpg'}" alt="${item.name}">
         <div class="search-result-info">
           <span class="search-result-name">${item.name}</span>
-          <span class="search-result-meta">
-            <span>${item.type}</span>
-            <span>${item.style}</span>
-          </span>
+          <div class="search-result-meta">
+            <span class="search-style-badge ${item.style.toLowerCase()}">${item.style}</span>
+            <span class="search-result-text">${item.room} · ${item.type}</span>
+          </div>
         </div>
       </a>
     `).join('');
     html += '</div>';
   }
 
+  html += '</div>';
+
   resultsContainer.innerHTML = html;
+
+  // Add filter event listener
+  const filterSelect = document.getElementById('search-filter-select');
+  if (filterSelect) {
+    filterSelect.addEventListener('change', function() {
+      const value = this.value;
+      const setsCategory = document.querySelector('.search-category[data-type="sets"]');
+      const itemsCategory = document.querySelector('.search-category[data-type="items"]');
+
+      if (value === 'all') {
+        if (setsCategory) setsCategory.style.display = 'block';
+        if (itemsCategory) itemsCategory.style.display = 'block';
+      } else if (value === 'sets') {
+        if (setsCategory) setsCategory.style.display = 'block';
+        if (itemsCategory) itemsCategory.style.display = 'none';
+      } else if (value === 'items') {
+        if (setsCategory) setsCategory.style.display = 'none';
+        if (itemsCategory) itemsCategory.style.display = 'block';
+      }
+    });
+  }
 }
 
 // Show default search suggestions
@@ -126,7 +165,7 @@ function showSearchSuggestions() {
     tag.addEventListener('click', (e) => {
       // Prevent the click from bubbling up to the document level
       e.stopPropagation();
-      
+
       const searchInput = document.querySelector('.search-input');
       if (searchInput) {
         searchInput.value = tag.dataset.query;

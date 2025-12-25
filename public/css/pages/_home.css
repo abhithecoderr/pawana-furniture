@@ -189,6 +189,7 @@
 
 .home-carousel .carousel-header .section-title {
   margin-bottom: 0;
+  font-size: var(--text-2xl);
 }
 
 /* Carousel wrapper */
@@ -358,6 +359,17 @@
 
 .marquee-track:hover {
   animation-play-state: paused;
+  cursor: grab;
+}
+
+.marquee-track:active {
+  cursor: grabbing;
+}
+
+/* Prevent text selection during drag */
+.marquee-track {
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 @keyframes marquee {

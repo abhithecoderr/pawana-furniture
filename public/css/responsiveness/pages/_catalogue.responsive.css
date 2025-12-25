@@ -1,0 +1,74 @@
+/* ==============================
+   CATALOGUE PAGE RESPONSIVE
+   ============================== */
+
+@media (max-width: 1200px) {
+  .catalogue-sets-grid,
+  .catalogue-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .catalogue-hero {
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .catalogue-hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .catalogue-hero-content p {
+    font-size: 0.85rem;
+  }
+
+  .catalogue-section {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .catalogue-container {
+    padding: 0;
+  }
+
+  .catalogue-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .catalogue-header-left h2 {
+    font-size: 1.3rem;
+  }
+
+  .results-count {
+    font-size: 0.8rem;
+  }
+
+  .catalogue-filters-dropdowns {
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .filter-dropdown {
+    width: 100%;
+  }
+
+  .filter-dropdown select {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.85rem;
+  }
+
+  .clear-filters-btn-top {
+    width: auto;
+    align-self: flex-start;
+  }
+
+  .catalogue-sets-grid,
+  .catalogue-items-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}
