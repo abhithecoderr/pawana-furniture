@@ -258,7 +258,7 @@
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: #fff;
+    color: var(--color-text-inverse);
   }
 
   .mobile-menu-btn:hover {
@@ -321,7 +321,7 @@
     font-family: var(--font-heading);
     font-size: 1.1rem;
     font-weight: 500;
-    color: #fff;
+    color: var(--color-text-inverse);
     letter-spacing: 0.5px;
   }
 

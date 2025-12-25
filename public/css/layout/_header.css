@@ -103,7 +103,7 @@
 }
 
 .page-home .site-header.scrolled .logo-text-light {
-  color: #6b2c2c;
+  color: var(--color-maroon);
 }
 
 .page-home .site-header.scrolled .logo:hover {
@@ -790,19 +790,19 @@
 /* Royal - Dark Maroon */
 .search-style-badge.royal {
   background: var(--color-maroon);
-  color: #ffffff;
+  color: var(--color-text-inverse);
 }
 
 /* Traditional - Warm Brown */
 .search-style-badge.traditional {
-  background: #8B7355;
-  color: #ffffff;
+  background: var(--color-text-muted);
+  color: var(--color-text-inverse);
 }
 
 /* Modern - Cool Gray */
 .search-style-badge.modern {
-  background: #5a5a5a;
-  color: #ffffff;
+  background: var(--color-neutral);
+  color: var(--color-text-inverse);
 }
 
 .search-result-text {

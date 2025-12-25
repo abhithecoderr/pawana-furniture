@@ -91,10 +91,20 @@
     margin-bottom: var(--space-3);
   }
 
-  /* Sections - less padding */
+  /* Sections - less padding on mobile, but keep groups consistent */
+  /* Group 1: Carousels + Browse Rooms */
   .home-carousel,
+  .browse-rooms {
+    padding: var(--space-6) 0;
+  }
+
+  /* Group 2: Marquees (Recent Projects, Brands, Testimonials) */
   .home-marquee,
-  .browse-rooms,
+  .brands-section,
+  .testimonials-marquee {
+    padding: var(--space-10) 0;
+  }
+
   .why-us,
   .custom-order {
     padding: var(--space-8) 0;
@@ -211,11 +221,21 @@
     font-size: clamp(2rem, 5vw, 2.5rem);
   }
 
+  /* Group 1: Carousels + Browse Rooms */
   .home-carousel,
+  .browse-rooms {
+    padding: var(--space-10) 0;
+  }
+
+  /* Group 2: Marquees */
   .home-marquee,
-  .browse-rooms,
-  .why-us {
+  .brands-section,
+  .testimonials-marquee {
     padding: var(--space-12) 0;
+  }
+
+  .why-us {
+    padding: var(--space-10) 0;
   }
 
   .section-title {

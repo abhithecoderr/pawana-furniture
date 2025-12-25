@@ -120,17 +120,17 @@
 /* Royal - Dark Maroon */
 .item-style-badge.royal {
   background: var(--color-maroon);
-  color: #ffffff;
+  color: var(--color-text-inverse);
 }
 
 /* Traditional - Warm Brown */
 .item-style-badge.traditional {
-  background: #8B7355;
-  color: #ffffff;
+  background: var(--color-text-muted);
+  color: var(--color-text-inverse);
 }
 
 /* Modern - Cool Gray */
 .item-style-badge.modern {
-  background: #5a5a5a;
-  color: #ffffff;
+  background: var(--color-neutral);
+  color: var(--color-text-inverse);
 }

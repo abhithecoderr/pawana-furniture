@@ -106,7 +106,7 @@
 
 .wishlist-remove-btn:hover {
   background: white;
-  color: #e53935;
+  color: var(--color-danger);
 }
 
 /* Empty state */
@@ -168,16 +168,16 @@
 }
 
 .wishlist-btn:hover {
-  color: #8B4513;
+  color: var(--color-primary);
   transform: scale(1.15);
 }
 
 .wishlist-btn.active {
-  color: #8B4513;
+  color: var(--color-primary);
 }
 
 .wishlist-btn.active svg {
-  fill: #8B4513;
+  fill: var(--color-primary);
 }
 
 /* Card wrapper for catalogue/room pages */

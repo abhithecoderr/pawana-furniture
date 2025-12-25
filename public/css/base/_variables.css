@@ -37,6 +37,15 @@
   --color-border-light: #c9b89a; /* Light tan border */
   --color-overlay: rgba(61, 40, 23, 0.3); /* Warm brown overlay */
 
+  /* Utility Colors */
+  --color-neutral: #5a5a5a; /* Neutral gray for secondary elements */
+  --color-danger: #c94a4a; /* Warm red for errors/remove actions */
+
+  /* Gradient Utilities */
+  --gradient-badge-classic: linear-gradient(135deg, #5a3e2b, #7a5a42);
+  --gradient-badge-modern: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  --gradient-avatar: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+
   /* --- Shadows (Subtle & Clean) --- */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);

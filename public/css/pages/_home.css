@@ -171,7 +171,7 @@
    ============================== */
 
 .home-carousel {
-  padding: var(--space-8) 0;
+  padding: var(--space-16) 0;
   background-color: var(--color-bg-section-alt);
 }
 
@@ -190,6 +190,11 @@
 .home-carousel .carousel-header .section-title {
   margin-bottom: 0;
   font-size: var(--text-2xl);
+}
+
+/* Home page specific: Match Featured Items/Sets title to Signature Pieces */
+body.page-home .home-carousel .carousel-header .section-title {
+  font-size: var(--text-3xl);
 }
 
 /* Carousel wrapper */
@@ -304,11 +309,12 @@
 }
 
 .brands-section {
-  background-color: #6b4d35;
+  background-color: var(--color-bg-section-alt);
+  padding: var(--space-20) 0;
 }
 
 .brands-section .section-title {
-  color: var(--color-text-inverse);
+  color: var(--color-text-primary);
 }
 
 .marquee-wrapper {
@@ -425,16 +431,28 @@
   justify-content: center;
   align-items: center;
   background: transparent;
-  height: 160px;
+  height: 180px;
   box-shadow: none;
+  padding: 2rem 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.brands-marquee .brand-card:hover {
+  transform: translateY(-4px);
 }
 
 .brands-marquee .brand-card img {
   padding: 0;
   object-fit: contain;
-  width: 150px; /* Fixed width */
-  height: 100px; /* Fixed height */
+  width: 180px;
+  height: 120px;
   margin: 0 auto;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.brands-marquee .brand-card:hover img {
+  opacity: 1;
 }
 
 /* Projects Marquee - Scoped Styles */
@@ -453,7 +471,7 @@
   margin: 0 0 0.25rem 0;
   font-size: 1.3rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--color-text-inverse);
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
@@ -544,7 +562,109 @@
 /* Why Choose Us Removed */
 
 /* ==============================
-   6. CUSTOM ORDER
+   6. CUSTOMER TESTIMONIALS
+   ============================== */
+
+.testimonials-marquee {
+  background-color: var(--color-primary);
+  padding: var(--space-16) 0;
+}
+
+.testimonials-marquee .section-title {
+  color: var(--color-text-inverse);
+}
+
+.testimonials-marquee .marquee-item {
+  width: 400px;
+}
+
+.testimonial-card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid var(--color-border-light);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 280px;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.testimonial-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gradient-avatar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.testimonial-avatar svg {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.testimonial-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex-grow: 1;
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.testimonial-text::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--color-accent);
+  font-family: Georgia, serif;
+  line-height: 0;
+  display: block;
+  margin-bottom: -0.5rem;
+  opacity: 0.5;
+}
+
+.testimonial-author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.author-name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.author-location {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ==============================
+   7. CUSTOM ORDER
    ============================== */
 
 .custom-order {

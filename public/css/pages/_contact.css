@@ -282,7 +282,7 @@
 
 .faq-question:hover {
   background: rgba(0, 0, 0, 0.1); /* Subtle darkening on hover */
-  color: #fff;
+  color: var(--color-text-inverse);
 }
 
 .faq-toggle {

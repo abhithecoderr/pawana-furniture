@@ -8,8 +8,6 @@
 }
 
 .home-marquee {
-  padding: var(--space-10) 0;
-  background-color: var(--color-bg-section-alt);
   overflow: hidden; /* Hide the overflow */
 }
 

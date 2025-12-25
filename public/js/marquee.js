@@ -301,3 +301,6 @@ if (window.innerWidth > 767) {
 
 // Brands marquee - simple pause on hover, reversed direction
 createSimpleMarquee('#brands-marquee', { reverse: true });
+
+// Testimonials marquee - simple pause on hover
+createSimpleMarquee('#testimonials-marquee');
