@@ -134,3 +134,8 @@
   background: var(--color-neutral);
   color: var(--color-text-inverse);
 }
+
+/* Filtered state for pagination */
+.item-card[data-filtered-out] {
+  display: none !important;
+}

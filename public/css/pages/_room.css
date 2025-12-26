@@ -45,7 +45,7 @@ section.room-hero {
 
 /* Room Sets Section */
 .room-sets-section {
-  padding: 0 var(--space-6) var(--space-6);
+  padding: 0 var(--space-6) var(--space-20);
   background-color: var(--color-bg-body);
 }
 
@@ -75,5 +75,5 @@ section.room-hero {
 .sets-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-8);
+  gap: var(--space-12);
 }

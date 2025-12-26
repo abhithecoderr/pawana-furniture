@@ -97,13 +97,13 @@
         </div>
       </div>
 
-      <!-- Sets -->
+      <!-- Sets Grid (First row) -->
       <div class="catalogue-sets-grid">
         <% sets.forEach(set => { %>
-          <div class="set-card-wrapper"
+          <div class="set-card-wrapper catalogue-item"
              data-style="<%= set.style %>"
              data-room="<%= set.room %>"
-             data-type="set">
+             data-product-type="set">
             <a href="/set/<%= set.slug %>" class="set-card">
               <div class="set-card-badge">Set</div>
               <img
@@ -133,13 +133,14 @@
         <% }); %>
       </div>
 
-      <!-- Items -->
+      <!-- Items Grid -->
       <div class="catalogue-items-grid">
         <% items.forEach(item => { %>
-          <div class="product-card-wrapper"
+          <div class="product-card-wrapper catalogue-item"
              data-style="<%= item.style %>"
              data-room="<%= item.room %>"
-             data-type="<%= item.type %>">
+             data-type="<%= item.type %>"
+             data-product-type="item">
             <a href="/item/<%= item.slug %>" class="product-card">
               <img
                 src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
@@ -168,6 +169,9 @@
         <% }); %>
       </div>
 
+      <!-- Pagination (at bottom) -->
+      <div class="pagination-container" id="catalogue-pagination"></div>
+
       <!-- No Results -->
       <div class="no-results" style="display: none;">
         <h3>No products found</h3>
@@ -180,12 +184,13 @@
 </section>
 
 <script>
+let cataloguePagination = null;
+
 function updateFilter(filterName, value) {
   // If type filter is changed to a specific type (not "All Types"), automatically select "Items"
   if (filterName === 'type' && value !== '') {
     document.getElementById('view-filter').value = 'items';
   }
-
   applyFilters();
 }
 
@@ -195,45 +200,59 @@ function applyFilters() {
   const typeFilter = document.getElementById('type-filter').value;
   const styleFilter = document.getElementById('style-filter').value;
 
-  const allSets = document.querySelectorAll('.set-card-wrapper');
-  const allItems = document.querySelectorAll('.product-card-wrapper');
+  const allCards = document.querySelectorAll('.catalogue-item');
   const setsGrid = document.querySelector('.catalogue-sets-grid');
   const itemsGrid = document.querySelector('.catalogue-items-grid');
   const noResults = document.querySelector('.no-results');
 
   let visibleCount = 0;
+  let visibleSets = 0;
+  let visibleItems = 0;
 
-  // Filter and show/hide sets
-  if (typeFilter === '') {
-    // Only show sets if no type filter is selected
-    allSets.forEach(set => {
-      let show = true;
-      if (styleFilter && set.dataset.style !== styleFilter) show = false;
-      if (roomFilter && set.dataset.room !== roomFilter) show = false;
-      if (viewFilter === 'items') show = false;
+  // Filter all catalogue items using ONLY data-filtered-out attribute
+  // Pagination will handle the actual display visibility
+  allCards.forEach(card => {
+    const productType = card.dataset.productType; // 'set' or 'item'
+    const style = card.dataset.style;
+    const room = card.dataset.room;
+    const type = card.dataset.type; // furniture type (for items only)
 
-      set.style.display = show ? 'block' : 'none';
-      if (show) visibleCount++;
-    });
-    setsGrid.style.display = (viewFilter === 'items') ? 'none' : 'grid';
-  } else {
-    // Hide all sets when type filter is active
-    allSets.forEach(set => set.style.display = 'none');
-    setsGrid.style.display = 'none';
-  }
-
-  // Filter and show/hide items
-  allItems.forEach(item => {
     let show = true;
-    if (styleFilter && item.dataset.style !== styleFilter) show = false;
-    if (roomFilter && item.dataset.room !== roomFilter) show = false;
-    if (typeFilter && item.dataset.type.toLowerCase() !== typeFilter.toLowerCase()) show = false;
-    if (viewFilter === 'sets') show = false;
 
-    item.style.display = show ? 'block' : 'none';
-    if (show) visibleCount++;
+    // View filter
+    if (viewFilter === 'sets' && productType !== 'set') show = false;
+    if (viewFilter === 'items' && productType !== 'item') show = false;
+
+    // Style filter
+    if (styleFilter && style !== styleFilter) show = false;
+
+    // Room filter
+    if (roomFilter && room !== roomFilter) show = false;
+
+    // Type filter (only applies to items)
+    if (typeFilter) {
+      if (productType === 'set') {
+        show = false; // Hide sets when type filter is active
+      } else if (type && type.toLowerCase() !== typeFilter.toLowerCase()) {
+        show = false;
+      }
+    }
+
+    // Only use data attribute - let pagination handle visibility
+    if (show) {
+      card.removeAttribute('data-filtered-out');
+      visibleCount++;
+      if (productType === 'set') visibleSets++;
+      else visibleItems++;
+    } else {
+      card.setAttribute('data-filtered-out', 'true');
+      card.style.display = 'none'; // Hide filtered items immediately
+    }
   });
-  itemsGrid.style.display = (viewFilter === 'sets') ? 'none' : 'grid';
+
+  // Hide grids that have no visible items (prevents empty space)
+  setsGrid.style.display = visibleSets > 0 ? 'grid' : 'none';
+  itemsGrid.style.display = visibleItems > 0 ? 'grid' : 'none';
 
   // Update header title
   const headerTitle = document.querySelector('.catalogue-header h2');
@@ -250,6 +269,11 @@ function applyFilters() {
 
   // Show/hide no results message
   noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+
+  // Refresh pagination after filter - this will show correct items for page 1
+  if (cataloguePagination) {
+    cataloguePagination.refresh();
+  }
 }
 
 function clearFilters() {
@@ -260,8 +284,18 @@ function clearFilters() {
   applyFilters();
 }
 
-// Apply filters on page load to respect query parameters
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize pagination first
+  cataloguePagination = initPagination({
+    gridSelector: '.catalogue-products',
+    itemSelector: '.catalogue-item',
+    paginationSelector: '#catalogue-pagination',
+    desktopPerPage: 15,
+    mobilePerPage: 6
+  });
+
+  // Then apply filters (which will call refresh)
   applyFilters();
 });
 </script>

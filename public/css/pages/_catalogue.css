@@ -6,7 +6,7 @@
 .catalogue-hero {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: var(--color-text-inverse);
-  padding: 1.5rem 2rem 1.25rem;
+  padding: 1rem 2rem 0.75rem;
   text-align: center;
 }
 
@@ -31,19 +31,19 @@
 
 /* Catalogue Section */
 .catalogue-section {
-  padding: 0 var(--space-6) var(--space-6);
+  padding: 0 var(--space-6) var(--space-20);
   background-color: var(--color-bg-body);
 }
 
 .catalogue-container {
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto;
-  padding: 0 var(--space-8);
+  padding: 0 var(--space-6);
 }
 
 /* Products Area - Full Width */
 .catalogue-products {
-  min-height: 500px;
+  /* No min-height to keep content compact */
 }
 
 /* Header with Dropdown Filters */
@@ -52,7 +52,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-6);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-1);
   flex-wrap: wrap;
 }
 
@@ -154,16 +154,49 @@
 .catalogue-sets-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--grid-gap);
-  margin-bottom: var(--space-12);
+  column-gap: var(--space-6);
+  row-gap: var(--space-12);
 }
-
 
 /* Items Grid - 3 Columns */
 .catalogue-items-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--space-6);
+  row-gap: var(--space-12);
+}
+
+/* Mixed Grid - Combined Sets + Items */
+.catalogue-mixed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-12);
+}
+
+/* Products container - gap between sets and items grids */
+.catalogue-products {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-6);
+}
+
+.catalogue-card-wrapper,
+.catalogue-item {
+  display: block;
+}
+
+/* Hide filtered items */
+.catalogue-card-wrapper[data-filtered-out],
+.catalogue-item[data-filtered-out] {
+  display: none !important;
+}
+
+/* Hide empty grids (all children filtered out) - catalogue page only */
+.catalogue-products .catalogue-sets-grid:empty,
+.catalogue-products .catalogue-items-grid:empty,
+.catalogue-products .catalogue-sets-grid:not(:has(.catalogue-item:not([data-filtered-out]))),
+.catalogue-products .catalogue-items-grid:not(:has(.catalogue-item:not([data-filtered-out]))) {
+  display: none;
 }
 
 

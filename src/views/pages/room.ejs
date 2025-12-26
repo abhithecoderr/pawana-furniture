@@ -62,8 +62,23 @@
         </div>
       <% }); %>
     </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container" id="room-pagination"></div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    initPagination({
+      gridSelector: '.sets-grid',
+      itemSelector: '.set-card-wrapper',
+      paginationSelector: '#room-pagination',
+      desktopPerPage: 15,
+      mobilePerPage: 6
+    });
+  });
+</script>
 <% } %>
 
 <img src="https://res.cloudinary.com/dwa2d4onb/image/upload/v1763917023/pf_logo_1_xw8ass.png" height="200px">

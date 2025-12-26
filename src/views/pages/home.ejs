@@ -24,20 +24,23 @@
 </section>
 
 <!-- Signature Pieces Carousel -->
-<!-- Signature Pieces Marquee -->
-<section class="home-marquee">
+<section class="home-carousel signature-carousel">
   <div class="section-container">
     <div class="carousel-header">
       <h2 class="section-title">Our Signature Pieces</h2>
+      <div class="carousel-nav">
+        <button class="carousel-arrow carousel-prev" data-carousel="signature" aria-label="Previous">‹</button>
+        <button class="carousel-arrow carousel-next" data-carousel="signature" aria-label="Next">›</button>
+      </div>
     </div>
-    <div class="marquee-wrapper">
-      <div class="marquee-container">
-        <div class="marquee-track" id="signature-marquee">
+    <div class="carousel-wrapper">
+      <div class="carousel-container">
+        <div class="carousel-track" id="signature-carousel-track">
           <% featuredItems.forEach(item => { %>
-          <div class="marquee-item">
+          <div class="carousel-item active-category" data-category="signature">
             <a href="/item/<%= item.slug %>" class="product-card">
               <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>">
-              <div class="card-name-row" style="margin-top: 1rem;">
+              <div class="card-name-row">
                 <h3><%= item.name %></h3>
                 <button class="wishlist-btn"
                         data-id="<%= item._id %>"
@@ -173,7 +176,8 @@
   </div>
 </section>
 
-<!-- Our Recent Projects Carousel -->
+<!-- Our Recent Projects Carousel (Commented Out) -->
+<%/*
 <section class="home-marquee projects-marquee">
   <div class="section-container">
     <div class="carousel-header">
@@ -274,6 +278,7 @@
     </div>
   </div>
 </section>
+*/%>
 
 <!-- What Our Customers Say -->
 <section class="home-marquee testimonials-marquee">

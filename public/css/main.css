@@ -21,6 +21,7 @@
 @import 'components/_animations.css';
 @import 'components/_breadcrumb.css';
 @import 'components/_related-items.css';
+@import 'components/_pagination.css';
 
 /* 4. Pages */
 @import 'pages/_home.css';

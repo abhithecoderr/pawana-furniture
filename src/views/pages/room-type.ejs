@@ -76,6 +76,9 @@
       <% }); %>
     </div>
 
+    <!-- Pagination -->
+    <div class="pagination-container" id="roomtype-pagination"></div>
+
     <!-- No Results Message (Hidden by default) -->
     <div class="no-results-filter" style="display: none; text-align: center; padding: 3rem 0;">
       <h3>No items found</h3>
@@ -86,6 +89,8 @@
 </section>
 
 <script>
+  let roomTypePagination = null;
+
   function filterItems(selectedStyle) {
     const items = document.querySelectorAll('.item-card');
     const resultsCount = document.querySelector('.results-count');
@@ -97,15 +102,17 @@
     items.forEach(item => {
       const itemStyle = item.getAttribute('data-style');
       if (selectedStyle === '' || itemStyle === selectedStyle) {
-        item.style.display = 'block';
+        item.removeAttribute('data-filtered-out');
         visibleCount++;
       } else {
-        item.style.display = 'none';
+        item.setAttribute('data-filtered-out', 'true');
       }
     });
 
     // Update count text
-    resultsCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'item' : 'items'} found`;
+    if (resultsCount) {
+      resultsCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'item' : 'items'} found`;
+    }
 
     // Show/hide no results message
     if (visibleCount === 0) {
@@ -115,6 +122,11 @@
       itemsGrid.style.display = 'grid';
       noResultsMsg.style.display = 'none';
     }
+
+    // Refresh pagination
+    if (roomTypePagination) {
+      roomTypePagination.refresh();
+    }
   }
 
   function resetFilter() {
@@ -122,6 +134,17 @@
     dropdown.value = '';
     filterItems('');
   }
+
+  // Initialize pagination on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    roomTypePagination = initPagination({
+      gridSelector: '.catalogue-items-grid',
+      itemSelector: '.item-card',
+      paginationSelector: '#roomtype-pagination',
+      desktopPerPage: 15,
+      mobilePerPage: 6
+    });
+  });
 </script>
 <% } else { %>
 <!-- No Items Found -->

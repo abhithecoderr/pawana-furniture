@@ -3,7 +3,7 @@
    ============================== */
 
 .set-detail-section {
-  padding: 0 var(--space-6) var(--space-16);
+  padding: 0 var(--space-6) var(--space-20);
   background-color: var(--color-bg-card);
 }
 
@@ -221,7 +221,7 @@
 .set-items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--space-6);
+  gap: var(--space-12);
 }
 
 .set-item-card {

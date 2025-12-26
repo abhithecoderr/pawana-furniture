@@ -157,6 +157,14 @@ function initializeCarousel(trackId, prevSelector, nextSelector, thumbId) {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(() => {
     // Home page carousels
+    // Signature Pieces carousel
+    initializeCarousel(
+      'signature-carousel-track',
+      '[data-carousel="signature"].carousel-prev',
+      '[data-carousel="signature"].carousel-next',
+      'signature-thumb'
+    );
+
     initializeCarousel(
       'items-carousel-track',
       '[data-carousel="items"].carousel-prev',

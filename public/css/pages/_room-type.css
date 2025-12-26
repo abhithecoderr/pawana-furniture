@@ -43,13 +43,13 @@
 
 /* Items Section */
 .room-type-items-section {
-  padding: 0 var(--space-6) var(--space-6);
+  padding: 0 var(--space-6) var(--space-20);
   background-color: var(--color-bg-body);
 }
 
 /* Increase gap between items in the grid */
 .room-type-items-section .catalogue-items-grid {
-  gap: var(--space-10);
+  gap: var(--space-12);
 }
 
 .room-type-header {

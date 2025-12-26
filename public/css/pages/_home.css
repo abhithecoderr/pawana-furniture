@@ -295,6 +295,15 @@ body.page-home .home-carousel .carousel-header .section-title {
   border-color: var(--color-primary);
 }
 
+/* Signature Pieces Carousel - Large cards with 1:1 images */
+.signature-carousel .carousel-item {
+  flex: 0 0 calc((100% - 4rem) / 3);
+}
+
+.signature-carousel .carousel-item .product-card img {
+  aspect-ratio: 1 / 1;
+}
+
 /* ==============================
    4. HOME MARQUEE
    ============================== */
