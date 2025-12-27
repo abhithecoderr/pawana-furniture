@@ -12,6 +12,10 @@
 
 <!-- Sets in This Room -->
 <% if (sets && sets.length > 0) { %>
+<%
+  // Extract unique styles for the filter dropdown
+  const styles = [...new Set(sets.map(set => set.style))].sort();
+%>
 <section class="room-sets-section">
   <div class="room-sets-container">
     <!-- Breadcrumb -->
@@ -29,11 +33,27 @@
       </div>
     </section>
 
-    <h2>Complete <%= room.name %> Sets</h2>
+    <div class="room-type-header">
+      <div class="room-type-header-left">
+        <h2>Complete <%= room.name %> Sets</h2>
+      </div>
+
+      <div class="room-type-filters">
+        <div class="filter-dropdown">
+          <select id="style-filter" onchange="filterSets(this.value)">
+            <option value="">All Styles</option>
+            <% styles.forEach(style => { %>
+              <option value="<%= style %>"><%= style %></option>
+            <% }); %>
+          </select>
+          <label for="style-filter">Style:</label>
+        </div>
+      </div>
+    </div>
 
     <div class="sets-grid">
       <% sets.forEach(set => { %>
-        <div class="set-card-wrapper">
+        <div class="set-card-wrapper" data-style="<%= set.style %>">
           <a href="/set/<%= set.slug %>" class="set-card">
             <div class="set-card-badge">Set</div>
             <img
@@ -69,8 +89,33 @@
 </section>
 
 <script>
+  let roomPagination = null;
+
+  function filterSets(selectedStyle) {
+    const sets = document.querySelectorAll('.set-card-wrapper');
+    const setsGrid = document.querySelector('.sets-grid');
+
+    let visibleCount = 0;
+
+    sets.forEach(set => {
+      const setStyle = set.getAttribute('data-style');
+      if (selectedStyle === '' || setStyle === selectedStyle) {
+        set.removeAttribute('data-filtered-out');
+        visibleCount++;
+      } else {
+        set.setAttribute('data-filtered-out', 'true');
+      }
+    });
+
+    // Refresh pagination after filtering
+    if (roomPagination) {
+      roomPagination.refresh();
+    }
+  }
+
+  // Initialize pagination on page load
   document.addEventListener('DOMContentLoaded', function() {
-    initPagination({
+    roomPagination = initPagination({
       gridSelector: '.sets-grid',
       itemSelector: '.set-card-wrapper',
       paginationSelector: '#room-pagination',

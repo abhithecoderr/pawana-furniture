@@ -40,8 +40,8 @@
 /* Set Title */
 .set-card h3 {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
-  font-weight: var(--font-normal);
+  font-size: 1.2rem;
+  font-weight: var(--font-medium);
   color: var(--color-text-primary);
   margin: 0;
   line-height: 1.3;

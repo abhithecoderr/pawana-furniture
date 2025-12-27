@@ -60,19 +60,32 @@
 
     <div class="catalogue-items-grid">
       <% items.forEach(item => { %>
-        <a href="/item/<%= item.slug %>" class="item-card" data-style="<%= item.style %>">
-          <img
-            src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
-            alt="<%= item.name %>"
-          />
-          <div class="card-name-row">
-            <h3><%= item.name %></h3>
-          </div>
-          <div class="item-card-meta">
-            <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-            <p><%= item.room %> · <%= item.type %><% if (item.code) { %> · <%= item.code %><% } %></p>
-          </div>
-        </a>
+        <div class="product-card-wrapper" data-style="<%= item.style %>">
+          <a href="/item/<%= item.slug %>" class="product-card">
+            <img
+              src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+              alt="<%= item.name %>"
+            />
+            <div class="card-name-row">
+              <h3><%= item.name %></h3>
+              <button class="wishlist-btn"
+                      data-id="<%= item._id %>"
+                      data-type="item"
+                      data-name="<%= item.name %>"
+                      data-slug="<%= item.slug %>"
+                      data-image="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+                      onclick="handleWishlistClick(event, this)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </button>
+            </div>
+            <div class="product-card-meta">
+              <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
+              <p><%= item.room %> · <%= item.type %><% if (item.code) { %> · <%= item.code %><% } %></p>
+            </div>
+          </a>
+        </div>
       <% }); %>
     </div>
 
@@ -92,7 +105,7 @@
   let roomTypePagination = null;
 
   function filterItems(selectedStyle) {
-    const items = document.querySelectorAll('.item-card');
+    const items = document.querySelectorAll('.product-card-wrapper');
     const resultsCount = document.querySelector('.results-count');
     const noResultsMsg = document.querySelector('.no-results-filter');
     const itemsGrid = document.querySelector('.catalogue-items-grid');
@@ -139,7 +152,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     roomTypePagination = initPagination({
       gridSelector: '.catalogue-items-grid',
-      itemSelector: '.item-card',
+      itemSelector: '.product-card-wrapper',
       paginationSelector: '#roomtype-pagination',
       desktopPerPage: 15,
       mobilePerPage: 6

@@ -123,16 +123,7 @@
   transform: scale(1.02);
 }
 
-.carousel-item h4 {
-  font-family: var(--font-heading);
-  font-size: var(--text-lg);
-  color: var(--color-text-primary);
-  margin: var(--space-4) 0 var(--space-2) 0;
-  font-weight: var(--font-semibold);
-  line-height: var(--leading-tight);
-}
-
-/* P style handled by _product-card.css */
+/* Card styling handled by _product-card.css and _set-card.css components */
 
 .carousel-scrollbar {
   position: absolute;

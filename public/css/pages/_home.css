@@ -59,13 +59,12 @@
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 650px;
   position: relative;
   z-index: 2;
   transform: translateY(0);
-  padding: 2rem 3rem;
+  padding: 1.5rem 2.5rem;
   border-radius: 8px;
-  /* background: rgba(61, 40, 23, 0.15); */
   backdrop-filter: blur(1px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   margin-bottom: 8rem;
@@ -75,66 +74,69 @@
 
 .hero-badge {
   display: inline-block;
-  padding: 0.25rem 1rem;
+  padding: 0.25rem 0.85rem;
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   color: var(--color-text-inverse);
   background: rgba(61, 40, 23, 0.3);
   position: absolute;
-  top: -3rem;
-  left: 0;
-  transform: translateX(0);
+  top: -2.5rem;
+  left: 2.5rem;
   z-index: 3;
 }
 
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 7vw, 2.6rem);
+  font-size: clamp(2rem, 5vw, 2.2rem);
   color: var(--color-text-inverse);
-  margin-bottom: 2rem;
-  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
   font-weight: 400;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .hero-actions {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   flex-wrap: nowrap;
 }
 
 .hero-actions .btn-primary {
-  padding: 0.9rem 2rem;
-  font-size: 0.85rem;
+  padding: 0.8rem 1.75rem;
+  font-size: 0.8rem;
   letter-spacing: 1.5px;
   background: var(--color-primary);
   color: white;
   border: 1px solid var(--color-primary);
+  transition: all 0.3s ease;
 }
 
 .hero-actions .btn-primary:hover {
   background: var(--color-text-primary);
   border-color: var(--color-text-primary);
   color: white;
+  transform: scale(1.03);
 }
 
 .hero-actions .btn-secondary {
-  padding: 0.9rem 2rem;
-  font-size: 0.85rem;
+  padding: 0.8rem 1.75rem;
+  font-size: 0.8rem;
   letter-spacing: 1.5px;
   background: transparent;
   color: var(--color-text-inverse);
-  border: 1px solid rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
 }
 
 .hero-actions .btn-secondary:hover {
-  background: white;
-  border-color: white;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
   color: var(--color-text-primary);
+  transform: scale(1.03);
 }
 
 .hero-stats {
@@ -171,7 +173,7 @@
    ============================== */
 
 .home-carousel {
-  padding: var(--space-16) 0;
+  padding: var(--space-10) 0;
   background-color: var(--color-bg-section-alt);
 }
 
@@ -200,6 +202,7 @@ body.page-home .home-carousel .carousel-header .section-title {
 /* Carousel wrapper */
 .home-carousel .carousel-wrapper {
   position: relative;
+  overflow: hidden;
 }
 
 .home-carousel .carousel-container {
@@ -215,9 +218,15 @@ body.page-home .home-carousel .carousel-header .section-title {
   will-change: transform;
 }
 
-/* Show 3 items per row */
+/* Show 3 items per row (default) */
 .home-carousel .carousel-item {
   flex: 0 0 calc((100% - 4rem) / 3);
+  min-width: 0;
+}
+
+/* Featured Items Peek Effect - shows partial 4th item on right */
+.home-carousel.featured-items-peek .carousel-item {
+  flex: 0 0 28%;
 }
 
 /* Base image container */
@@ -250,23 +259,7 @@ body.page-home .home-carousel .carousel-header .section-title {
   transform: scale(1.02);
 }
 
-.home-carousel .carousel-item h3,
-.home-carousel .carousel-item h4 {
-  font-family: var(--font-heading);
-  font-size: var(--text-lg);
-  color: var(--color-text-primary);
-  margin: var(--space-4) 0 var(--space-2) 0;
-  font-weight: var(--font-semibold);
-}
-
-.home-carousel .carousel-item p {
-  font-size: 0.75rem; /* Match signature pieces styling */
-  color: var(--color-text-secondary); /* Match signature pieces styling */
-  text-transform: uppercase; /* Keep existing transform */
-  letter-spacing: 0.08em; /* Match signature pieces styling */
-  font-weight: 500; /* Match signature pieces styling */
-  margin: 0; /* Reset margin to match signature pieces */
-}
+/* Card styling is handled by _product-card.css and _set-card.css components */
 
 /* Carousel navigation arrows - top right like Nike */
 .carousel-nav {
@@ -759,4 +752,93 @@ body.page-home .home-carousel .carousel-header .section-title {
   background-color: var(--color-text-primary);
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
+}
+
+/* ==============================
+   8. DELIVERY MAP SECTION
+   ============================== */
+
+.delivery-section {
+  padding: var(--space-20) 0;
+  background: var(--color-bg-body);
+}
+
+.delivery-section .section-title {
+  margin-bottom: var(--space-8);
+  color: var(--color-text-primary);
+}
+
+.delivery-content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+.delivery-map-card {
+  flex: 0 0 450px;
+}
+
+.delivery-map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-md);
+}
+
+.delivery-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.delivery-text p {
+  font-size: 1.15rem;
+  color: var(--color-text-primary);
+  line-height: 1.85;
+  margin-bottom: var(--space-6);
+}
+
+.delivery-highlights {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-bg-section-alt);
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+
+.highlight-item:hover {
+  transform: translateX(4px);
+}
+
+.highlight-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.highlight-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--color-maroon);
+}
+
+.highlight-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
 }

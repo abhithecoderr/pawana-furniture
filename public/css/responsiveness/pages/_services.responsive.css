@@ -98,7 +98,7 @@
 
 @media (min-width: 1025px) {
   .services-list .services-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
   }
 }
