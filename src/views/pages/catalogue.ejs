@@ -70,6 +70,7 @@
         <div class="catalogue-filters-right">
           <!-- View Dropdown -->
           <div class="filter-dropdown">
+            <label for="view-filter">View</label>
             <select id="view-filter" onchange="updateFilter('view', this.value)">
               <option value="all" <%= filters.view === 'all' ? 'selected' : '' %>>All</option>
               <option value="items" <%= filters.view === 'items' ? 'selected' : '' %>>Items</option>
@@ -79,6 +80,7 @@
 
           <!-- Type Dropdown -->
           <div class="filter-dropdown">
+            <label for="type-filter">Type</label>
             <select id="type-filter" onchange="updateFilter('type', this.value)">
               <option value="" <%= !filters.type ? 'selected' : '' %>>All Types</option>
               <% allTypes.forEach(type => { %>
@@ -89,6 +91,7 @@
 
           <!-- Style Dropdown -->
           <div class="filter-dropdown">
+            <label for="style-filter">Style</label>
             <select id="style-filter" onchange="updateFilter('style', this.value)">
               <option value="" <%= !filters.style ? 'selected' : '' %>>All Styles</option>
               <% allStyles.forEach(style => { %>

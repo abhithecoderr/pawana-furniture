@@ -75,23 +75,66 @@
 .item-header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2); /* Reduced gap */
   margin-bottom: var(--space-6);
+}
+
+/* Title Row - Title + Wishlist Icon */
+.item-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
 }
 
 .item-title {
   font-family: var(--font-heading);
   font-size: var(--text-2xl);
   color: var(--color-text-primary);
-  margin: 0 0 var(--space-2) 0;
+  margin: 0;
   font-weight: var(--font-semibold);
   line-height: var(--leading-tight);
+  flex: 1;
+}
+
+/* Detail Page Wishlist Button */
+.detail-wishlist {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.detail-wishlist svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Product Code */
+.item-code {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.03em;
+  margin: var(--space-2) 0 0 0;
+}
+
+/* Type + Code Line (for item page) */
+.item-type-code {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.03em;
+  margin: var(--space-2) 0 0 0;
+}
+
+.item-type-text {
+  color: var(--color-text-secondary);
 }
 
 .item-meta {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
+  margin-top: var(--space-1); /* Add slight spacing */
 }
 
 .item-room,
@@ -170,21 +213,22 @@
   color: white;
 }
 
-/* Enquiry Button - Compact */
+/* Enquiry Button - Dark Maroon Theme */
 .enquiry-btn {
   width: auto;
   max-width: 250px;
   padding: var(--space-3) var(--space-6);
   font-size: var(--text-sm);
-  background: var(--gradient-badge-classic);
+  background: var(--color-maroon); /* Dark maroon solid */
   border: none;
   color: white;
   font-weight: var(--font-semibold);
   transition: all var(--transition-base);
+  border-radius: var(--radius-sm);
 }
 
 .enquiry-btn:hover {
-  background: var(--gradient-badge-modern);
+  background: var(--color-primary-dark); /* Slightly darker on hover */
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }

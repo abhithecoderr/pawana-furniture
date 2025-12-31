@@ -50,11 +50,11 @@
 }
 
 .filter-tabs-compact .style-tab {
-  padding: var(--space-4) var(--space-8); /* Increased size significantly */
+  padding: 0.65rem 1.25rem; /* Reduced back to a more standard size */
   border-radius: 0;
   position: relative;
   font-weight: var(--font-semibold);
-  font-size: var(--text-base); /* Increased from sm to base */
+  font-size: var(--text-sm); /* Reduced back to sm */
 }
 
 .filter-tabs-compact .style-tab:not(:last-child)::after {
@@ -69,8 +69,8 @@
 }
 
 /* Remove separator if active or following active */
-.filter-tabs-compact .style-tab.active::after,
-.filter-tabs-compact .style-tab.active + .style-tab::after {
+/* Remove separator if active */
+.filter-tabs-compact .style-tab.active::after {
   display: none;
 }
 

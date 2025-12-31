@@ -50,11 +50,28 @@
       <!-- Right: Info -->
       <div class="set-info">
         <div class="set-header">
-          <h1 class="set-title" id="setTitle"><%= set.name %></h1>
+          <div class="set-title-row">
+            <h1 class="set-title" id="setTitle"><%= set.name %></h1>
+            <button
+              class="wishlist-btn detail-wishlist"
+              data-id="<%= set._id %>"
+              data-type="set"
+              data-name="<%= set.name %>"
+              data-slug="<%= set.slug %>"
+              data-image="<%= set.images && set.images.length > 0 ? set.images[0].url : '/images/placeholder.jpg' %>"
+              onclick="handleWishlistClick(event, this)"
+              aria-label="Add to wishlist">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+          </div>
           <div class="set-meta">
             <span class="set-room"><%= set.room %></span>
+            <span class="set-label">Set</span>
             <span class="set-style-badge <%= set.style.toLowerCase() %>" id="setStyleBadge"><%= set.style %></span>
           </div>
+          <p class="set-code"><%= set.code %></p>
         </div>
 
         <% if (set.description) { %>

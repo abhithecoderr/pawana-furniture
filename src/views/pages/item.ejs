@@ -50,12 +50,27 @@
       <!-- Right: Info -->
       <div class="item-info">
         <div class="item-header">
-          <h1 class="item-title" id="itemTitle"><%= item.name %></h1>
+          <div class="item-title-row">
+            <h1 class="item-title" id="itemTitle"><%= item.name %></h1>
+            <button
+              class="wishlist-btn detail-wishlist"
+              data-id="<%= item._id %>"
+              data-type="item"
+              data-name="<%= item.name %>"
+              data-slug="<%= item.slug %>"
+              data-image="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
+              onclick="handleWishlistClick(event, this)"
+              aria-label="Add to wishlist">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+          </div>
           <div class="item-meta">
             <span class="item-room"><%= item.room %></span>
-            <span class="item-type" id="itemType"><%= item.type %></span>
             <span class="item-style-badge <%= item.style.toLowerCase() %>" id="itemStyleBadge"><%= item.style %></span>
           </div>
+          <p class="item-type-code"><span class="item-type-text" id="itemType"><%= item.type %></span> · <%= item.code %></p>
         </div>
 
         <% if (item.description) { %>

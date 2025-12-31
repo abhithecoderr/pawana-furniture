@@ -49,10 +49,11 @@
 /* Header with 3-Column Layout */
 .catalogue-header {
   display: grid;
-  grid-template-columns: 1.2fr auto 1.2fr; /* Give more space to sides if needed */
-  align-items: center; /* Strict vertical centering */
+  grid-template-columns: 1.2fr auto 1.2fr;
+  align-items: center; /* Center horizontally aligning inputs to Room Tabs */
   gap: var(--space-8);
-  margin-bottom: var(--space-10);
+  margin-top: var(--space-2); /* Added upper margin */
+  margin-bottom: var(--space-6);
   width: 100%;
 }
 
@@ -60,7 +61,8 @@
   justify-self: start;
   display: flex;
   align-items: center;
-  height: 54px; /* Match height of room filter bar */
+  height: 46px; /* Matched to room tabs height */
+  margin-bottom: 2px; /* Slight fine-tuning to align text baseline with inputs */
 }
 
 .title-block {
@@ -84,33 +86,33 @@
   margin-top: 2px;
 }
 
-/* Room Tabs - Centered & Scaled Up */
+/* Room Tabs - Centered */
 .room-filter-tabs {
   justify-self: center;
-  height: 54px; /* Harmonized height for middle bar */
+  height: 46px;
   display: flex;
   align-items: center;
 }
 
-/* Dropdown Filters - Right & Scaled Down */
+/* Dropdown Filters - Right & Scaled Down Further */
 .catalogue-filters-right {
   justify-self: end;
   display: flex;
-  gap: var(--space-2);
-  align-items: center;
-  height: 54px; /* Container height matches others for centering */
+  gap: var(--space-3);
+  align-items: end; /* Align items to bottom */
+  margin-bottom: 1rem;
 }
 
 .catalogue-filters-right select {
-  height: 40px; /* Scaled down height */
-  min-width: 110px;
-  background-color: var(--color-bg-card); /* Unified background */
+  height: 34px; /* Scaled down further */
+  min-width: 100px;
+  background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm); /* Refined border radius */
-  font-size: var(--text-xs); /* Scaled down font */
-  padding: 0 1.75rem 0 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  padding: 0 1.5rem 0 0.5rem;
   background-position: right 0.5rem center;
-  background-size: 10px;
+  background-size: 9px;
   color: var(--color-text-secondary);
 }
 
@@ -119,11 +121,21 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  gap: var(--space-1); /* Space between label and input */
+}
+
+.filter-dropdown label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--font-semibold);
+  color: var(--color-text-muted);
+  margin-left: 2px;
 }
 
 .clear-filters-btn-top {
   padding: 0;
-  background: var(--color-bg-card); /* Unified background */
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
@@ -132,9 +144,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px; /* Scaled down to match selects */
-  width: 40px;
+  height: 34px; /* Matched to select height */
+  width: 34px;
   margin-top: 0;
+  margin-bottom: 0; /* Align with inputs */
 }
 
 .clear-filters-btn-top:hover {
