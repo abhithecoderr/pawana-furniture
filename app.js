@@ -23,6 +23,7 @@ import { sessionMiddleware } from "./src/middleware/adminAuth.js";
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1);
 const __dirname = path.resolve();
 const port = process.env.PORT;
 
