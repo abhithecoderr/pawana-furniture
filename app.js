@@ -24,6 +24,20 @@ dotenv.config();
 
 const app = express();
 app.set('trust proxy', 1);
+
+// Disable ETags and View Cache
+app.set('etag', false);
+app.disable('view cache');
+
+// Middleware to disable all caching
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  res.set('Surrogate-Control', 'no-store');
+  next();
+});
+
 const __dirname = path.resolve();
 const port = process.env.PORT;
 
