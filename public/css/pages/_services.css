@@ -56,19 +56,18 @@
 }
 
 .services-list .services-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
 }
 
 .service-item {
   background: var(--color-bg-section-alt);
   border-radius: var(--radius-md);
-  padding: 1.75rem;
+  padding: 2.5rem;
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-base), box-shadow var(--transition-base);
   border: 1px solid var(--color-border);
-  height: 100%;
 }
 
 .service-item:hover {
@@ -79,58 +78,64 @@
 
 .service-content {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
-.service-icon {
-  margin-bottom: 0.25rem;
+.service-image {
+  flex: 0 0 300px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
 }
 
-.service-icon svg {
-  width: 36px;
-  height: 36px;
-  stroke: var(--color-maroon);
-  transition: transform var(--transition-base);
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slower);
 }
 
-.service-item:hover .service-icon svg {
-  transform: scale(1.1);
-  stroke: var(--color-maroon-dark);
+.service-item:hover .service-image img {
+  transform: scale(1.05);
 }
 
-.service-content h3 {
+.service-text {
+  flex: 1;
+}
+
+.service-text h3 {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   color: var(--color-text-primary);
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.75rem 0;
   font-weight: var(--font-semibold);
 }
 
-.service-content p {
+.service-text p {
   font-size: 0.95rem;
   line-height: 1.7;
   color: var(--color-text-primary);
-  margin-bottom: 0.85rem;
+  margin-bottom: 1rem;
 }
 
-.service-content ul {
+.service-text ul {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.35rem;
+  gap: 0.5rem;
 }
 
-.service-content ul li {
+.service-text ul li {
   font-size: 0.9rem;
   color: var(--color-text-primary);
   padding-left: 1.25rem;
   position: relative;
 }
 
-.service-content ul li::before {
+.service-text ul li::before {
   content: "✓";
   position: absolute;
   left: 0;

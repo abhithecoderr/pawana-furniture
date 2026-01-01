@@ -86,13 +86,7 @@
   margin-right: 0.2em;
 }
 
-.logo:hover {
-  color: var(--color-primary);
-}
-
-.logo:hover .logo-image {
-  transform: scale(1.05);
-}
+/* Logo hover effects removed */
 
 /* HOME PAGE ONLY - White Logo on Transparent Header */
 .page-home .site-header .logo {
@@ -103,10 +97,7 @@
   color: rgba(255, 255, 255, 0.8); /* Light white on transparent */
 }
 
-.page-home .site-header .logo:hover {
-  color: var(--color-text-inverse);
-  opacity: 0.8;
-}
+/* Logo hover effects removed for home page transparent header */
 
 /* HOME PAGE ONLY - Dark Logo When Scrolled */
 .page-home .site-header.scrolled .logo {
@@ -117,10 +108,7 @@
   color: var(--color-maroon);
 }
 
-.page-home .site-header.scrolled .logo:hover {
-  color: var(--color-primary);
-  opacity: 1;
-}
+/* Logo hover effects removed for home page scrolled header */
 
 .nav-links {
   display: flex;

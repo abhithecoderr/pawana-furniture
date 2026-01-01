@@ -92,7 +92,7 @@
 @media (min-width: 769px) and (max-width: 1024px) {
   .services-list .services-container {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 0rem;
   }
 }
 

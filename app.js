@@ -3,6 +3,9 @@ import express from "express";
 import mongoose from "mongoose";
 import path from "path";
 import expressEjsLayouts from "express-ejs-layouts";
+import compression from "compression";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import homeRoute from "./src/routes/home.js";
 import itemRoute from "./src/routes/item.js";
 import setRoute from "./src/routes/set.js";
@@ -23,6 +26,33 @@ const app = express();
 const __dirname = path.resolve();
 const port = process.env.PORT;
 
+// Security middleware - sets various HTTP headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com", "https://*.cloudinary.com", "https://maps.google.com", "https://*.googleapis.com", "https://*.gstatic.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      frameSrc: ["'self'", "https://maps.google.com", "https://*.google.com"],
+      connectSrc: ["'self'"]
+    }
+  },
+  crossOriginEmbedderPolicy: false
+}));
+
+// Compression middleware - gzip responses for faster transfer
+app.use(compression());
+
+// Rate limiting for API routes - prevents abuse
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: { error: "Too many requests, please try again later." }
+});
+app.use("/api/", apiLimiter);
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
 
@@ -30,7 +60,10 @@ app.use(expressEjsLayouts);
 // Tell the layout engine where to find the master layout file
 app.set('layout', 'layout');
 
-app.use(express.static(path.join(__dirname, "public")));
+// Static files with caching (1 year for production)
+app.use(express.static(path.join(__dirname, "public"), {
+  maxAge: process.env.NODE_ENV === 'production' ? '1y' : 0
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

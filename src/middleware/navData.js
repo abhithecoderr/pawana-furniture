@@ -7,8 +7,22 @@ export const navDataMiddleware = async (req, res, next) => {
     // Fetch all rooms as plain objects
     const rooms = await Room.find()
       .select("name slug")
-      .sort({ name: 1 })
       .lean();
+
+    // Define custom room order
+    const roomOrder = ['Living Room', 'Dining Room', 'Bedroom', 'Office', 'Showpieces'];
+
+    // Sort rooms based on custom order
+    rooms.sort((a, b) => {
+      const indexA = roomOrder.indexOf(a.name);
+      const indexB = roomOrder.indexOf(b.name);
+
+      // If room not in custom order, put it at the end
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+
+      return indexA - indexB;
+    });
 
     // Fetch distinct types for each room
     const roomsWithTypes = await Promise.all(

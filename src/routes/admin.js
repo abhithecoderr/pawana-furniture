@@ -5,6 +5,7 @@ import { requireAdminAuth, validateAdminLogin } from '../middleware/adminAuth.js
 import FurnitureSet from '../models/FurnitureSet.js';
 import FurnitureItem from '../models/FurnitureItem.js';
 import Room from '../models/Room.js';
+import SiteSettings from '../models/SiteSettings.js';
 
 const router = express.Router();
 
@@ -628,4 +629,69 @@ router.post('/api/upload-image', requireAdminAuth, upload.single('image'), async
   }
 });
 
+// ==========================================
+// API ROUTES - SITE SETTINGS
+// ==========================================
+
+// GET all settings
+router.get('/api/settings', requireAdminAuth, async (req, res) => {
+  try {
+    const settings = await SiteSettings.getSettings();
+    res.json(settings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT update home settings
+router.put('/api/settings/home', requireAdminAuth, async (req, res) => {
+  try {
+    const { tagline, badges, stats, signatureItems, featuredItems, featuredSets } = req.body;
+
+    const updates = {
+      'home.hero.tagline': tagline,
+      'home.hero.badges': badges,
+      'home.hero.stats': stats,
+      'home.featuredCodes.signatureItems': signatureItems,
+      'home.featuredCodes.featuredItems': featuredItems,
+      'home.featuredCodes.featuredSets': featuredSets
+    };
+
+    const settings = await SiteSettings.updateSettings(updates);
+    res.json({ success: true, settings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT update contact settings
+router.put('/api/settings/contact', requireAdminAuth, async (req, res) => {
+  try {
+    const {
+      phone, whatsapp, email, formEmail,
+      addressLine1, addressLine2, addressLine3, addressCountry,
+      hoursWeekday, hoursWeekend
+    } = req.body;
+
+    const updates = {
+      'contact.phone': phone,
+      'contact.whatsapp': whatsapp,
+      'contact.email': email,
+      'contact.formEmail': formEmail,
+      'contact.address.line1': addressLine1,
+      'contact.address.line2': addressLine2,
+      'contact.address.line3': addressLine3,
+      'contact.address.country': addressCountry,
+      'contact.businessHours.weekday': hoursWeekday,
+      'contact.businessHours.weekend': hoursWeekend
+    };
+
+    const settings = await SiteSettings.updateSettings(updates);
+    res.json({ success: true, settings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;
+

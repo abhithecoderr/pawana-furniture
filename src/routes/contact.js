@@ -1,12 +1,17 @@
 import express from "express";
+import SiteSettings from "../models/SiteSettings.js";
 
 const router = express.Router();
 
 // GET /contact - Display contact page
 router.get("/", async (req, res) => {
   try {
+    // Fetch contact settings from database
+    const settings = await SiteSettings.getSettings();
+
     res.render("pages/contact", {
       title: "Contact Us",
+      contactSettings: settings.contact,
     });
   } catch (error) {
     console.error("Error loading contact page:", error);
@@ -15,3 +20,4 @@ router.get("/", async (req, res) => {
 });
 
 export default router;
+

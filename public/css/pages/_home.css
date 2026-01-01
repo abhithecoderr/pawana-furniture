@@ -74,9 +74,9 @@
 
 .hero-badges {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   position: absolute;
-  top: -2.5rem;
+  top: -2rem; /* Moved slightly more upwards */
   left: 2.5rem;
   z-index: 3;
 }
@@ -179,7 +179,7 @@
    ============================== */
 
 .home-carousel {
-  padding: var(--space-8) 0;
+  padding: var(--space-12) 0 var(--space-8);
   background-color: var(--color-bg-section-alt);
 }
 
@@ -192,7 +192,7 @@
   display: flex;
   flex-direction: column; /* Stack title and subtitle vertically */
   align-items: flex-start;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-0);
 }
 
 .home-carousel .carousel-header .section-title {
@@ -214,7 +214,7 @@ body.page-home .home-carousel .carousel-header .section-title {
 /* Desktop: Position nav in top-right corner of wrapper */
 .home-carousel .carousel-nav {
   position: absolute;
-  top: -65px; /* Position it back up to line with the header */
+  top: -75px; /* Moved upwards to align with title */
   right: 0;
   display: flex;
   gap: 0.5rem;
@@ -518,7 +518,7 @@ body.page-home .home-carousel .carousel-header .section-title {
   font-size: var(--text-base);
   color: var(--color-text-secondary);
   margin-top: var(--space-2);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-10);
 }
 
 .rooms-grid {
@@ -773,6 +773,129 @@ body.page-home .home-carousel .carousel-header .section-title {
   background-color: var(--color-primary-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+
+/* WhatsApp Option */
+.whatsapp-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem auto 0;
+  gap: 0.75rem;
+  max-width: 380px;
+  width: 100%;
+}
+
+.divider-text {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  background: var(--color-maroon);
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.whatsapp-link:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.whatsapp-link svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+/* Form Submit Button States */
+.btn-submit {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-submit.loading {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.btn-submit.loading .btn-text {
+  opacity: 0;
+}
+
+.btn-submit .spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.btn-submit.loading .spinner {
+  display: block;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Success Message */
+.form-success-message {
+  display: none;
+  text-align: center;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #4caf50 0%, #43a047 100%);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  animation: fadeInUp 0.4s ease;
+}
+
+.form-success-message.show {
+  display: block;
+}
+
+.form-success-message svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 0.5rem;
+  fill: white;
+}
+
+.form-success-message p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ==============================

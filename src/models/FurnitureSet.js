@@ -53,4 +53,10 @@ furnitureSetSchema.pre("validate", function (next) {
   next();
 });
 
+// Indexes for faster search
+furnitureSetSchema.index({ name: "text", code: "text", style: "text", room: "text" });
+furnitureSetSchema.index({ style: 1 });
+furnitureSetSchema.index({ room: 1 });
+furnitureSetSchema.index({ code: 1 });
+
 export default mongoose.model("FurnitureSet", furnitureSetSchema);

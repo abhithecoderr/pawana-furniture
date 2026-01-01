@@ -2,23 +2,20 @@ import express from "express";
 import FurnitureItem from "../models/FurnitureItem.js";
 import FurnitureSet from "../models/FurnitureSet.js";
 import Room from "../models/Room.js";
+import SiteSettings from "../models/SiteSettings.js";
 
 const router = express.Router();
 
-const SIGNATURE_ITEMS_CODES = [
-  "LR-04", "BR-28", "DR-05", "SM-039", "LR-06", "LR-008", "BR-23", "LR-012", "ST-053", "BR-21", "SR-039", "DR-17", "DR-03", "SR-024", "SR-066"
-];
-
-const FEATURED_ITEMS_CODES = [
-  "LM-011", "ST-011", "LR-011", "LM-018", "SR-060", "LR-004", "ST-051", "LT-010", "LR-010", "SR-062", "LT-008", "SR-085"
-];
-
-const FEATURED_SETS_CODES = [
-  "OT-02", "LR-01", "BT-27", "DM-01", "OT-08", "BR-06", "BT-13", "DM-09", "LR-02", "DR-06"
-];
-
 router.get("/", async (req, res) => {
   try {
+    // Fetch site settings from database
+    const settings = await SiteSettings.getSettings();
+
+    // Get featured codes from settings
+    const SIGNATURE_ITEMS_CODES = settings.home.featuredCodes.signatureItems;
+    const FEATURED_ITEMS_CODES = settings.home.featuredCodes.featuredItems;
+    const FEATURED_SETS_CODES = settings.home.featuredCodes.featuredSets;
+
     const featuredItemsRaw = await FurnitureItem.find({
       code: { $in: SIGNATURE_ITEMS_CODES },
     });
@@ -57,14 +54,42 @@ router.get("/", async (req, res) => {
     // Fetch all rooms for Browse by Rooms section
     const rooms = await Room.find();
 
+    // Get browse by rooms codes from settings
+    const browseByRoomCodes = settings.home.browseByRoomCodes || {};
+
+    // Fetch items for browse by rooms images and update room images
+    const roomsWithCustomImages = await Promise.all(
+      rooms.map(async (room) => {
+        const roomObj = room.toObject();
+        const productCode = browseByRoomCodes[room.name];
+
+        if (productCode) {
+          // Try to find item or set with this code
+          let productWithImage = await FurnitureItem.findOne({ code: productCode });
+          if (!productWithImage) {
+            productWithImage = await FurnitureSet.findOne({ code: productCode });
+          }
+
+          // If found, use its image
+          if (productWithImage && productWithImage.images && productWithImage.images.length > 0) {
+            roomObj.images = productWithImage.images;
+          }
+        }
+
+        return roomObj;
+      })
+    );
+
     res.render("pages/home", {
       title: "Home",
-      pageClass: "page-home", // Identifier for home page
+      pageClass: "page-home",
       featuredItems,
       carouselItems,
       carouselSets,
       groupedItems,
-      rooms,
+      rooms: roomsWithCustomImages,
+      heroContent: settings.home.hero,
+      contactSettings: settings.contact,
     });
   } catch (error) {
     console.error("Error loading home page:", error);
@@ -74,3 +99,4 @@ router.get("/", async (req, res) => {
 
 
 export default router;
+

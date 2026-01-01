@@ -29,25 +29,26 @@
         <h2>Send Us a Message</h2>
         <p>Fill out the form below and we'll get back to you within 24 hours</p>
 
-        <form class="contact-form" action="/contact" method="POST">
+        <form class="contact-form" id="contactPageForm">
+
           <div class="form-group">
             <label for="name">Full Name *</label>
-            <input type="text" id="name" name="name" required placeholder="Rohan XXX...">
+            <input type="text" id="name" name="Full_Name" required placeholder="Rohan XXX...">
           </div>
 
           <div class="form-group">
             <label for="email">Email Address *</label>
-            <input type="email" id="email" name="email" required placeholder="rohan@example.com">
+            <input type="email" id="email" name="Email_Address" required placeholder="rohan@example.com">
           </div>
 
           <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="+91 94XX5 X2XX1">
+            <input type="tel" id="phone" name="Phone_Number" placeholder="+91 94XX5 X2XX1">
           </div>
 
           <div class="form-group">
             <label for="subject">Subject *</label>
-            <select id="subject" name="subject" required>
+            <select id="subject" name="Subject" required>
               <option value="">Select a subject</option>
               <option value="general">General Inquiry</option>
               <option value="custom">Custom Furniture Design</option>
@@ -60,11 +61,31 @@
 
           <div class="form-group">
             <label for="message">Message *</label>
-            <textarea id="message" name="message" rows="6" required placeholder="Tell us about your project or inquiry..."></textarea>
+            <textarea id="message" name="Message" rows="6" required placeholder="Tell us about your project or inquiry..."></textarea>
           </div>
 
-          <button type="submit" class="btn-primary">Send Message</button>
+          <button type="submit" class="btn-primary" id="contactSubmitBtn">
+            <span class="btn-text">Send Message</span>
+            <span class="spinner"></span>
+          </button>
         </form>
+
+        <div class="form-success-message" id="contactSuccessMessage">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          <p>Thank you! We'll get back to you within 24 hours.</p>
+        </div>
+
+        <div class="whatsapp-option" id="contactWhatsappOption">
+          <span class="divider-text">Or</span>
+          <a href="https://wa.me/<%= contactSettings.whatsapp %>?text=Hi%2C%20I%20have%20an%20inquiry%20about%20Pawana%20Furniture." class="whatsapp-link" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            CONTACT ON WHATSAPP
+          </a>
+        </div>
       </div>
 
       <!-- Contact Information -->
@@ -81,10 +102,10 @@
           <div class="info-content">
             <h3>Visit Our Showroom</h3>
             <p>
-              Pawana Furniture<br>
-              Patiala Road, NH 7<br>
-              Liberty Chowk, Punjab 140401<br>
-              India
+              <%= contactSettings.address.line1 %><br>
+              <%= contactSettings.address.line2 %><br>
+              <%= contactSettings.address.line3 %><br>
+              <%= contactSettings.address.country %>
             </p>
           </div>
         </div>
@@ -98,8 +119,8 @@
           <div class="info-content">
             <h3>Call / WhatsApp</h3>
             <p>
-              <strong>WhatsApp:</strong> +91 8360550271<br>
-              <strong>Phone:</strong> +91 6239811718
+              <strong>WhatsApp:</strong> <a href="https://wa.me/<%= contactSettings.whatsapp %>" target="_blank" rel="noopener noreferrer"><%= contactSettings.phone %></a><br>
+              <strong>Phone:</strong> <%= contactSettings.phone %>
             </p>
           </div>
         </div>
@@ -114,7 +135,7 @@
           <div class="info-content">
             <h3>Email Us</h3>
             <p>
-              <strong>Email:</strong> pawanafurniture07@gmail.com
+              <strong>Email:</strong> <%= contactSettings.email %>
             </p>
           </div>
         </div>
@@ -129,8 +150,8 @@
           <div class="info-content">
             <h3>Business Hours</h3>
             <p>
-              <strong>Monday - Saturday:</strong> 8:00 AM - 7:30 PM<br>
-              <strong>Sunday:</strong> 8:00 AM - 6:30 PM
+              <%= contactSettings.businessHours.weekday %><br>
+              <%= contactSettings.businessHours.weekend %>
             </p>
           </div>
         </div>
@@ -160,10 +181,16 @@
 <section class="contact-map">
   <div class="contact-container">
     <h2>Find Us on the Map</h2>
-    <div class="map-placeholder">
-      <p>📍 Pawana Furniture</p>
-      <p>Patiala Road, NH 7, Liberty Chowk, Punjab 140401</p>
-      <p><em>Map integration available upon request</em></p>
+    <div class="map-container" style="max-width: 700px; margin: 0 auto;">
+      <iframe
+        width="100%"
+        height="450"
+        style="border:0; border-radius: 8px;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=30.46142684378368,76.56805877296698&hl=es;z=17&output=embed">
+      </iframe>
     </div>
   </div>
 </section>
@@ -211,3 +238,54 @@
     </div>
   </div>
 </section>
+
+<script>
+// Contact page form submission handler
+document.getElementById('contactPageForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const form = this;
+  const submitBtn = document.getElementById('contactSubmitBtn');
+  const successMessage = document.getElementById('contactSuccessMessage');
+  const whatsappOption = document.getElementById('contactWhatsappOption');
+
+  // Show loading state
+  submitBtn.classList.add('loading');
+
+  // Prepare form data
+  const formData = new FormData(form);
+  formData.append('_subject', 'New Contact Inquiry - Pawana Furniture');
+  formData.append('_captcha', 'false');
+  formData.append('_template', 'table');
+
+  try {
+    const response = await fetch('https://formsubmit.co/ajax/abhicooltripathi1@gmail.com', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      // Hide form and WhatsApp option, show success
+      form.style.display = 'none';
+      whatsappOption.style.display = 'none';
+      successMessage.classList.add('show');
+
+      // Reset after 12 seconds
+      setTimeout(() => {
+        successMessage.classList.remove('show');
+        form.style.display = 'block';
+        whatsappOption.style.display = 'flex';
+        form.reset();
+        submitBtn.classList.remove('loading');
+      }, 12000);
+    } else {
+      throw new Error('Form submission failed');
+    }
+  } catch (error) {
+    console.error('Form submission error:', error);
+    submitBtn.classList.remove('loading');
+    alert('Something went wrong. Please try again or use WhatsApp.');
+  }
+});
+</script>
+

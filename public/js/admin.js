@@ -124,6 +124,10 @@ function loadData() {
     case 'rooms':
       loadRoomDetails();
       break;
+    case 'home-settings':
+    case 'contact-settings':
+      if (typeof loadSettings === 'function' && !siteSettings) loadSettings();
+      break;
   }
 }
 
@@ -990,7 +994,170 @@ document.addEventListener('click', () => {
 });
 
 // ==========================================
+// SITE SETTINGS HANDLERS
+// ==========================================
+
+let siteSettings = null;
+
+async function loadSettings() {
+  try {
+    const response = await fetch(`/${ADMIN_ROUTE}/api/settings`);
+    siteSettings = await response.json();
+    populateHomeSettings();
+    populateContactSettings();
+  } catch (error) {
+    console.error('Error loading settings:', error);
+  }
+}
+
+function populateHomeSettings() {
+  if (!siteSettings) return;
+
+  const home = siteSettings.home;
+  document.getElementById('hero-tagline').value = home.hero.tagline || '';
+  document.getElementById('hero-badges').value = (home.hero.badges || []).join(', ');
+
+  // Populate stats
+  const statsContainer = document.getElementById('hero-stats-container');
+  statsContainer.innerHTML = '';
+  (home.hero.stats || []).forEach((stat, index) => {
+    addStatRow(stat.number, stat.label, index);
+  });
+
+  // Populate featured codes
+  document.getElementById('signature-codes').value = (home.featuredCodes.signatureItems || []).join(', ');
+  document.getElementById('featured-items-codes').value = (home.featuredCodes.featuredItems || []).join(', ');
+  document.getElementById('featured-sets-codes').value = (home.featuredCodes.featuredSets || []).join(', ');
+}
+
+function populateContactSettings() {
+  if (!siteSettings) return;
+
+  const contact = siteSettings.contact;
+  document.getElementById('contact-phone').value = contact.phone || '';
+  document.getElementById('contact-whatsapp').value = contact.whatsapp || '';
+  document.getElementById('contact-email').value = contact.email || '';
+  document.getElementById('contact-form-email').value = contact.formEmail || '';
+  document.getElementById('address-line1').value = contact.address?.line1 || '';
+  document.getElementById('address-line2').value = contact.address?.line2 || '';
+  document.getElementById('address-line3').value = contact.address?.line3 || '';
+  document.getElementById('address-country').value = contact.address?.country || '';
+  document.getElementById('hours-weekday').value = contact.businessHours?.weekday || '';
+  document.getElementById('hours-weekend').value = contact.businessHours?.weekend || '';
+}
+
+function addStatRow(number = '', label = '', index = null) {
+  const statsContainer = document.getElementById('hero-stats-container');
+  const row = document.createElement('div');
+  row.className = 'stat-row';
+  row.innerHTML = `
+    <input type="text" placeholder="45+" value="${number}" class="stat-number">
+    <input type="text" placeholder="Years Crafting" value="${label}" class="stat-label">
+    <button type="button" class="btn-remove-stat">&times;</button>
+  `;
+  row.querySelector('.btn-remove-stat').addEventListener('click', () => row.remove());
+  statsContainer.appendChild(row);
+}
+
+// Add stat button
+document.getElementById('add-stat-btn')?.addEventListener('click', () => {
+  addStatRow();
+});
+
+// Home settings form submit
+document.getElementById('home-settings-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  setButtonLoading(btn, true);
+
+  // Collect stats
+  const stats = [];
+  document.querySelectorAll('#hero-stats-container .stat-row').forEach(row => {
+    const number = row.querySelector('.stat-number').value.trim();
+    const label = row.querySelector('.stat-label').value.trim();
+    if (number && label) {
+      stats.push({ number, label });
+    }
+  });
+
+  // Parse comma-separated codes
+  const parseCSV = (str) => str.split(',').map(s => s.trim()).filter(Boolean);
+
+  const data = {
+    tagline: document.getElementById('hero-tagline').value.trim(),
+    badges: parseCSV(document.getElementById('hero-badges').value),
+    stats,
+    signatureItems: parseCSV(document.getElementById('signature-codes').value),
+    featuredItems: parseCSV(document.getElementById('featured-items-codes').value),
+    featuredSets: parseCSV(document.getElementById('featured-sets-codes').value)
+  };
+
+  try {
+    const response = await fetch(`/${ADMIN_ROUTE}/api/settings/home`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      showToast('Home settings saved!', 'success');
+      loadSettings();
+    } else {
+      const err = await response.json();
+      showToast(err.error || 'Error saving settings', 'error');
+    }
+  } catch (error) {
+    showToast('Error saving settings', 'error');
+    console.error(error);
+  } finally {
+    setButtonLoading(btn, false);
+  }
+});
+
+// Contact settings form submit
+document.getElementById('contact-settings-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  setButtonLoading(btn, true);
+
+  const data = {
+    phone: document.getElementById('contact-phone').value.trim(),
+    whatsapp: document.getElementById('contact-whatsapp').value.trim(),
+    email: document.getElementById('contact-email').value.trim(),
+    formEmail: document.getElementById('contact-form-email').value.trim(),
+    addressLine1: document.getElementById('address-line1').value.trim(),
+    addressLine2: document.getElementById('address-line2').value.trim(),
+    addressLine3: document.getElementById('address-line3').value.trim(),
+    addressCountry: document.getElementById('address-country').value.trim(),
+    hoursWeekday: document.getElementById('hours-weekday').value.trim(),
+    hoursWeekend: document.getElementById('hours-weekend').value.trim()
+  };
+
+  try {
+    const response = await fetch(`/${ADMIN_ROUTE}/api/settings/contact`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      showToast('Contact settings saved!', 'success');
+      loadSettings();
+    } else {
+      const err = await response.json();
+      showToast(err.error || 'Error saving settings', 'error');
+    }
+  } catch (error) {
+    showToast('Error saving settings', 'error');
+    console.error(error);
+  } finally {
+    setButtonLoading(btn, false);
+  }
+});
+
+// ==========================================
 // Initial Load
 // ==========================================
 
 loadData();
+

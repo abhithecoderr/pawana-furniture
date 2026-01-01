@@ -1,5 +1,6 @@
 import express from "express";
 import FurnitureSet from "../models/FurnitureSet.js";
+import SiteSettings from "../models/SiteSettings.js";
 
 const router = express.Router();
 
@@ -12,6 +13,9 @@ router.get("/:slug", async (req, res) => {
     if (!set) {
       return res.status(404).send("Set not found");
     }
+
+    // Get site settings for contact info
+    const settings = await SiteSettings.findOne() || {};
 
     // Get similar sets (same room, same style) for the carousel
     const similarSets = await FurnitureSet.find({
@@ -35,6 +39,7 @@ router.get("/:slug", async (req, res) => {
       set,
       similarSets,
       youMayAlsoLikeSets,
+      contactSettings: settings.contact,
     });
   } catch (error) {
     console.error("Error loading set page:", error);

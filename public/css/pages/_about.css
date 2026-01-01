@@ -28,19 +28,24 @@
 }
 
 /* Story Section */
+.about-story {
+  padding: 4rem 0;
+  background: var(--color-bg-section-alt);
+}
+
 .story-title {
-  text-align: center;
   font-family: var(--font-heading);
   font-size: var(--text-3xl);
   color: var(--color-text-primary);
-  margin-bottom: 3rem;
-  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  font-weight: 600;
 }
 
 .about-content {
   display: flex;
   gap: 3rem;
-  align-items: center; /* Vertical center image and text */
+  align-items: flex-start; /* Align to top for better visual flow */
 }
 
 .about-image {

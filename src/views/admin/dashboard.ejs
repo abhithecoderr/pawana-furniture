@@ -41,6 +41,20 @@
           </svg>
           <span>Rooms</span>
         </button>
+        <div class="nav-divider"></div>
+        <button class="nav-item" data-tab="home-settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-tab="contact-settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Contact</span>
+        </button>
       </nav>
 
       <form class="logout-form" method="POST" action="/<%= adminRoute %>/logout">
@@ -158,6 +172,137 @@
         <!-- Room Details -->
         <div class="room-details" id="room-details">
           <div class="loading-text">Loading room details...</div>
+        </div>
+      </div>
+
+      <!-- Home Settings Tab -->
+      <div class="tab-content" id="home-settings-tab">
+        <div class="content-header">
+          <h2>Home Page Settings</h2>
+        </div>
+
+        <div class="settings-form-container">
+          <form id="home-settings-form" class="settings-form">
+            <div class="settings-section">
+              <h3>Hero Section</h3>
+
+              <div class="form-group">
+                <label for="hero-tagline">Tagline</label>
+                <input type="text" id="hero-tagline" name="tagline" placeholder="Only The Finest Furniture">
+              </div>
+
+              <div class="form-group">
+                <label for="hero-badges">Hero Badges (comma-separated)</label>
+                <input type="text" id="hero-badges" name="badges" placeholder="Workshop In Rajpura, Since 1980">
+              </div>
+
+              <div class="form-group">
+                <h4>Stats</h4>
+                <div id="hero-stats-container"></div>
+                <button type="button" class="btn-add-stat" id="add-stat-btn">+ Add Stat</button>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Featured Carousels</h3>
+
+              <div class="form-group">
+                <label for="signature-codes">Signature Items Codes (comma-separated)</label>
+                <textarea id="signature-codes" name="signatureItems" rows="2" placeholder="LR-04, BR-28, DR-05..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="featured-items-codes">Featured Items Codes (comma-separated)</label>
+                <textarea id="featured-items-codes" name="featuredItems" rows="2" placeholder="LM-011, ST-011..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="featured-sets-codes">Featured Sets Codes (comma-separated)</label>
+                <textarea id="featured-sets-codes" name="featuredSets" rows="2" placeholder="OT-02, LR-01..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-save">Save Home Settings</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Contact Settings Tab -->
+      <div class="tab-content" id="contact-settings-tab">
+        <div class="content-header">
+          <h2>Contact Page Settings</h2>
+        </div>
+
+        <div class="settings-form-container">
+          <form id="contact-settings-form" class="settings-form">
+            <div class="settings-section">
+              <h3>Contact Information</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-phone">Phone Number</label>
+                  <input type="text" id="contact-phone" name="phone" placeholder="+91 6239188911">
+                </div>
+                <div class="form-group">
+                  <label for="contact-whatsapp">WhatsApp (international format)</label>
+                  <input type="text" id="contact-whatsapp" name="whatsapp" placeholder="916239188911">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-email">Display Email</label>
+                  <input type="email" id="contact-email" name="email" placeholder="pawanafurniture07@gmail.com">
+                </div>
+                <div class="form-group">
+                  <label for="contact-form-email">Form Submission Email</label>
+                  <input type="email" id="contact-form-email" name="formEmail" placeholder="abhicooltripathi1@gmail.com">
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Address</h3>
+
+              <div class="form-group">
+                <label for="address-line1">Line 1 (Business Name)</label>
+                <input type="text" id="address-line1" name="addressLine1" placeholder="Pawana Furniture">
+              </div>
+              <div class="form-group">
+                <label for="address-line2">Line 2 (Street)</label>
+                <input type="text" id="address-line2" name="addressLine2" placeholder="Patiala Road, NH 7">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="address-line3">Line 3 (City/State/PIN)</label>
+                  <input type="text" id="address-line3" name="addressLine3" placeholder="Liberty Chowk, Punjab 140401">
+                </div>
+                <div class="form-group">
+                  <label for="address-country">Country</label>
+                  <input type="text" id="address-country" name="addressCountry" placeholder="India">
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Business Hours</h3>
+
+              <div class="form-group">
+                <label for="hours-weekday">Weekday Hours</label>
+                <input type="text" id="hours-weekday" name="hoursWeekday" placeholder="Monday - Saturday: 8:00 AM - 7:30 PM">
+              </div>
+              <div class="form-group">
+                <label for="hours-weekend">Weekend Hours</label>
+                <input type="text" id="hours-weekend" name="hoursWeekend" placeholder="Sunday: 8:00 AM - 6:30 PM">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-save">Save Contact Settings</button>
+            </div>
+          </form>
         </div>
       </div>
     </main>

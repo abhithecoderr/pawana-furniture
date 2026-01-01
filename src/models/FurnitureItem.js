@@ -56,4 +56,11 @@ furnitureItemSchema.pre("validate", function (next) {
   next();
 });
 
+// Indexes for faster search
+furnitureItemSchema.index({ name: "text", code: "text", style: "text", type: "text", room: "text" });
+furnitureItemSchema.index({ style: 1 });
+furnitureItemSchema.index({ type: 1 });
+furnitureItemSchema.index({ room: 1 });
+furnitureItemSchema.index({ code: 1 });
+
 export default mongoose.model("FurnitureItem", furnitureItemSchema);
