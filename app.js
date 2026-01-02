@@ -50,6 +50,7 @@ app.use(helmet({
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https://res.cloudinary.com", "https://*.cloudinary.com", "https://maps.google.com", "https://*.googleapis.com", "https://*.gstatic.com"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrcAttr: ["'unsafe-inline'"], // Allow inline event handlers (onclick, onchange, etc.)
       frameSrc: ["'self'", "https://maps.google.com", "https://*.google.com"],
       connectSrc: ["'self'"]
     }
@@ -87,9 +88,6 @@ app.use(sessionMiddleware);
 
 // Navigation data middleware - makes items, sets, and rooms available to all views
 app.use(navDataMiddleware);
-
-// Add a version for cache busting
-app.locals.version = Date.now();
 
 app.use("/", homeRoute);
 app.use("/item", itemRoute);
