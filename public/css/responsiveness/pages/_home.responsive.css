@@ -21,7 +21,7 @@
     max-width: 100%;
     padding: 1rem 1rem 0.2rem;
     margin: 0rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; /* Restored to keep badges higher */
     backdrop-filter: blur(0px);
   }
 
@@ -33,7 +33,7 @@
     display: flex;
     justify-content: flex-start;
     gap: 0.4rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem; /* Increased to push tagline down */
     z-index: 3;
   }
 
@@ -52,6 +52,7 @@
     font-size: clamp(1.3rem, 5vw, 1.6rem);
     margin-bottom: 1rem;
     line-height: 1.2;
+    margin-top: 3rem; /* Substantially shift tagline and buttons downwards */
   }
 
   /* Buttons - Side by side, centered */
@@ -65,8 +66,8 @@
 
   .hero-actions .btn-primary,
   .hero-actions .btn-secondary {
-    padding: 0.5rem 0.85rem;
-    font-size: 0.6rem;
+    padding: 0.45rem 0.75rem; /* Reduced from 0.5rem 0.85rem */
+    font-size: 0.55rem; /* Reduced from 0.6rem */
     letter-spacing: 0.5px;
     flex: 0 0 auto;
   }
@@ -78,7 +79,7 @@
     align-items: center;
     gap: 0;
     padding: 0.75rem 1rem;
-    margin-top: 5rem;
+    margin-top: 3.5rem; /* Reduced from 5rem to allow tagline/buttons to sit lower */
     width: 100%;
   }
 
@@ -87,45 +88,41 @@
   }
 
   .stat-number {
-    font-size: 1.1rem;
+    font-size: 1.35rem; /* Scaled up from 1.1rem */
     color: var(--color-text-inverse);
   }
 
   .stat-label {
-    font-size: 0.45rem;
+    font-size: 0.55rem; /* Scaled up from 0.45rem */
     color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.5px;
   }
 
   /* Section titles - smaller on mobile */
   .section-title,
-  body.page-home .home-carousel .carousel-header .section-title {
+  .home-carousel .carousel-header .section-title {
     font-size: 1.55rem;
-    margin-bottom: var(--space-2); /* Reduced from space-3 */
+    margin-bottom: 0; /* Removed to ensure arrows align exactly with title text */
   }
 
-  /* Sections - less padding on mobile, but keep groups consistent */
+  /* Sections - Consistent breathable padding for all homepage sections */
   /* Group 1: Carousels + Browse Rooms */
   .home-carousel,
   .browse-rooms {
-    padding: var(--space-5) 0;
+    padding: var(--space-12) 0;
+    margin-top: 0;
   }
 
   /* Group 2: Marquees (Recent Projects, Brands, Testimonials) */
   .home-marquee,
   .brands-section,
-  .testimonials-marquee {
-    padding: var(--space-10) 0;
-  }
-
+  .testimonials-marquee,
   .why-us,
   .custom-order {
-    padding: var(--space-8) 0;
+    padding: var(--space-12) 0;
   }
 
-  .home-carousel,
-  .browse-rooms {
-    margin-top: var(--space-4);
-  }
+  /* Removed redundant margin-top for consistency */
 
   .section-container {
     padding: 0 var(--space-4);
@@ -143,26 +140,45 @@
 
   /* Carousels - Centered Peek Effect */
   .home-carousel .carousel-header {
-    margin-bottom: var(--space-2); /* Reduced from space-4 */
+    flex-direction: row; align-items: flex-start; /* Aligned to top to sync with title specifically */
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+
+  .home-carousel .carousel-title-group {
+    width: auto; /* Remove 100% width to allow arrows on same line */
+  }
+
+  .home-carousel .carousel-nav {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.15rem; /* Precisely adjusted to align with the visual center of the title text */
+  }
+
+  .home-carousel .carousel-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    border-radius: 50%; /* Pill/circle shaped for mobile */
   }
 
   .home-carousel .carousel-wrapper {
-    overflow: hidden; /* Contain the track to prevent horizontal page scroll */
-    padding: 0rem 0; /* Reduced from 1.5rem */
+    overflow: hidden;
+    padding: 0rem 0;
     position: relative;
   }
 
   .home-carousel .carousel-container {
-    overflow: visible; /* Allow elevated item shadow/scale to show */
+    overflow: visible;
   }
 
   .home-carousel .carousel-track {
-    gap: 1rem; /* Smaller gap for mobile peeking */
+    gap: 0.5rem;
   }
 
   .home-carousel .carousel-item,
   .home-carousel.featured-items-peek .carousel-item {
-    flex: 0 0 76%; /* Shows 76% of one item, leaving 12% peek on each side */
+    flex: 0 0 85%;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
     opacity: 0.45;
     transform: scale(0.94);
@@ -172,41 +188,6 @@
     opacity: 1;
     transform: scale(1);
     z-index: 2;
-  }
-
-  /* Reposition arrows - lower and more spaced out */
-  .carousel-nav {
-    position: absolute;
-    top: 55%; /* Moved down from 50% */
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: space-between;
-    padding: 0 1%; /* Reduced from 3% for arrows to be more outside */
-    pointer-events: none;
-    z-index: 10;
-    margin-top: 0; /* Removed negative margin */
-  }
-
-  /* Target specific carousels if needed for arrow vertical alignment */
-  .home-carousel .carousel-nav {
-    top: 42%; /* Position at roughly middle of image */
-  }
-
-  .carousel-nav .carousel-arrow {
-    width: 38px;
-    height: 38px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid var(--color-border-light);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    pointer-events: auto; /* Re-enable clicks */
-    font-size: 1.1rem;
-    color: var(--color-primary);
-  }
-
-  .carousel-nav .carousel-arrow:active {
-    transform: scale(0.95);
   }
 
   /* Adjust product card meta for compact mobile view */
@@ -232,9 +213,10 @@
     gap: 0.5rem;
   }
 
-  /* Smaller style badges on mobile home carousel */
+  /* Smaller style/room badges on mobile home carousel */
   .home-carousel .carousel-item .item-style-badge,
-  .home-carousel .carousel-item .set-style-badge {
+  .home-carousel .carousel-item .set-style-badge,
+  .home-carousel .carousel-item .room-badge {
     font-size: 0.55rem;
     padding: 0.2rem 0.5rem;
     letter-spacing: 0.5px;
@@ -314,9 +296,9 @@
     font-size: 0.8rem;
   }
 
-  /* Delivery Section - Map first, text below */
+  /* Delivery Section - Consistent padding */
   .delivery-section {
-    padding: var(--space-8) 0;
+    padding: var(--space-12) 0;
   }
 
   .delivery-section .section-container {

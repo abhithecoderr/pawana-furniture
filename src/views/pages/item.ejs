@@ -67,8 +67,8 @@
             </button>
           </div>
           <div class="item-meta">
-            <span class="item-room"><%= item.room %></span>
             <span class="item-style-badge <%= item.style.toLowerCase() %>" id="itemStyleBadge"><%= item.style %></span>
+            <span class="room-badge"><%= item.room %></span>
           </div>
           <p class="item-type-code"><span class="item-type-text" id="itemType"><%= item.type %></span> · <%= item.code %></p>
         </div>
@@ -94,16 +94,18 @@
 
 <!-- Similar Items Carousel -->
 <% if (similarItems && similarItems.length > 0) { %>
-<section class="home-carousel">
+<section class="home-carousel featured-items-peek">
   <div class="section-container">
     <div class="carousel-header">
-      <h2 class="section-title">Similar Items</h2>
-    </div>
-    <div class="carousel-wrapper">
+      <div class="carousel-title-group">
+        <h2 class="section-title">Similar Items</h2>
+      </div>
       <div class="carousel-nav">
         <button class="carousel-arrow carousel-prev" data-carousel="similar-items" aria-label="Previous item">‹</button>
         <button class="carousel-arrow carousel-next" data-carousel="similar-items" aria-label="Next item">›</button>
       </div>
+    </div>
+    <div class="carousel-wrapper">
       <div class="carousel-container">
         <div class="carousel-track" id="similar-items-carousel-track">
           <% similarItems.forEach(similarItem => { %>
@@ -115,7 +117,7 @@
               </div>
               <div class="product-card-meta">
                 <span class="item-style-badge <%= similarItem.style.toLowerCase() %>"><%= similarItem.style %></span>
-                <p><%= similarItem.room %> · <%= similarItem.type %> · <%= similarItem.code %></p>
+                <p><span class="room-badge"><%= similarItem.room %></span> · <%= similarItem.type %> · <%= similarItem.code %></p>
               </div>
             </a>
           </div>
@@ -145,7 +147,7 @@
           </div>
           <div class="product-card-meta">
             <span class="item-style-badge <%= relatedItem.style.toLowerCase() %>"><%= relatedItem.style %></span>
-            <p><%= relatedItem.room %> · <%= relatedItem.type %> · <%= relatedItem.code %></p>
+            <p><span class="room-badge"><%= relatedItem.room %></span> · <%= relatedItem.type %> · <%= relatedItem.code %></p>
           </div>
         </a>
       <% }); %>

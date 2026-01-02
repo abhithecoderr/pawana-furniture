@@ -106,7 +106,8 @@
     height: 14px;
   }
 
-  /* Newsletter - Full Width */
+  /* Full Width Columns (Contact & Newsletter) */
+  .footer-contact,
   .footer-col:has(.newsletter) {
     grid-column: 1 / -1;
     padding-top: 0.75rem;
@@ -114,6 +115,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
+  .footer-contact h4,
   .footer-col:has(.newsletter) h4 {
     text-align: center;
     margin-bottom: 0.6rem;

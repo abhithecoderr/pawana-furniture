@@ -82,7 +82,7 @@
             </div>
             <div class="set-card-meta">
               <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
-              <p><%= set.room %> · <%= set.code %></p>
+              <p><span class="room-badge"><%= set.room %></span> · <%= set.code %></p>
             </div>
           </a>
         </div>
@@ -135,7 +135,7 @@
       gridSelector: '.sets-grid',
       itemSelector: '.set-card-wrapper',
       paginationSelector: '#room-pagination',
-      desktopPerPage: 15,
+      desktopPerPage: 9,
       mobilePerPage: 6
     });
   });

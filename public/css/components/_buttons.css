@@ -7,7 +7,7 @@
   display: inline-block;
   padding: 1rem 2.5rem;
   border: 1px solid var(--color-primary);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-primary);
   text-transform: uppercase;

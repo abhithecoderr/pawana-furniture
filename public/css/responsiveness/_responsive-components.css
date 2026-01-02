@@ -135,8 +135,9 @@
     font-size: 0.65rem;
   }
 
-  /* Style badges - consistent sizing */
-  .item-style-badge {
+  /* Style and Room badges - consistent sizing */
+  .item-style-badge,
+  .room-badge {
     font-size: 0.55rem;
     padding: 0.2rem 0.5rem;
     letter-spacing: 0.5px;

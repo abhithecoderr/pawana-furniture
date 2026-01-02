@@ -60,7 +60,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 2px;
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(200, 185, 165, 0.3);
   color: var(--color-text-muted);
@@ -123,13 +123,13 @@
   }
 
   .breadcrumb-back {
-    width: 28px; /* Slightly smaller circle */
-    height: 28px;
-    margin-right: 0.4rem;
+    width: 24px; /* Reduced from 28px */
+    height: 24px;
+    margin-right: 0.3rem; /* Reduced from 0.4rem */
   }
 
   .breadcrumb-back svg {
-    width: 16px;
-    height: 16px;
+    width: 14px; /* Reduced from 16px */
+    height: 14px;
   }
 }

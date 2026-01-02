@@ -180,57 +180,57 @@ function showSearchSuggestions() {
     <div class="search-suggestions">
       <h4>Try searching for</h4>
       <div class="suggestion-list">
-        <button class="suggestion-item" data-query="Royal">
-          <span class="suggestion-text">Royal</span>
+        <button class="suggestion-item" data-query="Royal Cabinet">
+          <span class="suggestion-text">Royal Cabinet</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <button class="suggestion-item" data-query="Modern">
-          <span class="suggestion-text">Modern</span>
+        <button class="suggestion-item" data-query="Modern Bed">
+          <span class="suggestion-text">Modern Bed</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <button class="suggestion-item" data-query="Sofa">
-          <span class="suggestion-text">Sofa</span>
+        <button class="suggestion-item" data-query="Living Room Chair">
+          <span class="suggestion-text">Living Room Chair</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <button class="suggestion-item" data-query="Bed">
-          <span class="suggestion-text">Bed</span>
+        <button class="suggestion-item" data-query="Dining Set">
+          <span class="suggestion-text">Dining Set</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <button class="suggestion-item" data-query="Dining">
-          <span class="suggestion-text">Dining</span>
+        <button class="suggestion-item" data-query="Traditional Sofa">
+          <span class="suggestion-text">Traditional Sofa</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <button class="suggestion-item" data-query="Traditional">
-          <span class="suggestion-text">Traditional</span>
+        <button class="suggestion-item" data-query="Bedroom Wardrobe">
+          <span class="suggestion-text">Bedroom Wardrobe</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <button class="suggestion-item" data-query="Living Room">
-          <span class="suggestion-text">Living Room</span>
+        <button class="suggestion-item" data-query="Office Desk">
+          <span class="suggestion-text">Office Desk</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <button class="suggestion-item" data-query="Bedroom">
-          <span class="suggestion-text">Bedroom</span>
+        <button class="suggestion-item" data-query="Showpiece">
+          <span class="suggestion-text">Showpiece</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>

@@ -9,7 +9,7 @@
   padding: var(--space-1);
   background: var(--color-bg-card);
   border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-sm);
+  border-radius: 50px; /* Pill-shaped */
   box-shadow: var(--shadow-sm);
 }
 
@@ -23,7 +23,7 @@
   color: var(--color-text-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);
-  border-radius: var(--radius-sm);
+  border-radius: 50px; /* Pill-shaped */
   text-transform: capitalize;
   letter-spacing: 0.3px;
 }
@@ -50,11 +50,11 @@
 }
 
 .filter-tabs-compact .style-tab {
-  padding: 0.65rem 1.25rem; /* Reduced back to a more standard size */
+  padding: 0.85rem 1.75rem; /* Larger padding */
   border-radius: 0;
   position: relative;
   font-weight: var(--font-semibold);
-  font-size: var(--text-sm); /* Reduced back to sm */
+  font-size: var(--text-base); /* Larger font */
 }
 
 .filter-tabs-compact .style-tab:not(:last-child)::after {
@@ -96,8 +96,8 @@
   .style-filter-tabs {
     flex-wrap: wrap;
     justify-content: center;
-    border-radius: var(--radius-lg);
-    padding: var(--space-2);
+    border-radius: 50px; /* Force pill shape on mobile */
+    padding: var(--space-1);
   }
 
   .style-tab {

@@ -133,28 +133,25 @@
 
 .item-meta {
   display: flex;
+  align-items: center; /* Ensure badges are vertically aligned */
   gap: var(--space-2);
   flex-wrap: wrap;
-  margin-top: var(--space-1); /* Add slight spacing */
+  margin-top: var(--space-2);
 }
 
-.item-room,
-.item-type {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-  padding: var(--space-1) var(--space-3);
-  background: var(--color-bg-section-alt);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: var(--font-medium);
-}
-
-/* Override component badge to match meta style */
-.item-meta .item-style-badge {
-  font-size: var(--text-xs);
-  padding: var(--space-1) var(--space-3);
+/* Standardize detail page badges */
+.item-meta .item-style-badge,
+.item-meta .room-badge {
+  font-size: 0.75rem; /* Increased from 0.65rem */
+  padding: 0.35rem 1rem; /* Increased from 0.25rem 0.75rem */
   margin-top: 0;
-  align-self: center;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  border-radius: 2px;
 }
 
 .item-description {
@@ -252,17 +249,4 @@
 /* Related Items Section - Item page specific */
 .related-items-section {
   background-color: var(--color-bg-body);
-}
-
-/* Similar Items Carousel - Fix arrow positioning and title spacing */
-.item-detail-section + .home-carousel .carousel-header {
-  margin-bottom: var(--space-6);
-}
-
-.item-detail-section + .home-carousel .carousel-header .section-title {
-  font-size: var(--text-2xl);
-}
-
-.item-detail-section + .home-carousel .carousel-nav {
-  top: -55px; /* Adjusted for item page */
 }

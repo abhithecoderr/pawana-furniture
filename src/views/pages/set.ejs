@@ -67,9 +67,9 @@
             </button>
           </div>
           <div class="set-meta">
-            <span class="set-room"><%= set.room %></span>
-            <span class="set-label">Set</span>
             <span class="set-style-badge <%= set.style.toLowerCase() %>" id="setStyleBadge"><%= set.style %></span>
+            <span class="room-badge"><%= set.room %></span>
+            <span class="set-type-badge">SET</span>
           </div>
           <p class="set-code"><%= set.code %></p>
         </div>
@@ -97,16 +97,18 @@
 <!-- Related Sets Section -->
 <!-- Similar Sets Carousel -->
 <% if (similarSets && similarSets.length > 0) { %>
-<section class="home-carousel">
+<section class="home-carousel featured-items-peek">
   <div class="section-container">
     <div class="carousel-header">
-      <h2 class="section-title">Similar Sets</h2>
-    </div>
-    <div class="carousel-wrapper">
+      <div class="carousel-title-group">
+        <h2 class="section-title">Similar Sets</h2>
+      </div>
       <div class="carousel-nav">
         <button class="carousel-arrow carousel-prev" data-carousel="similar-sets" aria-label="Previous set">‹</button>
         <button class="carousel-arrow carousel-next" data-carousel="similar-sets" aria-label="Next set">›</button>
       </div>
+    </div>
+    <div class="carousel-wrapper">
       <div class="carousel-container">
         <div class="carousel-track" id="similar-sets-carousel-track">
           <% similarSets.forEach(similarSet => { %>
@@ -119,7 +121,7 @@
               </div>
               <div class="set-card-meta">
                 <span class="set-style-badge <%= similarSet.style.toLowerCase() %>"><%= similarSet.style %></span>
-                <p><%= similarSet.room %> · <%= similarSet.code %></p>
+                <p><span class="room-badge"><%= similarSet.room %></span> · <%= similarSet.code %></p>
               </div>
             </a>
           </div>
@@ -149,7 +151,7 @@
           </div>
           <div class="set-card-meta">
             <span class="set-style-badge <%= otherSet.style.toLowerCase() %>"><%= otherSet.style %></span>
-            <p><%= otherSet.room %> · <%= otherSet.code %></p>
+            <p><span class="room-badge"><%= otherSet.room %></span> · <%= otherSet.code %></p>
           </div>
         </a>
       <% }); %>

@@ -59,7 +59,7 @@ function initializeCarousel(trackId, prevSelector, nextSelector, thumbId) {
 
     // Calculate position
     const itemWidth = originalItems[0].offsetWidth;
-    const gap = window.innerWidth <= 767 ? 16 : 32; // Smaller gap on mobile
+    const gap = window.innerWidth <= 767 ? 8.5 : 32; // Smaller gap on mobile (0.5rem)
     const isMobile = window.innerWidth <= 767;
 
     let offset = (currentIndex + 3) * (itemWidth + gap); // +3 because we prepended 3 items
@@ -67,8 +67,7 @@ function initializeCarousel(trackId, prevSelector, nextSelector, thumbId) {
     // Centering logic for mobile - center the item in the viewport
     if (isMobile) {
       const containerWidth = carouselTrack.parentElement.offsetWidth;
-      // Account for the gap on both sides of the centered item
-      offset = offset - (containerWidth - itemWidth) / 2 + gap / 2;
+      offset = offset - (containerWidth - itemWidth) / 2 + gap;
     }
 
     // Apply transformation

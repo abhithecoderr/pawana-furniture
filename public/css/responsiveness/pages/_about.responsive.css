@@ -12,7 +12,7 @@
   }
 
   .about-hero-content p {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
   }
 
   .about-story {
@@ -57,7 +57,9 @@
   }
 
   .about-text p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-darkest);
   }
 
   .about-values,
@@ -77,9 +79,11 @@
   }
 
   .process-intro {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
     margin-bottom: 2rem;
     padding: 0 0.5rem;
+    color: var(--color-text-darkest);
   }
 
   .process-steps {
@@ -96,27 +100,29 @@
   }
 
   .step-image {
-    flex: 0 0 110px; /* Scaled up from 80px */
-    height: 110px;
+    flex: 0 0 140px; /* Scaled up from 110px */
+    width: 140px;
+    height: 140px;
     margin-bottom: 0;
   }
 
   .step-header {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem; /* Tighter spacing */
     gap: 0.5rem;
   }
 
   .step-number {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Slightly smaller */
   }
 
   .process-step h3 {
-    font-size: 0.95rem;
+    font-size: 0.9rem; /* Scaled down from 0.95rem */
   }
 
   .process-step p {
-    font-size: 0.75rem;
+    font-size: 0.8rem; /* Scaled down from 0.85rem */
     line-height: 1.5;
+    color: var(--color-text-darkest);
   }
 
   .about-cta {
@@ -128,7 +134,8 @@
   }
 
   .about-cta .cta-content p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--color-text-darkest);
   }
 
   .about-cta .cta-buttons {
@@ -159,7 +166,12 @@
   }
 
   .heritage-content p {
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-darkest);
+  }
+
+  .heritage-icon-img {
+    width: 110px;
   }
 }

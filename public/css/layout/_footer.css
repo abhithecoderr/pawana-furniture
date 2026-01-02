@@ -48,9 +48,7 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-.footer-logo:hover {
-  color: var(--color-accent) !important;
-}
+/* Logo hover effect removed */
 
 .footer-brand p {
   color: rgba(255,255,255,0.7);
@@ -124,7 +122,7 @@
   width: 32px;
   height: 32px;
   border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   color: rgba(255,255,255,0.5);
   transition: all 0.3s ease;
 }
@@ -159,9 +157,9 @@
 }
 
 .newsletter .btn {
-  background: #8b5a3c; /* Darker warm brown button */
-  border: 1px solid #8b5a3c;
-  color: var(--color-text-inverse);
+  background: var(--color-accent); /* Golden yellow like footer link hover */
+  border: 1px solid var(--color-accent);
+  color: var(--color-primary-dark); /* Dark text on golden bg */
   width: 100%;
   padding: 0.85rem 2rem;
   display: inline-block;
@@ -177,13 +175,51 @@
 }
 
 .newsletter .btn:hover {
-  background: #6b4423;
-  border-color: #6b4423;
-  color: var(--color-text-inverse);
+  background: #c9a227; /* Slightly darker gold on hover */
+  border-color: #c9a227;
+  color: var(--color-primary-dark);
   transform: translateY(-1px);
 }
 .newsletter .btn:active {
   transform: translateY(0);
+}
+
+/* Newsletter Success Message */
+.newsletter-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 1rem 0;
+  color: var(--color-accent);
+}
+
+.newsletter-success svg {
+  stroke: var(--color-accent);
+}
+
+.newsletter-success p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Newsletter Button Loader */
+.newsletter .btn .btn-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter .btn .spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Copyright */

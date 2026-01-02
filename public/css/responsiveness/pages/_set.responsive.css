@@ -83,6 +83,11 @@
     margin-top: 0;
   }
 
+  .set-info .detail-wishlist svg {
+    width: 20px; /* Scaled down from 28px */
+    height: 20px;
+  }
+
   .set-description {
     font-size: 0.85rem;
   }
@@ -94,10 +99,18 @@
     margin-bottom: var(--space-4);
   }
 
-  .set-room,
-  .set-items-count {
-    font-size: 0.65rem;
-    padding: var(--space-1) var(--space-2);
+  .set-meta .set-style-badge,
+  .set-meta .room-badge,
+  .set-type-badge {
+    font-size: 0.65rem; /* Scaled down from 0.75rem */
+    padding: 0.25rem 0.6rem; /* Tighter padding */
+    letter-spacing: 0.5px;
+  }
+
+  .set-code {
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    margin-top: var(--space-2);
   }
 
   .set-thumbnails {
@@ -185,6 +198,22 @@
     max-width: 85%;
     width: 85%;
     text-align: left;
+  }
+
+  /* Fix absolute badge position for centered cards */
+  .related-items-section .product-grid .set-card .set-card-badge {
+    right: 10%; /* Move in from the edge to stay on the image */
+    top: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.6rem;
+  }
+
+  /* General mobile scaling for set badge if not already handled */
+  .set-card-badge {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.6rem;
+    top: 0.75rem;
+    right: 0.75rem;
   }
 }
 

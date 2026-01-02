@@ -15,7 +15,7 @@ function initPagination(options) {
     gridSelector,
     itemSelector,
     paginationSelector,
-    desktopPerPage = 15,
+    desktopPerPage = 9,
     mobilePerPage = 6,
     mobileBreakpoint = 768
   } = options;
@@ -62,23 +62,36 @@ function initPagination(options) {
 
     // Smooth fade transition
     if (smooth && previousPage !== page) {
+      // Set a slower, calmer transition
+      grid.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
       grid.style.opacity = '0';
-      grid.style.transition = 'opacity 0.2s ease';
 
+      // Start scroll immediately in parallel with fade out
+      const topOffset = window.innerWidth <= mobileBreakpoint ? 120 : 180; // Slightly more up
+      const elementPosition = grid.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - topOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      // Wait for fade out to be nearly done before swapping content and fading in
       setTimeout(() => {
         updateVisibleItems(startIndex, endIndex);
+
+        // Use a slightly longer fade in for a "calmer" appearance
+        grid.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
         grid.style.opacity = '1';
-      }, 200);
+      }, 350);
     } else {
       updateVisibleItems(startIndex, endIndex);
+      if (page > 1 && previousPage !== page) {
+         grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     renderPagination();
-
-    // Scroll to top of grid (smooth) since pagination is at bottom
-    if (page > 1 && previousPage !== page) {
-      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   }
 
   // Update which items are visible

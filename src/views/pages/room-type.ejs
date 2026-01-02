@@ -86,7 +86,7 @@
             </div>
             <div class="product-card-meta">
               <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-              <p><%= item.room %> · <%= item.type %><% if (item.code) { %> · <%= item.code %><% } %></p>
+              <p><span class="room-badge"><%= item.room %></span> · <%= item.type %><% if (item.code) { %> · <%= item.code %><% } %></p>
             </div>
           </a>
         </div>
@@ -166,7 +166,7 @@
       gridSelector: '.catalogue-items-grid',
       itemSelector: '.product-card-wrapper',
       paginationSelector: '#roomtype-pagination',
-      desktopPerPage: 15,
+      desktopPerPage: 9,
       mobilePerPage: 6
     });
   });

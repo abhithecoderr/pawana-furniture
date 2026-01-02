@@ -67,11 +67,21 @@
 
         <!-- Dropdown Filters (Right) -->
         <div class="catalogue-filters-right" id="catalogue-filters-right">
-          <!-- Dropdowns Wrapper (slides in on mobile) -->
+          <!-- Dropdowns Wrapper (Always visible on mobile now) -->
           <div class="filter-dropdowns-wrapper">
-            <!-- View Dropdown -->
-            <div class="filter-dropdown">
-              <label for="view-filter">View</label>
+            <!-- View Custom Dropdown -->
+            <div class="filter-dropdown custom-dropdown" id="view-dropdown">
+              <button class="custom-select-trigger" onclick="toggleCustomDropdown('view')">
+                <span id="view-trigger-text">
+                  <%= filters.view === 'items' ? 'Items' : (filters.view === 'sets' ? 'Sets' : 'All') %>
+                </span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="custom-select-options" id="view-options">
+                <div class="custom-option <%= filters.view === 'all' ? 'active' : '' %>" onclick="selectCustomOption('view', 'all', 'All')">All View</div>
+                <div class="custom-option <%= filters.view === 'items' ? 'active' : '' %>" onclick="selectCustomOption('view', 'items', 'Items')">Items</div>
+                <div class="custom-option <%= filters.view === 'sets' ? 'active' : '' %>" onclick="selectCustomOption('view', 'sets', 'Sets')">Sets</div>
+              </div>
               <select id="view-filter" onchange="updateFilter('view', this.value)">
                 <option value="all" <%= filters.view === 'all' ? 'selected' : '' %>>All</option>
                 <option value="items" <%= filters.view === 'items' ? 'selected' : '' %>>Items</option>
@@ -79,9 +89,16 @@
               </select>
             </div>
 
-            <!-- Type Dropdown -->
-            <div class="filter-dropdown">
-              <label for="type-filter">Type</label>
+            <!-- Type Custom Dropdown -->
+            <div class="filter-dropdown custom-dropdown" id="type-dropdown">
+              <button class="custom-select-trigger" onclick="toggleCustomDropdown('type')">
+                <span id="type-trigger-text"><%= filters.type || 'All Types' %></span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="custom-select-options" id="type-options">
+                <div class="custom-option <%= !filters.type ? 'active' : '' %>" onclick="selectCustomOption('type', '', 'All Types')">All Types</div>
+                <!-- Dynamic options injected by updateAdaptiveFilters -->
+              </div>
               <select id="type-filter" onchange="updateFilter('type', this.value)">
                 <option value="" <%= !filters.type ? 'selected' : '' %>>All Types</option>
                 <% allTypes.forEach(type => { %>
@@ -90,9 +107,16 @@
               </select>
             </div>
 
-            <!-- Style Dropdown -->
-            <div class="filter-dropdown">
-              <label for="style-filter">Style</label>
+            <!-- Style Custom Dropdown -->
+            <div class="filter-dropdown custom-dropdown" id="style-dropdown">
+              <button class="custom-select-trigger" onclick="toggleCustomDropdown('style')">
+                <span id="style-trigger-text"><%= filters.style || 'All Styles' %></span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="custom-select-options" id="style-options">
+                <div class="custom-option <%= !filters.style ? 'active' : '' %>" onclick="selectCustomOption('style', '', 'All Styles')">All Styles</div>
+                <!-- Dynamic options injected by updateAdaptiveFilters -->
+              </div>
               <select id="style-filter" onchange="updateFilter('style', this.value)">
                 <option value="" <%= !filters.style ? 'selected' : '' %>>All Styles</option>
                 <% allStyles.forEach(style => { %>
@@ -147,7 +171,7 @@
               </div>
               <div class="set-card-meta">
                 <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
-                <p><%= set.room %> · <%= set.code %></p>
+                <p><span class="room-badge"><%= set.room %></span> · <%= set.code %></p>
               </div>
             </a>
           </div>
@@ -183,7 +207,7 @@
               </div>
               <div class="product-card-meta">
                 <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-                <p><%= item.room %> · <%= item.type %> · <%= item.code %></p>
+                <p><span class="room-badge"><%= item.room %></span> · <%= item.type %> · <%= item.code %></p>
               </div>
             </a>
           </div>
@@ -238,6 +262,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+function updateFilter(filterName, value) {
+  // If type filter is changed to a specific type (not "All Types"), automatically select "Items"
+  if (filterName === 'type' && value !== '') {
+    const viewSelect = document.getElementById('view-filter');
+    viewSelect.value = 'items';
+  }
+  applyFilters();
+}
+
 function updateRoomFilter(value) {
   currentRoomFilter = value;
 
@@ -254,13 +287,63 @@ function updateRoomFilter(value) {
   applyFilters();
 }
 
-function updateFilter(filterName, value) {
-  // If type filter is changed to a specific type (not "All Types"), automatically select "Items"
-  if (filterName === 'type' && value !== '') {
-    document.getElementById('view-filter').value = 'items';
+// Custom Dropdown Logic
+function toggleCustomDropdown(id) {
+  const options = document.getElementById(id + '-options');
+  const trigger = options.previousElementSibling;
+
+  // Close other dropdowns
+  document.querySelectorAll('.custom-select-options').forEach(opt => {
+    if (opt.id !== id + '-options') {
+      opt.classList.remove('visible');
+      opt.previousElementSibling.classList.remove('active');
+    }
+  });
+
+  options.classList.toggle('visible');
+  trigger.classList.toggle('active');
+}
+
+function selectCustomOption(id, value, text) {
+  const triggerText = document.getElementById(id + '-trigger-text');
+  const select = document.getElementById(id + '-filter');
+
+  triggerText.textContent = text;
+  select.value = value;
+
+  // Update active state in UI
+  const options = document.getElementById(id + '-options');
+  options.querySelectorAll('.custom-option').forEach(opt => {
+    if (opt.textContent.trim() === text) opt.classList.add('active');
+    else opt.classList.remove('active');
+  });
+
+  options.classList.remove('visible');
+  options.previousElementSibling.classList.remove('active');
+
+  // Logic: Switching to a type automatically switches to 'Items' view
+  if (id === 'type' && value !== '') {
+    const viewSelect = document.getElementById('view-filter');
+    viewSelect.value = 'items';
+    document.getElementById('view-trigger-text').textContent = 'Items';
+
+    // Update View active state
+    document.querySelectorAll('#view-options .custom-option').forEach(opt => {
+      if (opt.textContent.trim() === 'Items') opt.classList.add('active');
+      else opt.classList.remove('active');
+    });
   }
+
   applyFilters();
 }
+
+// Close dropdowns on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.custom-dropdown')) {
+    document.querySelectorAll('.custom-select-options').forEach(opt => opt.classList.remove('visible'));
+    document.querySelectorAll('.custom-select-trigger').forEach(trig => trig.classList.remove('active'));
+  }
+});
 
 function applyFilters() {
   const viewFilter = document.getElementById('view-filter').value;
@@ -277,68 +360,50 @@ function applyFilters() {
   let visibleSets = 0;
   let visibleItems = 0;
 
-  // Filter all catalogue items using ONLY data-filtered-out attribute
-  // Pagination will handle the actual display visibility
   allCards.forEach(card => {
-    const productType = card.dataset.productType; // 'set' or 'item'
+    const productType = card.dataset.productType;
     const style = card.dataset.style;
     const room = card.dataset.room;
-    const type = card.dataset.type; // furniture type (for items only)
+    const type = card.dataset.type;
 
     let show = true;
 
-    // View filter
     if (viewFilter === 'sets' && productType !== 'set') show = false;
     if (viewFilter === 'items' && productType !== 'item') show = false;
-
-    // Style filter
     if (styleFilter && style !== styleFilter) show = false;
-
-    // Room filter
     if (roomFilter && room !== roomFilter) show = false;
 
-    // Type filter (only applies to items)
     if (typeFilter) {
       if (productType === 'set') {
-        show = false; // Hide sets when type filter is active
+        show = false;
       } else if (type && type.toLowerCase() !== typeFilter.toLowerCase()) {
         show = false;
       }
     }
 
-    // Only use data attribute - let pagination handle visibility
     if (show) {
       card.removeAttribute('data-filtered-out');
+      card.style.display = ''; // Restore display
       visibleCount++;
       if (productType === 'set') visibleSets++;
       else visibleItems++;
     } else {
       card.setAttribute('data-filtered-out', 'true');
-      card.style.display = 'none'; // Hide filtered items immediately
+      card.style.display = 'none';
     }
   });
 
-  // Hide grids that have no visible items (prevents empty space)
   setsGrid.style.display = visibleSets > 0 ? 'grid' : 'none';
   itemsGrid.style.display = visibleItems > 0 ? 'grid' : 'none';
 
-  // Update header title
   const headerTitle = document.querySelector('.catalogue-header h2');
-  if (viewFilter === 'items') {
-    headerTitle.textContent = 'Individual Items';
-  } else if (viewFilter === 'sets') {
-    headerTitle.textContent = 'Furniture Sets';
-  } else {
-    headerTitle.textContent = 'All Products';
-  }
+  if (viewFilter === 'items') headerTitle.textContent = 'Individual Items';
+  else if (viewFilter === 'sets') headerTitle.textContent = 'Furniture Sets';
+  else headerTitle.textContent = 'All Products';
 
-  // Update results count
   document.querySelector('.results-count').textContent = `Showing ${visibleCount} results`;
-
-  // Show/hide no results message
   noResults.style.display = visibleCount === 0 ? 'block' : 'none';
 
-  // Refresh pagination after filter - this will show correct items for page 1
   if (cataloguePagination) {
     cataloguePagination.refresh();
   }
@@ -356,15 +421,10 @@ function updateAdaptiveFilters() {
   const selectedStyle = styleFilter.value;
 
   const currentCards = Array.from(document.querySelectorAll('.catalogue-item'));
-
-  // Calculate available types based on current View and Room (and Style if we want full adaptive)
-  // For standard "cascading" behavior, we filter options based on other selections.
-
   const availableTypes = new Set();
   const availableStyles = new Set();
 
   currentCards.forEach(card => {
-    // Check if this card matches VIEW and ROOM (the primary filters)
     const matchesView = (viewFilter === 'all') ||
                         (viewFilter === 'sets' && card.dataset.productType === 'set') ||
                         (viewFilter === 'items' && card.dataset.productType === 'item');
@@ -376,52 +436,69 @@ function updateAdaptiveFilters() {
     }
   });
 
-  // Update Type Filter options
+  // Update Type Filter options (Native Select & Custom UI)
   const typeOptions = Array.from(availableTypes).sort();
-  let typeHtml = '<option value="">All Types</option>';
-  typeOptions.forEach(t => {
-    const selected = t === selectedType ? 'selected' : '';
-    typeHtml += `<option value="${t}" ${selected}>${t}</option>`;
-  });
-  typeFilter.innerHTML = typeHtml;
+  let typeSelectHtml = '<option value="">All Types</option>';
+  let typeCustomHtml = `<div class="custom-option ${!selectedType ? 'active' : ''}" onclick="selectCustomOption('type', '', 'All Types')">All Types</div>`;
 
-  // Update Style Filter options
-  const styleOptions = Array.from(availableStyles).sort();
-  let styleHtml = '<option value="">All Styles</option>';
-  styleOptions.forEach(s => {
-    const selected = s === selectedStyle ? 'selected' : '';
-    styleHtml += `<option value="${s}" ${selected}>${s}</option>`;
+  typeOptions.forEach(t => {
+    const selected = t === selectedType;
+    typeSelectHtml += `<option value="${t}" ${selected ? 'selected' : ''}>${t}</option>`;
+    typeCustomHtml += `<div class="custom-option ${selected ? 'active' : ''}" onclick="selectCustomOption('type', '${t}', '${t}')">${t}</div>`;
   });
-  styleFilter.innerHTML = styleHtml;
+  typeFilter.innerHTML = typeSelectHtml;
+  document.getElementById('type-options').innerHTML = typeCustomHtml;
+
+  // Update Style Filter options (Native Select & Custom UI)
+  const styleOptions = Array.from(availableStyles).sort();
+  let styleSelectHtml = '<option value="">All Styles</option>';
+  let styleCustomHtml = `<div class="custom-option ${!selectedStyle ? 'active' : ''}" onclick="selectCustomOption('style', '', 'All Styles')">All Styles</div>`;
+
+  styleOptions.forEach(s => {
+    const selected = s === selectedStyle;
+    styleSelectHtml += `<option value="${s}" ${selected ? 'selected' : ''}>${s}</option>`;
+    styleCustomHtml += `<div class="custom-option ${selected ? 'active' : ''}" onclick="selectCustomOption('style', '${s}', '${s}')">${s}</div>`;
+  });
+  styleFilter.innerHTML = styleSelectHtml;
+  document.getElementById('style-options').innerHTML = styleCustomHtml;
 }
 
 function clearFilters() {
   currentRoomFilter = '';
-  // Update tabs
   const tabs = document.querySelectorAll('#room-tabs .style-tab');
   tabs.forEach(tab => {
     if (tab.getAttribute('data-room') === '') tab.classList.add('active');
     else tab.classList.remove('active');
   });
 
-  document.getElementById('type-filter').value = '';
-  document.getElementById('style-filter').value = '';
+  // Reset View
   document.getElementById('view-filter').value = 'all';
+  document.getElementById('view-trigger-text').textContent = 'All';
+  document.querySelectorAll('#view-options .custom-option').forEach(opt => {
+    if (opt.textContent.trim() === 'All View') opt.classList.add('active');
+    else opt.classList.remove('active');
+  });
+
+  // Reset Type
+  document.getElementById('type-filter').value = '';
+  document.getElementById('type-trigger-text').textContent = 'All Types';
+
+  // Reset Style
+  document.getElementById('style-filter').value = '';
+  document.getElementById('style-trigger-text').textContent = 'All Styles';
+
   applyFilters();
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize pagination first
   cataloguePagination = initPagination({
     gridSelector: '.catalogue-products',
     itemSelector: '.catalogue-item',
     paginationSelector: '#catalogue-pagination',
-    desktopPerPage: 15,
+    desktopPerPage: 9,
     mobilePerPage: 6
   });
 
-  // Then apply filters (which will call refresh)
   applyFilters();
 });
 </script>

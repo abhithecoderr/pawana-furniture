@@ -52,7 +52,7 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'"],
       scriptSrcAttr: ["'unsafe-inline'"], // Allow inline event handlers (onclick, onchange, etc.)
       frameSrc: ["'self'", "https://maps.google.com", "https://*.google.com"],
-      connectSrc: ["'self'"]
+      connectSrc: ["'self'", "https://formsubmit.co"]
     }
   },
   crossOriginEmbedderPolicy: false

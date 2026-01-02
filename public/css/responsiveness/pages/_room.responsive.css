@@ -59,6 +59,7 @@
   .room-type-header .style-filter-tabs {
     flex-wrap: nowrap;
     padding: var(--space-1);
+    border-radius: 50px; /* Force pill shape on mobile */
   }
 
   .room-type-header .style-tab {

@@ -17,8 +17,9 @@
 }
 
 .about-hero-content p {
-  font-size: var(--text-base);
+  font-size: 1.1rem;
   opacity: 0.95;
+  letter-spacing: 0.5px;
 }
 
 .about-container {
@@ -45,7 +46,7 @@
 .about-content {
   display: flex;
   gap: 3rem;
-  align-items: flex-start; /* Align to top for better visual flow */
+  align-items: center; /* Vertically centered aligning image to text */
 }
 
 .about-image {
@@ -65,17 +66,18 @@
 }
 
 .about-intro {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-style: italic;
   color: var(--color-primary);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
 }
 
 .about-text p {
-  font-size: 0.95rem;
-  line-height: 1.75;
-  color: var(--color-text-secondary);
-  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--color-text-darkest); /* Even darker color for maximum readability */
+  margin-bottom: 1.5rem;
 }
 
 /* Values Section */
@@ -138,9 +140,9 @@
 }
 
 .value-card p {
-  font-size: 0.85rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text-darkest); /* Even darker color for maximum readability */
 }
 
 /* Process Section */
@@ -161,10 +163,10 @@
   max-width: 900px;
   margin: 0 auto 4rem;
   text-align: center;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-text-secondary);
-  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--color-text-darkest); /* Even darker color for maximum readability */
+  padding: 0 1rem;
 }
 
 .process-steps {
@@ -225,9 +227,9 @@
 }
 
 .process-step p {
-  font-size: 0.825rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-darkest); /* Even darker color for maximum readability */
   margin: 0;
 }
 
@@ -243,6 +245,12 @@
   color: var(--color-primary);
   display: flex;
   justify-content: center;
+}
+
+.heritage-icon-img {
+  width: 140px; /* Adjust size as needed */
+  height: auto;
+  opacity: 0.9;
 }
 
 .heritage-content {
@@ -261,7 +269,7 @@
 .heritage-content p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: var(--color-text-secondary);
+  color: var(--color-text-darkest); /* Even darker color for maximum readability */
 }
 
 /* CTA Section */
@@ -287,7 +295,7 @@
   font-size: 1.05rem;
   margin-bottom: 2rem;
   line-height: 1.7;
-  color: var(--color-text-secondary);
+  color: var(--color-text-darkest); /* Even darker color for maximum readability */
 }
 
 .cta-buttons {

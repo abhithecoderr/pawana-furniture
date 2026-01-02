@@ -25,14 +25,16 @@
 <section class="home-carousel signature-carousel">
   <div class="section-container">
     <div class="carousel-header">
-      <h2 class="section-title">Our Signature Pieces</h2>
-      <p class="section-subtitle">Handcrafted masterpieces that define luxury living</p>
-    </div>
-    <div class="carousel-wrapper">
+      <div class="carousel-title-group">
+        <h2 class="section-title">Signature Pieces</h2>
+        <p class="section-subtitle">Masterpieces that define your living space</p>
+      </div>
       <div class="carousel-nav">
         <button class="carousel-arrow carousel-prev" data-carousel="signature" aria-label="Previous">‹</button>
         <button class="carousel-arrow carousel-next" data-carousel="signature" aria-label="Next">›</button>
       </div>
+    </div>
+    <div class="carousel-wrapper">
       <div class="carousel-container">
         <div class="carousel-track" id="signature-carousel-track">
           <% featuredItems.forEach(item => { %>
@@ -55,7 +57,7 @@
               </div>
               <div class="product-card-meta">
                 <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-                <p><%= item.room %> · <%= item.type %> · <%= item.code %></p>
+                <p><span class="room-badge"><%= item.room %></span> · <%= item.type %> · <%= item.code %></p>
               </div>
             </a>
           </div>
@@ -70,14 +72,16 @@
 <section class="home-carousel featured-items-peek">
   <div class="section-container">
     <div class="carousel-header">
-      <h2 class="section-title">Featured Items</h2>
-      <p class="section-subtitle">Curated selection of our finest individual pieces</p>
-    </div>
-    <div class="carousel-wrapper">
+      <div class="carousel-title-group">
+        <h2 class="section-title">Featured Items</h2>
+        <p class="section-subtitle">Curated selection of our finest individual pieces</p>
+      </div>
       <div class="carousel-nav">
         <button class="carousel-arrow carousel-prev" data-carousel="items" aria-label="Previous">‹</button>
         <button class="carousel-arrow carousel-next" data-carousel="items" aria-label="Next">›</button>
       </div>
+    </div>
+    <div class="carousel-wrapper">
       <div class="carousel-container">
         <div class="carousel-track" id="items-carousel-track">
           <% carouselItems.forEach(item => { %>
@@ -100,7 +104,7 @@
               </div>
               <div class="product-card-meta">
                 <span class="item-style-badge <%= item.style.toLowerCase() %>"><%= item.style %></span>
-                <p><%= item.room %> · <%= item.type %> · <%= item.code %></p>
+                <p><span class="room-badge"><%= item.room %></span> · <%= item.type %> · <%= item.code %></p>
               </div>
             </a>
           </div>
@@ -115,14 +119,16 @@
 <section class="home-carousel">
   <div class="section-container">
     <div class="carousel-header">
-      <h2 class="section-title">Featured Sets</h2>
-      <p class="section-subtitle">Complete furniture collections for every room</p>
-    </div>
-    <div class="carousel-wrapper">
+      <div class="carousel-title-group">
+        <h2 class="section-title">Featured Sets</h2>
+        <p class="section-subtitle">Complete furniture collections for every room</p>
+      </div>
       <div class="carousel-nav">
         <button class="carousel-arrow carousel-prev" data-carousel="sets" aria-label="Previous">‹</button>
         <button class="carousel-arrow carousel-next" data-carousel="sets" aria-label="Next">›</button>
       </div>
+    </div>
+    <div class="carousel-wrapper">
       <div class="carousel-container">
         <div class="carousel-track" id="sets-carousel-track">
           <% carouselSets.forEach(set => { %>
@@ -146,7 +152,7 @@
               </div>
               <div class="set-card-meta">
                 <span class="set-style-badge <%= set.style.toLowerCase() %>"><%= set.style %></span>
-                <p><%= set.room %> · <%= set.code %></p>
+                <p><span class="room-badge"><%= set.room %></span> · <%= set.code %></p>
               </div>
             </a>
           </div>

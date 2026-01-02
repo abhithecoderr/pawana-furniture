@@ -40,7 +40,7 @@
 .wishlist-card {
   position: relative;
   background: var(--color-bg-card);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: var(--shadow-card);
   transition: all 0.3s ease;
@@ -98,7 +98,7 @@
   justify-content: center;
   background: rgba(255, 255, 255, 0.9);
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--color-text-muted);
   transition: all 0.2s ease;

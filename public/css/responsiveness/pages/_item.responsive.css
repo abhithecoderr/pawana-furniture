@@ -75,6 +75,11 @@
     margin-top: 0;
   }
 
+  .detail-wishlist svg {
+    width: 20px; /* Scaled down from 28px */
+    height: 20px;
+  }
+
   .item-description {
     font-size: 0.85rem;
   }
@@ -86,10 +91,11 @@
     margin-bottom: var(--space-4);
   }
 
-  .item-room,
-  .item-type {
-    font-size: 0.65rem;
-    padding: var(--space-1) var(--space-2);
+  .item-meta .item-style-badge,
+  .item-meta .room-badge {
+    font-size: 0.65rem; /* Scaled down from 0.75rem */
+    padding: 0.25rem 0.6rem; /* Tighter padding */
+    letter-spacing: 0.5px;
   }
 
   .item-thumbnails {

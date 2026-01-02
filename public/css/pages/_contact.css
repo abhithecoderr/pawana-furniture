@@ -335,7 +335,7 @@
   width: 36px; /* Reduced box size */
   height: 36px;
   background: var(--color-bg-section-alt);
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   text-decoration: none;
   transition: all var(--transition-base);
 }
@@ -436,7 +436,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   font-weight: var(--font-semibold);
 }
 
