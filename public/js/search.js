@@ -216,21 +216,21 @@ function showSearchSuggestions() {
           </svg>
         </button>
         <button class="suggestion-item" data-query="Bedroom Wardrobe">
-          <span class="suggestion-text">Bedroom Wardrobe</span>
+          <span class="suggestion-text">Bedroom Royal Set</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
         <button class="suggestion-item" data-query="Office Desk">
-          <span class="suggestion-text">Office Desk</span>
+          <span class="suggestion-text">Office Set</span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
         <button class="suggestion-item" data-query="Showpiece">
-          <span class="suggestion-text">Showpiece</span>
+          <span class="suggestion-text">Showpiece Console </span>
           <svg class="suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7 7 17 7 17 17"></polyline>

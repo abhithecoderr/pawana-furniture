@@ -185,6 +185,7 @@
   }
 
   .custom-select-options {
+    display: block; /* Override desktop display: none */
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
