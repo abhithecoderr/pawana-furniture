@@ -25,18 +25,12 @@ dotenv.config();
 const app = express();
 app.set('trust proxy', 1);
 
-// Disable ETags and View Cache
-app.set('etag', false);
+// Enable ETags for static file caching (allows browser to revalidate)
+app.set('etag', 'strong');
 app.disable('view cache');
 
-// Middleware to disable all caching
-app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-  res.set('Pragma', 'no-cache');
-  res.set('Expires', '0');
-  res.set('Surrogate-Control', 'no-store');
-  next();
-});
+// Disable caching for HTML/dynamic routes only (applied via routes, not globally)
+// Static files will use ETag-based caching
 
 const __dirname = path.resolve();
 const port = process.env.PORT;
@@ -76,9 +70,13 @@ app.use(expressEjsLayouts);
 // Tell the layout engine where to find the master layout file
 app.set('layout', 'layout');
 
-// Static files with caching (1 year for production)
+// Static files with ETag-based caching (browser revalidates each request)
+// Files are cached locally but server confirms if they've changed
 app.use(express.static(path.join(__dirname, "public"), {
-  maxAge: 0
+  etag: true,
+  lastModified: true,
+  cacheControl: true,
+  maxAge: 0  // Browser will cache but always revalidate via ETag
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

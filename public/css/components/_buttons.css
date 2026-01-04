@@ -34,13 +34,15 @@
 
 /* Gold Accent Button */
 .btn-gold {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  border-color: #b8860b;
+  color: #b8860b;
+  background: #b8860b;
+  color: white;
 }
 
 .btn-gold:hover {
-  background: var(--color-accent);
-  color: var(--color-text-inverse);
+  background: #a67c00;
+  color: white;
 }
 
 /* Focus States */

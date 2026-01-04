@@ -154,6 +154,7 @@
               <img
                 src="<%= set.images && set.images.length > 0 ? set.images[0].url : '/images/placeholder.jpg' %>"
                 alt="<%= set.name %>"
+                loading="lazy"
               />
               <div class="card-name-row">
                 <h3><%= set.name %></h3>
@@ -190,6 +191,7 @@
               <img
                 src="<%= item.images && item.images.length > 0 ? item.images[0].url : '/images/placeholder.jpg' %>"
                 alt="<%= item.name %>"
+                loading="lazy"
               />
               <div class="card-name-row">
                 <h3><%= item.name %></h3>

@@ -40,7 +40,7 @@
           <% featuredItems.forEach(item => { %>
           <div class="carousel-item active-category" data-category="signature">
             <a href="/item/<%= item.slug %>" class="product-card">
-              <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>">
+              <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>" loading="lazy">
               <div class="card-name-row">
                 <h3><%= item.name %></h3>
                 <button class="wishlist-btn"
@@ -87,7 +87,7 @@
           <% carouselItems.forEach(item => { %>
           <div class="carousel-item active-category" data-category="items">
             <a href="/item/<%= item.slug %>" class="product-card">
-              <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>">
+              <img src="<%= item.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= item.name %>" loading="lazy">
               <div class="card-name-row">
                 <h3><%= item.name %></h3>
                 <button class="wishlist-btn"
@@ -135,7 +135,7 @@
           <div class="carousel-item active-category" data-category="sets">
             <a href="/set/<%= set.slug %>" class="set-card">
               <div class="set-card-badge">Set</div>
-              <img src="<%= set.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= set.name %>">
+              <img src="<%= set.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= set.name %>" loading="lazy">
               <div class="card-name-row">
                 <h3><%= set.name %></h3>
                 <button class="wishlist-btn"
@@ -172,7 +172,7 @@
       <% rooms.forEach(room => { %>
       <a href="/room/<%= room.slug %>" class="room-card">
         <div class="room-image">
-          <img src="<%= room.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= room.name %>">
+          <img src="<%= room.images[0]?.url || '/images/placeholder.jpg' %>" alt="<%= room.name %>" loading="lazy">
           <div class="room-overlay">
             <span class="room-name"><%= room.name %></span>
           </div>

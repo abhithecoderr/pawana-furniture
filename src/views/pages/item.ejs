@@ -41,6 +41,7 @@
               alt="<%= item.name %> - View <%= index + 1 %>"
               class="thumbnail <%= index === 0 ? 'active' : '' %>"
               onclick="changeMainImage('<%= image.url %>', this)"
+              loading="lazy"
             />
           <% }); %>
         </div>
@@ -111,7 +112,7 @@
           <% similarItems.forEach(similarItem => { %>
           <div class="carousel-item active-category" data-category="similar-items">
             <a href="/item/<%= similarItem.slug %>" class="product-card">
-              <img src="<%= similarItem.images && similarItem.images.length > 0 ? similarItem.images[0].url : '/images/placeholder.jpg' %>" alt="<%= similarItem.name %>">
+              <img src="<%= similarItem.images && similarItem.images.length > 0 ? similarItem.images[0].url : '/images/placeholder.jpg' %>" alt="<%= similarItem.name %>" loading="lazy">
               <div class="card-name-row">
                 <h3><%= similarItem.name %></h3>
               </div>
@@ -141,6 +142,7 @@
             class="related-item-image square"
             src="<%= relatedItem.images && relatedItem.images.length > 0 ? relatedItem.images[0].url : '/images/placeholder.jpg' %>"
             alt="<%= relatedItem.name %>"
+            loading="lazy"
           />
           <div class="card-name-row">
             <h3><%= relatedItem.name %></h3>

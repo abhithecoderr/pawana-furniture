@@ -41,6 +41,7 @@
               alt="<%= set.name %> - View <%= index + 1 %>"
               class="thumbnail <%= index === 0 ? 'active' : '' %>"
               onclick="changeMainImage('<%= image.url %>', this)"
+              loading="lazy"
             />
           <% }); %>
         </div>
@@ -115,7 +116,7 @@
           <div class="carousel-item active-category" data-category="similar-sets">
             <a href="/set/<%= similarSet.slug %>" class="set-card">
               <div class="set-card-badge">Set</div>
-              <img src="<%= similarSet.images && similarSet.images.length > 0 ? similarSet.images[0].url : '/images/placeholder.jpg' %>" alt="<%= similarSet.name %>">
+              <img src="<%= similarSet.images && similarSet.images.length > 0 ? similarSet.images[0].url : '/images/placeholder.jpg' %>" alt="<%= similarSet.name %>" loading="lazy">
               <div class="card-name-row">
                 <h3><%= similarSet.name %></h3>
               </div>
@@ -145,6 +146,7 @@
           <img
             src="<%= otherSet.images && otherSet.images.length > 0 ? otherSet.images[0].url : '/images/placeholder.jpg' %>"
             alt="<%= otherSet.name %>"
+            loading="lazy"
           />
           <div class="card-name-row">
             <h3><%= otherSet.name %></h3>
