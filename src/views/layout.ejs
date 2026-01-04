@@ -8,7 +8,13 @@
     <!-- Google Fonts: Playfair Display + Lato -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <!-- Preload Hero Image for LCP -->
+    <link rel="preload" as="image" href="https://res.cloudinary.com/duiix4ryu/image/upload/w_1920,ar_16:9,c_fill,g_auto,f_auto,q_auto/pawana/hero/pawana_hero" media="(min-width: 1200px)">
+    <link rel="preload" as="image" href="https://res.cloudinary.com/duiix4ryu/image/upload/w_1200,ar_16:9,c_fill,g_auto,f_auto,q_auto/pawana/hero/pawana_hero" media="(min-width: 768px) and (max-width: 1199px)">
+    <link rel="preload" as="image" href="https://res.cloudinary.com/duiix4ryu/image/upload/w_800,ar_4:5,c_fill,g_center,f_auto,q_auto/pawana/hero/pawana_hero" media="(max-width: 767px)">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
@@ -16,7 +22,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <link rel="manifest" href="/images/site.webmanifest">
 
-    <link rel="stylesheet" href="/css/main.css?v=1735823000" />
+    <link rel="stylesheet" href="/css/bundle.css?v=1767524000" />
   </head>
 
   <body class="<%= typeof pageClass !== 'undefined' ? pageClass : '' %>">

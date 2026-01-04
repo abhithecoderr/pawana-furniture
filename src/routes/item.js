@@ -1,6 +1,7 @@
 import express from "express";
 import FurnitureItem from "../models/FurnitureItem.js";
 import SiteSettings from "../models/SiteSettings.js";
+import { getOrSet } from "../utils/cache.js";
 
 const router = express.Router();
 
@@ -8,29 +9,35 @@ const router = express.Router();
 router.get("/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    const item = await FurnitureItem.findOne({ slug });
 
-    if (!item) {
+    // Cache item data by slug (5 min TTL)
+    const itemData = await getOrSet(`item:${slug}`, async () => {
+      const item = await FurnitureItem.findOne({ slug }).lean();
+      if (!item) return null;
+
+      const [settings, styleVariants, similarItems] = await Promise.all([
+        SiteSettings.findOne().lean(),
+        FurnitureItem.find({
+          room: item.room,
+          type: item.type,
+          _id: { $ne: item._id },
+        }).lean(),
+        FurnitureItem.find({
+          room: item.room,
+          type: item.type,
+          style: item.style,
+          _id: { $ne: item._id },
+        }).limit(6).lean()
+      ]);
+
+      return { item, settings, styleVariants, similarItems };
+    }, 300);
+
+    if (!itemData || !itemData.item) {
       return res.status(404).send("Item not found");
     }
 
-    // Get site settings for contact info
-    const settings = await SiteSettings.findOne() || {};
-
-    // Get style variants (same room and type, different styles)
-    const styleVariants = await FurnitureItem.find({
-      room: item.room,
-      type: item.type,
-      _id: { $ne: item._id }, // Exclude current item
-    });
-
-    // Get similar items (same room, same type, same style) for the carousel
-    const similarItems = await FurnitureItem.find({
-      room: item.room,
-      type: item.type,
-      style: item.style,
-      _id: { $ne: item._id },
-    }).limit(6);
+    const { item, settings, styleVariants, similarItems } = itemData;
 
     // Get related items (same type, random mix of other styles) for "You may also like"
     const relatedItems = await FurnitureItem.aggregate([

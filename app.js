@@ -19,8 +19,12 @@ import wishlistRoute from "./src/routes/wishlist.js";
 import adminRoute from "./src/routes/admin.js";
 import { navDataMiddleware } from "./src/middleware/navData.js";
 import { sessionMiddleware } from "./src/middleware/adminAuth.js";
+import { initRedis } from "./src/utils/cache.js";
 
 dotenv.config();
+
+// Initialize Redis cache
+initRedis();
 
 const app = express();
 app.set('trust proxy', 1);

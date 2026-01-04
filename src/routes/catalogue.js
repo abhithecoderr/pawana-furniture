@@ -1,6 +1,7 @@
 import express from "express";
 import FurnitureItem from "../models/FurnitureItem.js";
 import FurnitureSet from "../models/FurnitureSet.js";
+import { getOrSet } from "../utils/cache.js";
 
 const router = express.Router();
 
@@ -9,21 +10,28 @@ router.get("/", async (req, res) => {
   try {
     const { style, room, type, view } = req.query;
 
-    // Fetch ALL items and sets (no filtering on server side - let client handle it)
-    let items = await FurnitureItem.find({});
-    let sets = await FurnitureSet.find({});
+    // Fetch ALL items and sets with caching (5 min TTL)
+    const catalogueData = await getOrSet('catalogue:all', async () => {
+      let [items, sets] = await Promise.all([
+        FurnitureItem.find({}).lean(),
+        FurnitureSet.find({}).lean()
+      ]);
+      return { items, sets };
+    }, 300);
 
-    // Randomize the order
-    items = items.sort(() => Math.random() - 0.5);
-    sets = sets.sort(() => Math.random() - 0.5);
+    // Randomize the order (done after cache so each request gets different order)
+    let { items, sets } = catalogueData;
+    items = [...items].sort(() => Math.random() - 0.5);
+    sets = [...sets].sort(() => Math.random() - 0.5);
 
-    // Get unique values for filters
-    const roomsFromItems = await FurnitureItem.distinct("room");
-    const roomsFromSets = await FurnitureSet.distinct("room");
+    // Get unique values for filters (run in parallel)
+    const [roomsFromItems, roomsFromSets, allTypes] = await Promise.all([
+      FurnitureItem.distinct("room"),
+      FurnitureSet.distinct("room"),
+      FurnitureItem.distinct("type")
+    ]);
     const allRooms = [...new Set([...roomsFromItems, ...roomsFromSets])];
-
     const allStyles = ["Royal", "Modern", "Traditional"];
-    const allTypes = await FurnitureItem.distinct("type");
 
     res.render("pages/catalogue", {
       title: "Collection",

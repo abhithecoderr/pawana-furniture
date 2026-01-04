@@ -6,8 +6,22 @@ import FurnitureSet from '../models/FurnitureSet.js';
 import FurnitureItem from '../models/FurnitureItem.js';
 import Room from '../models/Room.js';
 import SiteSettings from '../models/SiteSettings.js';
+import { invalidate } from '../utils/cache.js';
 
 const router = express.Router();
+
+// Helper to clear relevant caches when data changes
+async function clearProductCaches() {
+  await Promise.all([
+    invalidate('home:*'),
+    invalidate('catalogue:*'),
+    invalidate('item:*'),
+    invalidate('set:*'),
+    invalidate('room:*'),
+    invalidate('nav:*'),
+    invalidate('settings')
+  ]);
+}
 
 // Configure multer for memory storage (for Cloudinary uploads)
 const upload = multer({
@@ -232,6 +246,7 @@ router.post('/api/sets', requireAdminAuth, upload.single('image'), async (req, r
     });
 
     await newSet.save();
+    await clearProductCaches();
     res.json(newSet);
   } catch (error) {
     console.error('Create set error:', error);
@@ -253,6 +268,7 @@ router.put('/api/sets/:id', requireAdminAuth, async (req, res) => {
     if (description !== undefined) set.description = description;
 
     await set.save();
+    await clearProductCaches();
     res.json(set);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -277,6 +293,7 @@ router.delete('/api/sets/:id', requireAdminAuth, async (req, res) => {
     }
 
     await FurnitureSet.findByIdAndDelete(req.params.id);
+    await clearProductCaches();
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -428,6 +445,7 @@ router.post('/api/items', requireAdminAuth, upload.single('image'), async (req, 
     });
 
     await newItem.save();
+    await clearProductCaches();
     res.json(newItem);
   } catch (error) {
     console.error('Create item error:', error);
@@ -451,6 +469,7 @@ router.put('/api/items/:id', requireAdminAuth, async (req, res) => {
     if (type) item.type = type;
 
     await item.save();
+    await clearProductCaches();
     res.json(item);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -475,6 +494,7 @@ router.delete('/api/items/:id', requireAdminAuth, async (req, res) => {
     }
 
     await FurnitureItem.findByIdAndDelete(req.params.id);
+    await clearProductCaches();
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -658,6 +678,7 @@ router.put('/api/settings/home', requireAdminAuth, async (req, res) => {
     };
 
     const settings = await SiteSettings.updateSettings(updates);
+    await clearProductCaches();
     res.json({ success: true, settings });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -687,6 +708,7 @@ router.put('/api/settings/contact', requireAdminAuth, async (req, res) => {
     };
 
     const settings = await SiteSettings.updateSettings(updates);
+    await clearProductCaches();
     res.json({ success: true, settings });
   } catch (error) {
     res.status(500).json({ error: error.message });
