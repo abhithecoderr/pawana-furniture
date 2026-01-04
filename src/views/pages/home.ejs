@@ -516,21 +516,26 @@ document.getElementById('homeContactForm').addEventListener('submit', async func
   // Show loading state
   submitBtn.classList.add('loading');
 
-  // Prepare form data
+  // Prepare form data as JSON (more reliable with FormSubmit AJAX)
   const formData = new FormData(form);
+  const jsonData = {};
+  formData.forEach((value, key) => {
+    jsonData[key] = value;
+  });
 
   try {
     const response = await fetch('https://formsubmit.co/ajax/abhicooltripathi1@gmail.com', {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: formData
+      body: JSON.stringify(jsonData)
     });
 
     const result = await response.json();
 
-    if (response.ok) {
+    if (result.success === "true" || result.success === true) {
       console.log("Success:", result);
 
       // Hide form and WhatsApp option, show success
