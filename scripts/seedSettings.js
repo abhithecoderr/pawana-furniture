@@ -59,7 +59,7 @@ const initialSettings = {
     phone: "+91 6239188911",
     whatsapp: "916239188911",
     email: "pawanafurniture07@gmail.com",
-    formEmail: "abhicooltripathi1@gmail.com",
+    formEmail: "furniturepawana@gmail.com",
     address: {
       line1: "Pawana Furniture",
       line2: "Patiala Road, NH 7",

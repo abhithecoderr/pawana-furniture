@@ -9,8 +9,8 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    // Fetch site settings (cached for 5 minutes)
-    const settings = await getOrSet('settings', () => SiteSettings.getSettings(), 300);
+    // Fetch site settings directly (no cache)
+    const settings = await SiteSettings.getSettings();
 
     // Get featured codes from settings
     const SIGNATURE_ITEMS_CODES = settings.home.featuredCodes.signatureItems;

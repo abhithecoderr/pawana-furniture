@@ -1,5 +1,6 @@
 import Room from "../models/Room.js";
 import FurnitureItem from "../models/FurnitureItem.js";
+import SiteSettings from "../models/SiteSettings.js";
 import { getOrSet } from "../utils/cache.js";
 
 // Middleware to fetch navigation data for the header dropdown
@@ -34,12 +35,17 @@ export const navDataMiddleware = async (req, res, next) => {
       );
     }, 300);
 
+    // Fetch site settings (for formEmail and other shared settings)
+    const settings = await SiteSettings.getSettings();
+
     // Make data available to all views
     res.locals.navRooms = roomsWithTypes;
+    res.locals.contactSettings = settings.contact;
     next();
   } catch (error) {
     console.error("Error fetching navigation data:", error);
     res.locals.navRooms = [];
+    res.locals.contactSettings = { formEmail: "furniturepawana@gmail.com" };
     next();
   }
 };

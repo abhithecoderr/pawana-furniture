@@ -62,7 +62,7 @@ const siteSettingsSchema = new mongoose.Schema({
     },
     formEmail: {
       type: String,
-      default: "abhicooltripathi1@gmail.com"
+      default: "furniturepawana@gmail.com"
     },
     address: {
       line1: {
