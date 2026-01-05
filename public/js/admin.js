@@ -1034,8 +1034,9 @@ function populateContactSettings() {
   if (!siteSettings) return;
 
   const contact = siteSettings.contact;
-  document.getElementById('contact-phone').value = contact.phone || '';
-  document.getElementById('contact-whatsapp').value = contact.whatsapp || '';
+  document.getElementById('contact-phone1').value = contact.phone1 || '';
+  document.getElementById('contact-phone2').value = contact.phone2 || '';
+  document.getElementById('contact-whatsapp-enquiry').value = contact.whatsappEnquiry || '';
   document.getElementById('contact-email').value = contact.email || '';
   document.getElementById('contact-form-email').value = contact.formEmail || '';
   document.getElementById('address-line1').value = contact.address?.line1 || '';
@@ -1121,8 +1122,9 @@ document.getElementById('contact-settings-form')?.addEventListener('submit', asy
   setButtonLoading(btn, true);
 
   const data = {
-    phone: document.getElementById('contact-phone').value.trim(),
-    whatsapp: document.getElementById('contact-whatsapp').value.trim(),
+    phone1: document.getElementById('contact-phone1').value.trim(),
+    phone2: document.getElementById('contact-phone2').value.trim(),
+    whatsappEnquiry: document.getElementById('contact-whatsapp-enquiry').value.trim(),
     email: document.getElementById('contact-email').value.trim(),
     formEmail: document.getElementById('contact-form-email').value.trim(),
     addressLine1: document.getElementById('address-line1').value.trim(),

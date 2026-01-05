@@ -689,14 +689,15 @@ router.put('/api/settings/home', requireAdminAuth, async (req, res) => {
 router.put('/api/settings/contact', requireAdminAuth, async (req, res) => {
   try {
     const {
-      phone, whatsapp, email, formEmail,
+      phone1, phone2, whatsappEnquiry, email, formEmail,
       addressLine1, addressLine2, addressLine3, addressCountry,
       hoursWeekday, hoursWeekend
     } = req.body;
 
     const updates = {
-      'contact.phone': phone,
-      'contact.whatsapp': whatsapp,
+      'contact.phone1': phone1,
+      'contact.phone2': phone2,
+      'contact.whatsappEnquiry': whatsappEnquiry,
       'contact.email': email,
       'contact.formEmail': formEmail,
       'contact.address.line1': addressLine1,

@@ -48,13 +48,17 @@ const siteSettingsSchema = new mongoose.Schema({
 
   // Contact Page Settings
   contact: {
-    phone: {
+    phone1: {
       type: String,
-      default: "+91 6239188911"
+      default: "+91 8360550271"
     },
-    whatsapp: {
+    phone2: {
       type: String,
-      default: "916239188911"
+      default: "+91 6239811718"
+    },
+    whatsappEnquiry: {
+      type: String,
+      default: "918360550271"
     },
     email: {
       type: String,
@@ -62,7 +66,7 @@ const siteSettingsSchema = new mongoose.Schema({
     },
     formEmail: {
       type: String,
-      default: "furniturepawana@gmail.com"
+      default: "pawanafurniture07@gmail.com"
     },
     address: {
       line1: {

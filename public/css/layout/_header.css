@@ -94,11 +94,15 @@
 
 /* Logo hover effects - completely disabled */
 .logo:hover {
-  color: inherit;
+  color: var(--color-text-primary); /* Preserve dark color */
 }
 
 .logo:hover .logo-text-light {
-  color: inherit;
+  color: var(--color-text-secondary); /* Preserve gray color */
+}
+
+.logo:hover .logo-image {
+  /* No visual changes */
 }
 
 /* HOME PAGE ONLY - White Logo on Transparent Header */
@@ -152,6 +156,10 @@
 
 .site-header.scrolled .logo-image {
   height: 32px; /* Further reduced from 38px */
+}
+
+.site-header.scrolled .logo-text-light {
+  color: #531515;
 }
 
 .site-header.scrolled .nav-links > a,

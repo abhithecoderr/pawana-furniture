@@ -56,18 +56,19 @@ const initialSettings = {
     }
   },
   contact: {
-    phone: "+91 6239188911",
-    whatsapp: "916239188911",
+    phone1: "+91 8360550271",
+    phone2: "+91 6239811718",
+    whatsappEnquiry: "918360550271",
     email: "pawanafurniture07@gmail.com",
-    formEmail: "furniturepawana@gmail.com",
+    formEmail: "pawanafurniture07@gmail.com",
     address: {
-      line1: "Pawana Furniture",
-      line2: "Patiala Road, NH 7",
-      line3: "Liberty Chowk, Punjab 140401",
+      line1: "Pawana Furniture by Pawan Kumar",
+      line2: "Liberty Chowk, Rajpura",
+      line3: "Patiala Road, NH 7, Punjab 140401",
       country: "India"
     },
     businessHours: {
-      weekday: "Monday - Saturday: 8:00 AM - 7:30 PM",
+      weekday: "M-S: 8:00 AM - 7:30 PM",
       weekend: "Sunday: 8:00 AM - 6:30 PM"
     }
   }
@@ -104,8 +105,9 @@ async function seedSettings() {
     console.log(`   Featured Items: ${settings.home.featuredCodes.featuredItems.length} codes`);
     console.log(`   Featured Sets: ${settings.home.featuredCodes.featuredSets.length} codes`);
     console.log("─".repeat(50));
-    console.log(`   Phone: ${settings.contact.phone}`);
-    console.log(`   WhatsApp: ${settings.contact.whatsapp}`);
+    console.log(`   Phone 1: ${settings.contact.phone1}`);
+    console.log(`   Phone 2: ${settings.contact.phone2}`);
+    console.log(`   WhatsApp Enquiry: ${settings.contact.whatsappEnquiry}`);
     console.log(`   Email: ${settings.contact.email}`);
     console.log(`   Form Email: ${settings.contact.formEmail}`);
     console.log("─".repeat(50));
