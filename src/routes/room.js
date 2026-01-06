@@ -2,6 +2,7 @@ import express from "express";
 import Room from "../models/Room.js";
 import FurnitureSet from "../models/FurnitureSet.js";
 import FurnitureItem from "../models/FurnitureItem.js";
+import SiteSettings from "../models/SiteSettings.js";
 import { getOrSet } from "../utils/cache.js";
 
 const router = express.Router();
@@ -75,11 +76,48 @@ router.get("/:slug", async (req, res) => {
     const sets = [...roomData.sets].sort(() => Math.random() - 0.5);
     const items = [...roomData.items].sort(() => Math.random() - 0.5);
 
+    // Extract unique furniture types from items
+    const roomTypes = [...new Set(items.map(item => item.type))].sort();
+
+    // For rooms with no sets but with items (like Showpieces), fetch type images
+    let typeImages = {};
+    if (sets.length === 0 && roomTypes.length > 0) {
+      const settings = await SiteSettings.getSettings();
+      const typeCodes = settings.home?.showpiecesTypeCodes || {};
+
+      // Fetch items by code for each type
+      const typeImagePromises = roomTypes.map(async (typeName) => {
+        const code = typeCodes[typeName];
+        if (code) {
+          const item = await FurnitureItem.findOne({ code }).lean();
+          if (item && item.images && item.images.length > 0) {
+            return { type: typeName, image: item.images[0].url };
+          }
+        }
+        // Fallback: get any item of this type
+        const fallbackItem = await FurnitureItem.findOne({
+          room: room.name,
+          type: new RegExp(`^${typeName}$`, 'i')
+        }).lean();
+        if (fallbackItem && fallbackItem.images && fallbackItem.images.length > 0) {
+          return { type: typeName, image: fallbackItem.images[0].url };
+        }
+        return { type: typeName, image: '/images/placeholder.jpg' };
+      });
+
+      const typeImageResults = await Promise.all(typeImagePromises);
+      typeImageResults.forEach(result => {
+        typeImages[result.type] = result.image;
+      });
+    }
+
     res.render("pages/room", {
       title: room.name,
       room,
       sets,
       items,
+      roomTypes,
+      typeImages,
     });
   } catch (error) {
     console.error("Error loading room page:", error);

@@ -140,5 +140,32 @@
       mobilePerPage: 6
     });
   });
+
 </script>
+<% } else if (typeof roomTypes !== 'undefined' && roomTypes.length > 0) { %>
+<!-- Types Grid for rooms without sets (like Showpieces) -->
+<section class="room-types-section">
+  <div class="room-types-container">
+    <div class="room-types-header">
+      <h2>Complete <%= room.name %> Collection</h2>
+    </div>
+
+    <div class="showpiece-types-grid">
+      <% roomTypes.forEach(typeName => { %>
+        <a href="/room/<%= room.slug %>/<%= typeName.toLowerCase() %>" class="showpiece-type-card">
+          <div class="showpiece-type-image">
+            <img
+              src="<%= typeImages[typeName] || '/images/placeholder.jpg' %>"
+              alt="<%= typeName %>"
+              loading="lazy"
+            />
+            <div class="showpiece-type-overlay">
+              <span class="showpiece-type-name"><%= typeName %></span>
+            </div>
+          </div>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
 <% } %>

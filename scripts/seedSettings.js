@@ -53,6 +53,11 @@ const initialSettings = {
       'Bedroom': 'BR-09',
       'Office': 'OT-02',
       'Showpieces': 'SR-044'
+    },
+    showpiecesTypeCodes: {
+      'Cabinet': 'SR-033',
+      'Console': 'ST-048',
+      'Fireplace': 'SR-089'
     }
   },
   contact: {

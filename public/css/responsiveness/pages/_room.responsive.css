@@ -7,6 +7,12 @@
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-6);
   }
+
+  /* Showpiece types grid - 2 columns on tablet */
+  .showpiece-types-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
 }
 
 @media (max-width: 767px) {
@@ -71,5 +77,39 @@
   .sets-grid {
     grid-template-columns: 1fr;
     gap: var(--space-8);
+  }
+
+  /* Showpiece Types Grid - 1 column on mobile */
+  .room-types-section {
+    padding: var(--space-6) var(--space-4) var(--space-12);
+  }
+
+  .room-types-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .room-types-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .room-types-header p {
+    font-size: 0.85rem;
+  }
+
+  .showpiece-types-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .showpiece-type-image {
+    aspect-ratio: 16/10;
+  }
+
+  .showpiece-type-name {
+    font-size: 1.1rem;
+  }
+
+  .showpiece-type-overlay {
+    padding: 1.5rem 1rem 0.75rem;
   }
 }

@@ -43,6 +43,12 @@ const siteSettingsSchema = new mongoose.Schema({
       'Bedroom': { type: String, default: 'BR-09' },
       'Office': { type: String, default: 'OT-02' },
       'Showpieces': { type: String, default: 'SR-044' }
+    },
+    // Showpieces room page - furniture type images
+    showpiecesTypeCodes: {
+      'Cabinet': { type: String, default: 'SR-033' },
+      'Console': { type: String, default: 'ST-048' },
+      'Fireplace': { type: String, default: 'SR-089' }
     }
   },
 
