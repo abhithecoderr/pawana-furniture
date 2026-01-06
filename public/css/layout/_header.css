@@ -77,8 +77,8 @@
 }
 
 .logo-text-light {
-  color: var(--color-text-secondary); /* Gray by default */
-  font-weight: 400;
+  color: inherit; /* Same as Pawana text */
+  font-weight: inherit; /* Same as Pawana text */
 }
 
 /* Trademark styling */
@@ -98,7 +98,7 @@
 }
 
 .logo:hover .logo-text-light {
-  color: var(--color-text-secondary); /* Preserve gray color */
+  color: inherit; /* Same as Pawana text */
 }
 
 .logo:hover .logo-image {
@@ -111,7 +111,7 @@
 }
 
 .page-home .site-header .logo-text-light {
-  color: rgba(255, 255, 255, 0.8); /* Light white on transparent */
+  color: inherit; /* Same as Pawana text */
 }
 
 /* Logo hover effects removed for home page transparent header */
@@ -122,7 +122,7 @@
 }
 
 .page-home .site-header.scrolled .logo-text-light {
-  color: var(--color-maroon);
+  color: inherit; /* Same as Pawana text */
 }
 
 /* Logo hover effects removed for home page scrolled header */
@@ -159,7 +159,7 @@
 }
 
 .site-header.scrolled .logo-text-light {
-  color: #531515;
+  color: inherit; /* Same as Pawana text */
 }
 
 .site-header.scrolled .nav-links > a,

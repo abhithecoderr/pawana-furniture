@@ -13,25 +13,24 @@
   margin: 0 auto;
 }
 
-/* Hero Section - Matching Contact/About/Services Style */
+/* Hero Section - Matching Catalogue Style */
 section.room-hero {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: var(--color-text-inverse);
-  padding: 1.5rem 2rem !important; /* Making it more specific and using !important to override conflicts */
+  padding: 1rem 2rem 2rem;
   text-align: center;
 }
 
 .room-hero-content {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  text-align: center;
 }
 
 .room-hero-content h1 {
   font-family: var(--font-heading);
   font-size: var(--text-3xl);
   color: var(--color-text-inverse);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   font-weight: 600;
 }
 

@@ -25,7 +25,7 @@
 
   .site-header.scrolled .logo-text-light,
   .page-home .site-header.scrolled .logo-text-light {
-    color: var(--color-maroon);
+    color: inherit; /* Same as Pawana text - uniform styling */
   }
 
   .site-header.scrolled .header-icon,

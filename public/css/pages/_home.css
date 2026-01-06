@@ -143,16 +143,16 @@
   padding: 0.7rem 1.75rem;
   font-size: 0.8rem;
   letter-spacing: 2.5px;
-  background: #b8860b; /* Darker gold */
+  background: #c9a227; /* Gold - previously hover color */
   color: #1a1a1a; /* Dark text */
-  border: 1px solid #a67c00;
+  border: 1px solid #b8920f;
   transition: all 0.25s ease;
   font-weight: 600;
 }
 
 .hero-actions .btn-secondary:hover {
-  background: #c9a227; /* Darker gold on hover */
-  border-color: #c9a227;
+  background: #9a7520; /* Darker gold on hover */
+  border-color: #9a7520;
   color: var(--color-primary-dark);
   transform: scale(1.02);
 }

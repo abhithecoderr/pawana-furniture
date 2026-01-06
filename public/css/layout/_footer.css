@@ -48,7 +48,19 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Logo hover effect removed */
+/* Footer logo - disable hover effects (inherited from .logo in header) */
+.footer-logo:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+  transform: none !important;
+}
+
+.footer-logo:hover .logo-text-light {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.footer-logo:hover .logo-image {
+  transform: none !important;
+}
 
 .footer-brand p {
   color: rgba(255,255,255,0.7);
@@ -93,19 +105,48 @@
 .footer-contact-info p {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 0.5rem; /* Reduced gap */
   color: rgba(255,255,255,0.65);
   font-size: 0.875rem;
-  margin-bottom: 0.6rem;
-  line-height: 1.4;
+  margin-bottom: 1rem; /* Increased margin for vertical separation */
+  line-height: 1.5;
 }
 
+.footer-contact-info .footer-icon-wrapper {
+  margin-left: -4px; /* Move icons more to the left */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.08) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.footer-contact-info .footer-icon-wrapper svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--color-accent);
+  opacity: 1;
+}
+
+.footer-contact-info p:hover .footer-icon-wrapper {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.15) 100%);
+  border-color: rgba(212, 175, 55, 0.4);
+  transform: scale(1.05);
+}
+
+/* Legacy support for SVGs without wrapper */
 .footer-contact-info svg {
   flex-shrink: 0;
   margin-top: 2px;
-  opacity: 0.6;
-  width: 14px;
-  height: 14px;
+  opacity: 0.8;
+  width: 16px;
+  height: 16px;
+  stroke: var(--color-accent);
 }
 
 /* Footer Social Icons */

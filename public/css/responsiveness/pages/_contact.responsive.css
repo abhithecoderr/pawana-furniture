@@ -69,7 +69,15 @@
   }
 
   .info-icon {
-    font-size: 1.5rem;
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, rgba(139, 90, 60, 0.15) 0%, rgba(139, 90, 60, 0.08) 100%);
+    border: 1px solid rgba(139, 90, 60, 0.22);
+  }
+
+  .info-icon svg {
+    width: 18px;
+    height: 18px;
   }
 
   .info-content h3 {
