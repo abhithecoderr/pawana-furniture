@@ -358,6 +358,32 @@
   .highlight-label {
     font-size: 0.65rem;
   }
+
+  /* International Delivery - Mobile */
+  .international-delivery {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+  }
+
+  .international-title {
+    font-size: 0.9rem;
+    margin-bottom: var(--space-4);
+    text-align: center;
+  }
+
+  .international-countries {
+    gap: var(--space-6);
+    justify-content: center;
+  }
+
+  .country-flag {
+    width: 42px;
+    height: 42px;
+  }
+
+  .country-name {
+    font-size: 0.75rem;
+  }
 }
 
 /* Tablet (768px - 1023px) */

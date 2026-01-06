@@ -1021,3 +1021,60 @@
   font-weight: 700;
   color: #111; /* More blacker text */
 }
+
+/* International Delivery Meta */
+.international-delivery {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.international-title,
+.international-delivery .international-title {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-5);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.international-countries {
+  display: flex;
+  gap: var(--space-10);
+  align-items: center;
+}
+
+.country-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  transition: transform 0.3s ease;
+}
+
+.country-item:hover {
+  transform: translateY(-3px);
+}
+
+.country-flag {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.country-item:hover .country-flag {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.country-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
