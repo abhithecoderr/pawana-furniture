@@ -40,6 +40,16 @@ export const validateAdminLogin = (adminId, password) => {
   const validId = process.env.ADMIN_ID;
   const validPassword = process.env.ADMIN_PASSWORD;
 
+  // Detailed debug logging
+  console.log('=== ADMIN LOGIN DEBUG ===');
+  console.log('Input adminId:', JSON.stringify(adminId));
+  console.log('Input password length:', password?.length);
+  console.log('ENV ADMIN_ID:', JSON.stringify(validId));
+  console.log('ENV ADMIN_PASSWORD length:', validPassword?.length);
+  console.log('adminId match:', adminId === validId);
+  console.log('password match:', password === validPassword);
+  console.log('========================');
+
   if (adminId === validId && password === validPassword) {
     return generateToken(adminId, password);
   }
@@ -50,9 +60,10 @@ export const validateAdminLogin = (adminId, password) => {
 export const setAdminCookie = (res, token) => {
   res.cookie('adminToken', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,  // Always true for HTTPS (required behind Cloudflare)
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    sameSite: 'lax'
+    sameSite: 'lax',
+    path: '/'  // Ensure cookie is available for all paths
   });
 };
 

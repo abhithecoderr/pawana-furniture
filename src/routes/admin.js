@@ -69,8 +69,21 @@ const STYLE_INITIALS = {
 // LOGIN ROUTES
 // ==========================================
 
+// DEBUG: Check if env vars are set (remove after debugging)
+router.get('/debug', (req, res) => {
+  res.json({
+    adminIdSet: !!process.env.ADMIN_ID,
+    adminIdValue: process.env.ADMIN_ID ? process.env.ADMIN_ID.substring(0, 2) + '...' : 'NOT SET',
+    passwordSet: !!process.env.ADMIN_PASSWORD,
+    passwordLength: process.env.ADMIN_PASSWORD?.length || 0,
+    adminRoute: process.env.ADMIN_ROUTE || 'NOT SET',
+    nodeEnv: process.env.NODE_ENV || 'NOT SET'
+  });
+});
+
 // GET /admin-route - Login page or redirect to dashboard
 router.get('/', (req, res) => {
+  console.log('GET / - Admin login page requested');
   if (isAdminLoggedIn(req)) {
     return res.redirect(`/${process.env.ADMIN_ROUTE}/dashboard`);
   }
@@ -83,6 +96,9 @@ router.get('/', (req, res) => {
 
 // POST /admin-route/login - Handle login
 router.post('/login', (req, res) => {
+  console.log('POST /login - Request received');
+  console.log('Request body:', req.body);
+
   const { adminId, password } = req.body;
 
   // Debug logging for production troubleshooting
@@ -96,9 +112,11 @@ router.post('/login', (req, res) => {
 
   const token = validateAdminLogin(adminId, password);
   if (token) {
+    console.log('Login successful, setting cookie');
     setAdminCookie(res, token);
     res.redirect(`/${process.env.ADMIN_ROUTE}/dashboard`);
   } else {
+    console.log('Login failed');
     res.render('admin/login', {
       layout: false,
       error: 'Invalid credentials. Please try again.',
