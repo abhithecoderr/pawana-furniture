@@ -1213,12 +1213,13 @@ button.loading {
 }
 
 .stat-row .stat-number {
-  width: 80px;
-  flex-shrink: 0;
+  width: 100px !important;
+  flex: 0 0 100px !important;
 }
 
 .stat-row .stat-label {
-  flex: 1;
+  flex: 1 !important;
+  width: auto !important;
 }
 
 .stat-row input {
@@ -1279,3 +1280,314 @@ button.loading {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* ==========================================
+   Dynamic Rows (About & Services)
+   ========================================== */
+
+.dynamic-row {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.row-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(233, 69, 96, 0.2);
+  border-radius: 6px;
+  color: #e94560;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.btn-remove-row {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(233, 69, 96, 0.1);
+  border: 1px solid rgba(233, 69, 96, 0.3);
+  border-radius: 6px;
+  color: #e94560;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-row:hover {
+  background: rgba(233, 69, 96, 0.25);
+}
+
+.btn-add-row {
+  padding: 0.625rem 1.25rem;
+  background: rgba(100, 181, 246, 0.1);
+  border: 1px dashed rgba(100, 181, 246, 0.4);
+  border-radius: 8px;
+  color: #64b5f6;
+  font-size: 0.875rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.btn-add-row:hover {
+  background: rgba(100, 181, 246, 0.2);
+  border-style: solid;
+}
+
+.section-hint {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+}
+
+/* Image Upload Row */
+.image-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.image-upload-inline {
+  flex: 0 0 auto;
+  min-width: 200px;
+}
+
+.image-preview-small {
+  width: 80px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-preview-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image-text {
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-upload {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-upload:hover {
+  background: rgba(233, 69, 96, 0.2);
+  border-color: rgba(233, 69, 96, 0.4);
+  color: #e94560;
+}
+
+/* Dynamic Row Form Groups */
+.dynamic-row .form-group {
+  margin-bottom: 0.75rem;
+}
+
+.dynamic-row .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.dynamic-row .form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.dynamic-row .form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.dynamic-row label {
+  display: block;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.375rem;
+}
+
+.dynamic-row input,
+.dynamic-row textarea {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+
+.dynamic-row input:focus,
+.dynamic-row textarea:focus {
+  outline: none;
+  border-color: #e94560;
+}
+
+.dynamic-row textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* ==========================================
+   Hero Images Grid
+   ========================================== */
+
+.hero-images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .hero-images-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-images-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-image-slot {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.hero-image-slot.active {
+  border-color: #e94560;
+  background: rgba(233, 69, 96, 0.08);
+}
+
+.slot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.slot-number {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.radio-label input[type="radio"] {
+  accent-color: #e94560;
+  width: 16px;
+  height: 16px;
+}
+
+.radio-label input[type="radio"]:checked + span {
+  color: #e94560;
+  font-weight: 500;
+}
+
+.hero-image-preview {
+  aspect-ratio: 16 / 9;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.hero-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slot-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.slot-actions button {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-upload-hero {
+  background: rgba(100, 181, 246, 0.15);
+  border: 1px solid rgba(100, 181, 246, 0.3);
+  color: #64b5f6;
+}
+
+.btn-upload-hero:hover {
+  background: rgba(100, 181, 246, 0.25);
+}
+
+.btn-delete-hero {
+  background: rgba(233, 69, 96, 0.1);
+  border: 1px solid rgba(233, 69, 96, 0.2);
+  color: #e94560;
+}
+
+.btn-delete-hero:hover:not(:disabled) {
+  background: rgba(233, 69, 96, 0.2);
+}
+
+.btn-delete-hero:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.hint-text {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+}

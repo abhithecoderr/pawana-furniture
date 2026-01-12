@@ -126,6 +126,8 @@ function loadData() {
       break;
     case 'home-settings':
     case 'contact-settings':
+    case 'about-settings':
+    case 'services-settings':
       if (typeof loadSettings === 'function' && !siteSettings) loadSettings();
       break;
   }
@@ -915,6 +917,13 @@ function openImageModal(collection, documentId, imageIndex) {
   document.getElementById('image-index').value = imageIndex >= 0 ? imageIndex : -1;
   document.getElementById('image-file').value = '';
   document.getElementById('image-preview').innerHTML = '';
+
+  // Reset button loading state when opening modal
+  const submitBtn = document.querySelector('#image-form button[type="submit"]');
+  if (submitBtn) {
+    setButtonLoading(submitBtn, false);
+  }
+
   openModal('image-modal');
 }
 
@@ -936,18 +945,39 @@ document.getElementById('image-form').addEventListener('submit', async (e) => {
 
   const formData = new FormData(e.target);
   const submitBtn = e.target.querySelector('button[type="submit"]');
+  const collection = document.getElementById('image-collection').value;
   setButtonLoading(submitBtn, true);
 
   try {
-    const response = await fetch(`/${ADMIN_ROUTE}/api/upload-image`, {
-      method: 'POST',
-      body: formData
-    });
+    let response;
+
+    // Hero image uploads use a different endpoint
+    if (collection === 'HeroImage') {
+      const slotIndex = document.getElementById('image-doc-id').value;
+      const heroFormData = new FormData();
+      heroFormData.append('image', formData.get('image'));
+      heroFormData.append('slotIndex', slotIndex);
+
+      response = await fetch(`/${ADMIN_ROUTE}/api/settings/home/hero-image`, {
+        method: 'POST',
+        body: heroFormData
+      });
+    } else {
+      response = await fetch(`/${ADMIN_ROUTE}/api/upload-image`, {
+        method: 'POST',
+        body: formData
+      });
+    }
 
     if (response.ok) {
       showToast('Image uploaded successfully', 'success');
       closeModal('image-modal');
-      loadData();
+      // For hero images, reload settings; for others, reload data
+      if (collection === 'HeroImage') {
+        await loadSettings();
+      } else {
+        loadData();
+      }
     } else {
       const error = await response.json();
       showToast(error.error || 'Error uploading image', 'error');
@@ -1005,6 +1035,8 @@ async function loadSettings() {
     siteSettings = await response.json();
     populateHomeSettings();
     populateContactSettings();
+    populateAboutSettings();
+    populateServicesSettings();
   } catch (error) {
     console.error('Error loading settings:', error);
   }
@@ -1017,6 +1049,33 @@ function populateHomeSettings() {
   document.getElementById('hero-tagline').value = home.hero.tagline || '';
   document.getElementById('hero-badges').value = (home.hero.badges || []).join(', ');
 
+  // Populate hero images
+  const heroImages = home.hero.images || [];
+  const activeIndex = home.hero.activeImageIndex || 0;
+
+  for (let i = 0; i < 3; i++) {
+    const preview = document.getElementById(`hero-preview-${i}`);
+    const slot = document.querySelector(`.hero-image-slot[data-slot="${i}"]`);
+    const deleteBtn = slot?.querySelector('.btn-delete-hero');
+    const radio = document.querySelector(`input[name="activeHeroImage"][value="${i}"]`);
+
+    if (heroImages[i] && heroImages[i].url) {
+      preview.innerHTML = `<img src="${heroImages[i].url}" alt="Hero ${i + 1}">`;
+      if (deleteBtn) deleteBtn.disabled = false;
+    } else {
+      preview.innerHTML = '<span class="no-image-text">No image</span>';
+      if (deleteBtn) deleteBtn.disabled = true;
+    }
+
+    // Set active class and radio
+    if (slot) {
+      slot.classList.toggle('active', i === activeIndex);
+    }
+    if (radio) {
+      radio.checked = (i === activeIndex);
+    }
+  }
+
   // Populate stats
   const statsContainer = document.getElementById('hero-stats-container');
   statsContainer.innerHTML = '';
@@ -1028,6 +1087,97 @@ function populateHomeSettings() {
   document.getElementById('signature-codes').value = (home.featuredCodes.signatureItems || []).join(', ');
   document.getElementById('featured-items-codes').value = (home.featuredCodes.featuredItems || []).join(', ');
   document.getElementById('featured-sets-codes').value = (home.featuredCodes.featuredSets || []).join(', ');
+}
+
+// Hero image upload handlers
+document.querySelectorAll('.btn-upload-hero').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const slotIndex = btn.dataset.slot;
+    openHeroImageUpload(slotIndex);
+  });
+});
+
+// Hero image delete handlers
+document.querySelectorAll('.btn-delete-hero').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const slotIndex = btn.dataset.slot;
+    if (!confirm('Delete this hero image?')) return;
+
+    btn.disabled = true;
+    try {
+      const response = await fetch(`/${ADMIN_ROUTE}/api/settings/home/hero-image/${slotIndex}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        showToast('Hero image deleted!', 'success');
+        await loadSettings();
+      } else {
+        const err = await response.json();
+        showToast(err.error || 'Delete failed', 'error');
+      }
+    } catch (error) {
+      showToast('Delete failed', 'error');
+      console.error(error);
+    }
+  });
+});
+
+// Active hero image selection
+document.querySelectorAll('input[name="activeHeroImage"]').forEach(radio => {
+  radio.addEventListener('change', async (e) => {
+    const activeIndex = parseInt(e.target.value);
+
+    // Check if this slot has an image
+    const heroImages = siteSettings?.home?.hero?.images || [];
+    if (!heroImages[activeIndex]?.url) {
+      showToast('Cannot select empty slot as active', 'error');
+      // Revert to previous
+      populateHomeSettings();
+      return;
+    }
+
+    try {
+      const response = await fetch(`/${ADMIN_ROUTE}/api/settings/home/hero-active`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ activeIndex })
+      });
+
+      if (response.ok) {
+        showToast('Active hero image updated!', 'success');
+        await loadSettings();
+      } else {
+        const err = await response.json();
+        showToast(err.error || 'Update failed', 'error');
+        populateHomeSettings();
+      }
+    } catch (error) {
+      showToast('Update failed', 'error');
+      console.error(error);
+      populateHomeSettings();
+    }
+  });
+});
+
+function openHeroImageUpload(slotIndex) {
+  // Use the existing image modal
+  const form = document.getElementById('image-form');
+  form.dataset.heroSlot = slotIndex;
+
+  document.getElementById('image-collection').value = 'HeroImage';
+  document.getElementById('image-doc-id').value = slotIndex;
+  document.getElementById('image-index').value = '-1';
+  document.getElementById('image-file').value = '';
+  document.getElementById('image-preview').innerHTML = '';
+
+  // Reset button loading state when opening modal
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) {
+    setButtonLoading(submitBtn, false);
+  }
+
+  openModal('image-modal');
 }
 
 function populateContactSettings() {
@@ -1151,6 +1301,500 @@ document.getElementById('contact-settings-form')?.addEventListener('submit', asy
     }
   } catch (error) {
     showToast('Error saving settings', 'error');
+    console.error(error);
+  } finally {
+    setButtonLoading(btn, false);
+  }
+});
+
+// ==========================================
+// ABOUT SETTINGS HANDLERS
+// ==========================================
+
+function populateAboutSettings() {
+  if (!siteSettings || !siteSettings.about) return;
+
+  const about = siteSettings.about;
+
+  // Story section
+  document.getElementById('about-story-title').value = about.story?.title || '';
+  document.getElementById('about-story-subtitle').value = about.story?.subtitle || '';
+  document.getElementById('about-story-content').value = about.story?.content || '';
+
+  // Story image preview
+  const storyPreview = document.getElementById('story-image-preview');
+  if (about.story?.image?.url) {
+    storyPreview.innerHTML = `<img src="${about.story.image.url}" alt="Story">`;
+  } else {
+    storyPreview.innerHTML = '<span class="no-image-text">No image</span>';
+  }
+
+  // Values
+  const valuesContainer = document.getElementById('values-container');
+  valuesContainer.innerHTML = '';
+  (about.values || []).forEach((value, index) => {
+    addValueRow(value.icon, value.title, value.description, index);
+  });
+
+  // Process
+  document.getElementById('about-process-intro').value = about.process?.intro || '';
+  const processContainer = document.getElementById('process-steps-container');
+  processContainer.innerHTML = '';
+  (about.process?.steps || []).forEach((step, index) => {
+    addProcessStepRow(step.title, step.description, step.image, index);
+  });
+
+  // Heritage
+  document.getElementById('about-heritage-title').value = about.heritage?.title || '';
+  document.getElementById('about-heritage-description').value = about.heritage?.description || '';
+}
+
+function addValueRow(icon = '', title = '', description = '', index = null) {
+  const valuesContainer = document.getElementById('values-container');
+  const row = document.createElement('div');
+  row.className = 'dynamic-row value-row';
+  row.innerHTML = `
+    <div class="row-header">
+      <span class="row-number">${valuesContainer.children.length + 1}</span>
+      <button type="button" class="btn-remove-row">&times;</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Icon Key</label>
+        <input type="text" class="value-icon" value="${icon}" placeholder="craftsmanship">
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="value-title" value="${title}" placeholder="Craftsmanship">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="value-description" rows="2" placeholder="Value description...">${description}</textarea>
+    </div>
+  `;
+  row.querySelector('.btn-remove-row').addEventListener('click', () => {
+    row.remove();
+    renumberRows(valuesContainer, 'value-row');
+  });
+  valuesContainer.appendChild(row);
+}
+
+function addProcessStepRow(title = '', description = '', image = null, index = null) {
+  const container = document.getElementById('process-steps-container');
+  const stepIndex = container.children.length;
+  const row = document.createElement('div');
+  row.className = 'dynamic-row process-step-row';
+  row.dataset.stepIndex = stepIndex;
+  row.innerHTML = `
+    <div class="row-header">
+      <span class="row-number">${stepIndex + 1}</span>
+      <button type="button" class="btn-remove-row">&times;</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Step Title</label>
+        <input type="text" class="step-title" value="${title}" placeholder="Design Brief">
+      </div>
+      <div class="form-group image-upload-inline">
+        <label>Step Image</label>
+        <div class="image-upload-row">
+          <div class="image-preview-small step-image-preview">${image?.url ? `<img src="${image.url}" alt="Step">` : '<span class="no-image-text">No image</span>'}</div>
+          <button type="button" class="btn-upload btn-upload-step" data-step-index="${stepIndex}">Upload</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Step Description</label>
+      <textarea class="step-description" rows="2" placeholder="Step description...">${description}</textarea>
+    </div>
+  `;
+  row.querySelector('.btn-remove-row').addEventListener('click', () => {
+    row.remove();
+    renumberRows(container, 'process-step-row');
+    updateStepIndices();
+  });
+  row.querySelector('.btn-upload-step').addEventListener('click', (e) => {
+    const idx = e.target.dataset.stepIndex;
+    openSettingsImageModal('about', 'process', idx);
+  });
+  container.appendChild(row);
+}
+
+function renumberRows(container, rowClass) {
+  container.querySelectorAll(`.${rowClass}`).forEach((row, i) => {
+    row.querySelector('.row-number').textContent = i + 1;
+    if (row.dataset.stepIndex !== undefined) {
+      row.dataset.stepIndex = i;
+      const uploadBtn = row.querySelector('.btn-upload-step');
+      if (uploadBtn) uploadBtn.dataset.stepIndex = i;
+    }
+    if (row.dataset.serviceIndex !== undefined) {
+      row.dataset.serviceIndex = i;
+      const uploadBtn = row.querySelector('.btn-upload-service');
+      if (uploadBtn) uploadBtn.dataset.serviceIndex = i;
+    }
+  });
+}
+
+function updateStepIndices() {
+  document.querySelectorAll('.process-step-row').forEach((row, i) => {
+    row.dataset.stepIndex = i;
+    const btn = row.querySelector('.btn-upload-step');
+    if (btn) btn.dataset.stepIndex = i;
+  });
+}
+
+// Add value button
+document.getElementById('add-value-btn')?.addEventListener('click', () => {
+  addValueRow();
+});
+
+// Add process step button
+document.getElementById('add-process-step-btn')?.addEventListener('click', () => {
+  addProcessStepRow();
+});
+
+// Story image upload button
+document.querySelector('[data-section="story"]')?.addEventListener('click', () => {
+  openSettingsImageModal('about', 'story');
+});
+
+// About settings form submit
+document.getElementById('about-settings-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  setButtonLoading(btn, true);
+
+  // Collect values
+  const values = [];
+  document.querySelectorAll('.value-row').forEach(row => {
+    const icon = row.querySelector('.value-icon').value.trim();
+    const title = row.querySelector('.value-title').value.trim();
+    const description = row.querySelector('.value-description').value.trim();
+    if (title && description) {
+      values.push({ icon, title, description });
+    }
+  });
+
+  // Collect process steps (text only - images handled separately)
+  const steps = [];
+  document.querySelectorAll('.process-step-row').forEach(row => {
+    const title = row.querySelector('.step-title').value.trim();
+    const description = row.querySelector('.step-description').value.trim();
+    // Preserve existing image data
+    const stepIndex = parseInt(row.dataset.stepIndex);
+    const existingImage = siteSettings?.about?.process?.steps?.[stepIndex]?.image || { url: '', publicId: '' };
+    if (title || description) {
+      steps.push({ title, description, image: existingImage });
+    }
+  });
+
+  const data = {
+    story: {
+      title: document.getElementById('about-story-title').value.trim(),
+      subtitle: document.getElementById('about-story-subtitle').value.trim(),
+      content: document.getElementById('about-story-content').value.trim()
+    },
+    values,
+    process: {
+      intro: document.getElementById('about-process-intro').value.trim(),
+      steps
+    },
+    heritage: {
+      title: document.getElementById('about-heritage-title').value.trim(),
+      description: document.getElementById('about-heritage-description').value.trim()
+    }
+  };
+
+  try {
+    const response = await fetch(`/${ADMIN_ROUTE}/api/settings/about`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      showToast('About settings saved!', 'success');
+      loadSettings();
+    } else {
+      const err = await response.json();
+      showToast(err.error || 'Error saving settings', 'error');
+    }
+  } catch (error) {
+    showToast('Error saving settings', 'error');
+    console.error(error);
+  } finally {
+    setButtonLoading(btn, false);
+  }
+});
+
+// ==========================================
+// SERVICES SETTINGS HANDLERS
+// ==========================================
+
+function populateServicesSettings() {
+  if (!siteSettings || !siteSettings.services) return;
+
+  const services = siteSettings.services;
+
+  // Intro
+  document.getElementById('services-intro-title').value = services.intro?.title || '';
+  document.getElementById('services-intro-description').value = services.intro?.description || '';
+
+  // Services items
+  const container = document.getElementById('services-items-container');
+  container.innerHTML = '';
+  (services.items || []).forEach((item, index) => {
+    addServiceRow(item.title, item.description, item.features, item.image, index);
+  });
+}
+
+function addServiceRow(title = '', description = '', features = [], image = null, index = null) {
+  const container = document.getElementById('services-items-container');
+  const serviceIndex = container.children.length;
+  const row = document.createElement('div');
+  row.className = 'dynamic-row service-row';
+  row.dataset.serviceIndex = serviceIndex;
+  row.innerHTML = `
+    <div class="row-header">
+      <span class="row-number">${serviceIndex + 1}</span>
+      <button type="button" class="btn-remove-row">&times;</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Service Title</label>
+        <input type="text" class="service-title" value="${title}" placeholder="Custom Furniture Design">
+      </div>
+      <div class="form-group image-upload-inline">
+        <label>Service Image</label>
+        <div class="image-upload-row">
+          <div class="image-preview-small service-image-preview">${image?.url ? `<img src="${image.url}" alt="Service">` : '<span class="no-image-text">No image</span>'}</div>
+          <button type="button" class="btn-upload btn-upload-service" data-service-index="${serviceIndex}">Upload</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Service Description</label>
+      <textarea class="service-description" rows="2" placeholder="Service description...">${description}</textarea>
+    </div>
+    <div class="form-group">
+      <label>Features (one per line)</label>
+      <textarea class="service-features" rows="3" placeholder="Feature 1\nFeature 2\nFeature 3...">${(features || []).join('\n')}</textarea>
+    </div>
+  `;
+  row.querySelector('.btn-remove-row').addEventListener('click', () => {
+    row.remove();
+    renumberRows(container, 'service-row');
+    updateServiceIndices();
+  });
+  row.querySelector('.btn-upload-service').addEventListener('click', (e) => {
+    const idx = e.target.dataset.serviceIndex;
+    openSettingsImageModal('services', null, idx);
+  });
+  container.appendChild(row);
+}
+
+function updateServiceIndices() {
+  document.querySelectorAll('.service-row').forEach((row, i) => {
+    row.dataset.serviceIndex = i;
+    const btn = row.querySelector('.btn-upload-service');
+    if (btn) btn.dataset.serviceIndex = i;
+  });
+}
+
+// Add service button
+document.getElementById('add-service-btn')?.addEventListener('click', () => {
+  addServiceRow();
+});
+
+// Services settings form submit
+document.getElementById('services-settings-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  setButtonLoading(btn, true);
+
+  // Collect services items
+  const items = [];
+  document.querySelectorAll('.service-row').forEach(row => {
+    const title = row.querySelector('.service-title').value.trim();
+    const description = row.querySelector('.service-description').value.trim();
+    const featuresText = row.querySelector('.service-features').value.trim();
+    const features = featuresText.split('\n').map(f => f.trim()).filter(Boolean);
+    // Preserve existing image data
+    const serviceIndex = parseInt(row.dataset.serviceIndex);
+    const existingImage = siteSettings?.services?.items?.[serviceIndex]?.image || { url: '', publicId: '' };
+    if (title || description) {
+      items.push({ title, description, features, image: existingImage });
+    }
+  });
+
+  const data = {
+    intro: {
+      title: document.getElementById('services-intro-title').value.trim(),
+      description: document.getElementById('services-intro-description').value.trim()
+    },
+    items
+  };
+
+  try {
+    const response = await fetch(`/${ADMIN_ROUTE}/api/settings/services`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      showToast('Services settings saved!', 'success');
+      loadSettings();
+    } else {
+      const err = await response.json();
+      showToast(err.error || 'Error saving settings', 'error');
+    }
+  } catch (error) {
+    showToast('Error saving settings', 'error');
+    console.error(error);
+  } finally {
+    setButtonLoading(btn, false);
+  }
+});
+
+// ==========================================
+// SETTINGS IMAGE UPLOAD HANDLER
+// ==========================================
+
+function openSettingsImageModal(page, section, itemIndex) {
+  // Use the existing image modal but configure it for settings
+  const modal = document.getElementById('image-modal');
+  const form = document.getElementById('image-form');
+
+  // Store settings upload info
+  form.dataset.settingsPage = page;
+  form.dataset.settingsSection = section || '';
+  form.dataset.settingsIndex = itemIndex !== undefined ? itemIndex : '';
+
+  // Clear the collection field to indicate this is a settings upload
+  document.getElementById('image-collection').value = 'SiteSettings';
+  document.getElementById('image-doc-id').value = page;
+  document.getElementById('image-index').value = itemIndex !== undefined ? itemIndex : '-1';
+
+  document.getElementById('image-file').value = '';
+  document.getElementById('image-preview').innerHTML = '';
+
+  openModal('image-modal');
+}
+
+// Override image form submit for settings uploads
+const originalImageFormHandler = document.getElementById('image-form')?.onsubmit;
+
+document.getElementById('image-form')?.addEventListener('submit', async function(e) {
+  const collection = document.getElementById('image-collection').value;
+
+  if (collection !== 'SiteSettings' && collection !== 'HeroImage') {
+    // Use existing handler for regular uploads
+    return;
+  }
+
+  e.preventDefault();
+
+  const form = e.target;
+  const file = document.getElementById('image-file').files[0];
+  if (!file) {
+    showToast('Please select an image', 'error');
+    return;
+  }
+
+  const btn = form.querySelector('button[type="submit"]');
+  setButtonLoading(btn, true);
+
+  // Handle HeroImage upload
+  if (collection === 'HeroImage') {
+    const slotIndex = form.dataset.heroSlot;
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('slotIndex', slotIndex);
+
+    try {
+      const response = await fetch(`/${ADMIN_ROUTE}/api/settings/home/hero-image`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        showToast('Hero image uploaded!', 'success');
+        closeModal('image-modal');
+        await loadSettings();
+      } else {
+        const err = await response.json();
+        showToast(err.error || 'Upload failed', 'error');
+      }
+    } catch (error) {
+      showToast('Upload failed', 'error');
+      console.error(error);
+    } finally {
+      setButtonLoading(btn, false);
+    }
+    return;
+  }
+
+  // Handle SiteSettings (About/Services) uploads
+  const page = form.dataset.settingsPage;
+  const section = form.dataset.settingsSection;
+  const itemIndex = form.dataset.settingsIndex;
+
+  const formData = new FormData();
+  formData.append('image', file);
+
+  let endpoint = '';
+  if (page === 'about') {
+    formData.append('section', section);
+    if (itemIndex !== '') {
+      formData.append('stepIndex', itemIndex);
+    }
+    endpoint = `/${ADMIN_ROUTE}/api/settings/about/image`;
+  } else if (page === 'services') {
+    formData.append('itemIndex', itemIndex);
+    endpoint = `/${ADMIN_ROUTE}/api/settings/services/image`;
+  }
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      showToast('Image uploaded successfully!', 'success');
+      closeModal('image-modal');
+
+      // Refresh settings and update preview
+      await loadSettings();
+
+      // Update the specific preview
+      if (page === 'about' && section === 'story') {
+        document.getElementById('story-image-preview').innerHTML =
+          `<img src="${result.image.url}" alt="Story">`;
+      } else if (page === 'about' && section === 'process') {
+        const stepRow = document.querySelector(`.process-step-row[data-step-index="${itemIndex}"]`);
+        if (stepRow) {
+          stepRow.querySelector('.step-image-preview').innerHTML =
+            `<img src="${result.image.url}" alt="Step">`;
+        }
+      } else if (page === 'services') {
+        const serviceRow = document.querySelector(`.service-row[data-service-index="${itemIndex}"]`);
+        if (serviceRow) {
+          serviceRow.querySelector('.service-image-preview').innerHTML =
+            `<img src="${result.image.url}" alt="Service">`;
+        }
+      }
+    } else {
+      const err = await response.json();
+      showToast(err.error || 'Upload failed', 'error');
+    }
+  } catch (error) {
+    showToast('Upload failed', 'error');
     console.error(error);
   } finally {
     setButtonLoading(btn, false);

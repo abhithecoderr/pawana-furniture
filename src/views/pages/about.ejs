@@ -25,11 +25,11 @@
   <div class="about-container">
     <div class="about-content">
       <div class="about-image">
-        <img src="https://res.cloudinary.com/duiix4ryu/image/upload/v1767229823/ourstory_x9c179.jpg" alt="Pawan Dhiman - Founder of Pawana Furniture" loading="lazy">
+        <img src="<%= aboutSettings.story?.image?.url || 'https://res.cloudinary.com/duiix4ryu/image/upload/v1767229823/ourstory_x9c179.jpg' %>" alt="Pawan Dhiman - Founder of Pawana Furniture" loading="lazy">
       </div>
       <div class="about-text">
-        <h2 class="story-title">Our Story</h2>
-        <p class="about-intro">Resilience, Artistry, and a Vision for Perfection.</p>
+        <h2 class="story-title"><%= aboutSettings.story?.title || 'Our Story' %></h2>
+        <p class="about-intro"><%= aboutSettings.story?.subtitle || 'Resilience, Artistry, and a Vision for Perfection.' %></p>
         <p>
           The foundation of Pawana Furniture is rooted in the unwavering hard work and dedication of its founder, Mr Pawan Kumar. His dream was shaped not by prosperity, but by the struggles and difficult circumstances he witnessed during his childhood. While his father worked continuously as an employee in the furniture industry, Mr Pawan found his true inspiration in his grandfather, who was an experienced employee of the British Railways, and whose work reflected discipline, precision, and deep expertise. This strict discipline sharpened Mr Pawan’s thinking, motivating him to excel academically and then move forward in his professional life. He consistently refined his skills and worked with leading companies in Punjab, always in search of a broader perspective. His intense pursuit of exceptional quality took him beyond India’s borders, where he studied advanced furniture techniques in Italy and gained a unique competitive edge.
         </p>

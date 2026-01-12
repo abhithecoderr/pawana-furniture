@@ -21,7 +21,16 @@ const siteSettingsSchema = new mongoose.Schema({
           type: String,
           required: true
         }
-      }]
+      }],
+      // Hero images (up to 3)
+      images: [{
+        url: { type: String, default: '' },
+        publicId: { type: String, default: '' }
+      }],
+      activeImageIndex: {
+        type: Number,
+        default: 0
+      }
     },
     featuredCodes: {
       signatureItems: {
@@ -102,6 +111,56 @@ const siteSettingsSchema = new mongoose.Schema({
         default: "Sunday: 8:00 AM - 6:30 PM"
       }
     }
+  },
+
+  // About Page Settings
+  about: {
+    story: {
+      title: { type: String, default: 'Our Story' },
+      subtitle: { type: String, default: 'Resilience, Artistry, and a Vision for Perfection.' },
+      content: { type: String, default: '' },
+      image: {
+        url: { type: String, default: '' },
+        publicId: { type: String, default: '' }
+      }
+    },
+    values: [{
+      icon: { type: String, default: 'craftsmanship' },
+      title: { type: String, required: true },
+      description: { type: String, required: true }
+    }],
+    process: {
+      intro: { type: String, default: '' },
+      steps: [{
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+        image: {
+          url: { type: String, default: '' },
+          publicId: { type: String, default: '' }
+        }
+      }]
+    },
+    heritage: {
+      title: { type: String, default: '100% Crafted in India' },
+      description: { type: String, default: '' }
+    }
+  },
+
+  // Services Page Settings
+  services: {
+    intro: {
+      title: { type: String, default: 'More Than Just Furniture' },
+      description: { type: String, default: '' }
+    },
+    items: [{
+      title: { type: String, required: true },
+      description: { type: String, required: true },
+      features: [{ type: String }],
+      image: {
+        url: { type: String, default: '' },
+        publicId: { type: String, default: '' }
+      }
+    }]
   }
 }, {
   timestamps: true

@@ -84,6 +84,11 @@ router.get("/", async (req, res) => {
       return room;
     });
 
+    // Get active hero image
+    const heroImages = settings.home.hero.images || [];
+    const activeHeroIndex = settings.home.hero.activeImageIndex || 0;
+    const activeHeroImage = heroImages[activeHeroIndex]?.url || null;
+
     res.render("pages/home", {
       title: "Home",
       pageClass: "page-home",
@@ -93,6 +98,7 @@ router.get("/", async (req, res) => {
       groupedItems,
       rooms: roomsWithCustomImages,
       heroContent: settings.home.hero,
+      heroImageUrl: activeHeroImage,
       contactSettings: settings.contact,
     });
   } catch (error) {

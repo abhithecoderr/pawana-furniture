@@ -49,6 +49,20 @@
           </svg>
           <span>Home</span>
         </button>
+        <button class="nav-item" data-tab="about-settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <span>About</span>
+        </button>
+        <button class="nav-item" data-tab="services-settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+          </svg>
+          <span>Services</span>
+        </button>
         <button class="nav-item" data-tab="contact-settings">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -197,6 +211,30 @@
               </div>
 
               <div class="form-group">
+                <h4>Hero Images <span class="hint-text">(up to 3, select one as active)</span></h4>
+                <div class="hero-images-grid" id="hero-images-container">
+                  <% for (let i = 0; i < 3; i++) { %>
+                    <div class="hero-image-slot" data-slot="<%= i %>">
+                      <div class="slot-header">
+                        <label class="radio-label">
+                          <input type="radio" name="activeHeroImage" value="<%= i %>" <%= i === 0 ? 'checked' : '' %>>
+                          <span>Active</span>
+                        </label>
+                        <span class="slot-number">Slot <%= i + 1 %></span>
+                      </div>
+                      <div class="hero-image-preview" id="hero-preview-<%= i %>">
+                        <span class="no-image-text">No image</span>
+                      </div>
+                      <div class="slot-actions">
+                        <button type="button" class="btn-upload-hero" data-slot="<%= i %>">Upload</button>
+                        <button type="button" class="btn-delete-hero" data-slot="<%= i %>" disabled>Delete</button>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+
+              <div class="form-group">
                 <h4>Stats</h4>
                 <div id="hero-stats-container"></div>
                 <button type="button" class="btn-add-stat" id="add-stat-btn">+ Add Stat</button>
@@ -306,6 +344,119 @@
 
             <div class="form-actions">
               <button type="submit" class="btn-save">Save Contact Settings</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- About Settings Tab -->
+      <div class="tab-content" id="about-settings-tab">
+        <div class="content-header">
+          <h2>About Page Settings</h2>
+        </div>
+
+        <div class="settings-form-container">
+          <form id="about-settings-form" class="settings-form">
+            <div class="settings-section">
+              <h3>Our Story Section</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="about-story-title">Title</label>
+                  <input type="text" id="about-story-title" name="storyTitle" placeholder="Our Story">
+                </div>
+                <div class="form-group">
+                  <label for="about-story-subtitle">Subtitle</label>
+                  <input type="text" id="about-story-subtitle" name="storySubtitle" placeholder="Resilience, Artistry, and a Vision for Perfection.">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="about-story-content">Story Content</label>
+                <textarea id="about-story-content" name="storyContent" rows="8" placeholder="Full story text..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Story Image</label>
+                <div class="image-upload-row" id="story-image-row">
+                  <div class="image-preview-small" id="story-image-preview"></div>
+                  <button type="button" class="btn-upload" data-section="story">Upload Image</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Our Values</h3>
+              <p class="section-hint">Define the 4 value cards displayed on the about page.</p>
+              <div id="values-container"></div>
+              <button type="button" class="btn-add-row" id="add-value-btn">+ Add Value</button>
+            </div>
+
+            <div class="settings-section">
+              <h3>Our Process</h3>
+
+              <div class="form-group">
+                <label for="about-process-intro">Process Introduction</label>
+                <textarea id="about-process-intro" name="processIntro" rows="3" placeholder="Introduction text for the process section..."></textarea>
+              </div>
+
+              <p class="section-hint">Define each step in the process (with images).</p>
+              <div id="process-steps-container"></div>
+              <button type="button" class="btn-add-row" id="add-process-step-btn">+ Add Step</button>
+            </div>
+
+            <div class="settings-section">
+              <h3>Heritage Section</h3>
+
+              <div class="form-group">
+                <label for="about-heritage-title">Title</label>
+                <input type="text" id="about-heritage-title" name="heritageTitle" placeholder="100% Crafted in India">
+              </div>
+
+              <div class="form-group">
+                <label for="about-heritage-description">Description</label>
+                <textarea id="about-heritage-description" name="heritageDescription" rows="3" placeholder="Heritage section description..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-save">Save About Settings</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Services Settings Tab -->
+      <div class="tab-content" id="services-settings-tab">
+        <div class="content-header">
+          <h2>Services Page Settings</h2>
+        </div>
+
+        <div class="settings-form-container">
+          <form id="services-settings-form" class="settings-form">
+            <div class="settings-section">
+              <h3>Introduction Section</h3>
+
+              <div class="form-group">
+                <label for="services-intro-title">Title</label>
+                <input type="text" id="services-intro-title" name="introTitle" placeholder="More Than Just Furniture">
+              </div>
+
+              <div class="form-group">
+                <label for="services-intro-description">Description</label>
+                <textarea id="services-intro-description" name="introDescription" rows="3" placeholder="Introduction text..."></textarea>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Services</h3>
+              <p class="section-hint">Define each service offered (with images and feature lists).</p>
+              <div id="services-items-container"></div>
+              <button type="button" class="btn-add-row" id="add-service-btn">+ Add Service</button>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-save">Save Services Settings</button>
             </div>
           </form>
         </div>

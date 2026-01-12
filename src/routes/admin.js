@@ -50,6 +50,56 @@ function ensureCloudinaryConfig() {
   }
 }
 
+// Centralized Cloudinary upload helper with optimized transformations
+// Ensures all uploads are webp, optimized quality, and reasonable file sizes (~500KB max)
+async function uploadToCloudinary(fileBuffer, options = {}) {
+  ensureCloudinaryConfig();
+
+  const {
+    folder = 'pawana/uploads',
+    publicId = `upload_${Date.now().toString(36)}`,
+    isHeroImage = false,      // Hero images can be larger (up to 1920px)
+    maxWidth = 1200,          // Default max width for product/content images
+  } = options;
+
+  // Determine optimal width based on image type
+  const targetWidth = isHeroImage ? 1920 : maxWidth;
+
+  // Consistent transformation settings for all uploads:
+  // - webp format for best compression
+  // - quality limit to keep file sizes small
+  // - max width to prevent oversized uploads
+  const uploadOptions = {
+    folder,
+    public_id: publicId,
+    resource_type: 'image',
+    format: 'webp',
+    transformation: [
+      {
+        width: targetWidth,
+        crop: 'limit',              // Only resize if larger than target
+        quality: 'auto:good',       // Let Cloudinary optimize
+        fetch_format: 'webp'
+      },
+      {
+        quality: 80,                // Cap quality at 80 for consistent file sizes
+        flags: 'lossy'              // Allow lossy compression for smaller files
+      }
+    ]
+  };
+
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      uploadOptions,
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    stream.end(fileBuffer);
+  });
+}
+
 // Room and Style mappings for code generation
 const ROOM_INITIALS = {
   'Living Room': 'L',
@@ -242,21 +292,9 @@ router.post('/api/sets', requireAdminAuth, upload.single('image'), async (req, r
       const shortHash = Date.now().toString(36).slice(-4);
       const uniqueId = `${code}_${shortHash}`;
 
-      const uploadResult = await new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          {
-            folder,
-            public_id: uniqueId,
-            resource_type: 'image',
-            format: 'webp',
-            quality: 'auto:good'
-          },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        );
-        stream.end(req.file.buffer);
+      const uploadResult = await uploadToCloudinary(req.file.buffer, {
+        folder,
+        publicId: uniqueId
       });
 
       images.push({
@@ -439,21 +477,9 @@ router.post('/api/items', requireAdminAuth, upload.single('image'), async (req, 
       const shortHash = Date.now().toString(36).slice(-4);
       const uniqueId = `${code}_${shortHash}`;
 
-      const uploadResult = await new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          {
-            folder,
-            public_id: uniqueId,
-            resource_type: 'image',
-            format: 'webp',
-            quality: 'auto:good'
-          },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        );
-        stream.end(req.file.buffer);
+      const uploadResult = await uploadToCloudinary(req.file.buffer, {
+        folder,
+        publicId: uniqueId
       });
 
       images.push({
@@ -619,22 +645,10 @@ router.post('/api/upload-image', requireAdminAuth, upload.single('image'), async
     const shortHash = Date.now().toString(36).slice(-4);
     const uniqueId = `${baseId}_${shortHash}`;
 
-    // Upload to Cloudinary
-    const uploadResult = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        {
-          folder,
-          public_id: uniqueId,
-          resource_type: 'image',
-          format: 'webp',
-          quality: 'auto:good'
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      );
-      stream.end(req.file.buffer);
+    // Upload to Cloudinary with optimized settings
+    const uploadResult = await uploadToCloudinary(req.file.buffer, {
+      folder,
+      publicId: uniqueId
     });
 
     const newImageData = {
@@ -714,6 +728,146 @@ router.put('/api/settings/home', requireAdminAuth, async (req, res) => {
   }
 });
 
+// POST upload hero image (up to 3, webp format, under 1MB)
+router.post('/api/settings/home/hero-image', requireAdminAuth, upload.single('image'), async (req, res) => {
+  try {
+    ensureCloudinaryConfig();
+    const { slotIndex } = req.body;
+    const idx = parseInt(slotIndex);
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+
+    if (idx < 0 || idx > 2) {
+      return res.status(400).json({ error: 'Invalid slot index (must be 0, 1, or 2)' });
+    }
+
+    const settings = await SiteSettings.getSettings();
+    const currentImages = settings.home?.hero?.images || [];
+
+    // Get old image publicId if replacing
+    let oldPublicId = null;
+    if (currentImages[idx]?.publicId) {
+      oldPublicId = currentImages[idx].publicId;
+    }
+
+    // Upload to Cloudinary with optimized settings (hero images allow larger width)
+    const folder = 'pawana/hero';
+    const shortHash = Date.now().toString(36).slice(-4);
+    const uniqueId = `hero-${idx}_${shortHash}`;
+
+    const uploadResult = await uploadToCloudinary(req.file.buffer, {
+      folder,
+      publicId: uniqueId,
+      isHeroImage: true
+    });
+
+    // Delete old image if exists
+    if (oldPublicId) {
+      try {
+        await cloudinary.uploader.destroy(oldPublicId);
+      } catch (e) {
+        console.log('Could not delete old hero image:', e.message);
+      }
+    }
+
+    // Update the specific slot in the images array
+    const newImages = [...currentImages];
+    while (newImages.length <= idx) {
+      newImages.push({ url: '', publicId: '' });
+    }
+    newImages[idx] = {
+      url: uploadResult.secure_url,
+      publicId: uploadResult.public_id
+    };
+
+    await SiteSettings.updateSettings({
+      'home.hero.images': newImages
+    });
+    await clearProductCaches();
+
+    res.json({
+      success: true,
+      image: newImages[idx],
+      slotIndex: idx
+    });
+  } catch (error) {
+    console.error('Hero image upload error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT set active hero image index
+router.put('/api/settings/home/hero-active', requireAdminAuth, async (req, res) => {
+  try {
+    const { activeIndex } = req.body;
+    const idx = parseInt(activeIndex);
+
+    if (idx < 0 || idx > 2) {
+      return res.status(400).json({ error: 'Invalid active index' });
+    }
+
+    await SiteSettings.updateSettings({
+      'home.hero.activeImageIndex': idx
+    });
+    await clearProductCaches();
+
+    res.json({ success: true, activeIndex: idx });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// DELETE hero image from slot
+router.delete('/api/settings/home/hero-image/:slotIndex', requireAdminAuth, async (req, res) => {
+  try {
+    ensureCloudinaryConfig();
+    const idx = parseInt(req.params.slotIndex);
+
+    if (idx < 0 || idx > 2) {
+      return res.status(400).json({ error: 'Invalid slot index' });
+    }
+
+    const settings = await SiteSettings.getSettings();
+    const currentImages = settings.home?.hero?.images || [];
+
+    // Delete from Cloudinary if exists
+    if (currentImages[idx]?.publicId) {
+      try {
+        await cloudinary.uploader.destroy(currentImages[idx].publicId);
+      } catch (e) {
+        console.log('Could not delete hero image from Cloudinary:', e.message);
+      }
+    }
+
+    // Clear the slot
+    const newImages = [...currentImages];
+    if (newImages[idx]) {
+      newImages[idx] = { url: '', publicId: '' };
+    }
+
+    // If deleting the active image, reset to first available
+    let activeIndex = settings.home?.hero?.activeImageIndex || 0;
+    if (activeIndex === idx) {
+      // Find first non-empty slot
+      const firstAvailable = newImages.findIndex(img => img && img.url);
+      activeIndex = firstAvailable >= 0 ? firstAvailable : 0;
+    }
+
+    await SiteSettings.updateSettings({
+      'home.hero.images': newImages,
+      'home.hero.activeImageIndex': activeIndex
+    });
+    await clearProductCaches();
+
+    res.json({ success: true, activeIndex });
+  } catch (error) {
+    console.error('Hero image delete error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // PUT update contact settings
 router.put('/api/settings/contact', requireAdminAuth, async (req, res) => {
   try {
@@ -741,6 +895,201 @@ router.put('/api/settings/contact', requireAdminAuth, async (req, res) => {
     await clearProductCaches();
     res.json({ success: true, settings });
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT update about settings
+router.put('/api/settings/about', requireAdminAuth, async (req, res) => {
+  try {
+    const { story, values, process, heritage } = req.body;
+
+    const updates = {};
+
+    // Story text fields (not image - that's handled by image upload route)
+    if (story) {
+      if (story.title !== undefined) updates['about.story.title'] = story.title;
+      if (story.subtitle !== undefined) updates['about.story.subtitle'] = story.subtitle;
+      if (story.content !== undefined) updates['about.story.content'] = story.content;
+    }
+
+    // Values array
+    if (values !== undefined) {
+      updates['about.values'] = values;
+    }
+
+    // Process intro and steps (not images)
+    if (process) {
+      if (process.intro !== undefined) updates['about.process.intro'] = process.intro;
+      if (process.steps !== undefined) updates['about.process.steps'] = process.steps;
+    }
+
+    // Heritage section
+    if (heritage) {
+      if (heritage.title !== undefined) updates['about.heritage.title'] = heritage.title;
+      if (heritage.description !== undefined) updates['about.heritage.description'] = heritage.description;
+    }
+
+    const settings = await SiteSettings.updateSettings(updates);
+    await clearProductCaches();
+    res.json({ success: true, settings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT update services settings
+router.put('/api/settings/services', requireAdminAuth, async (req, res) => {
+  try {
+    const { intro, items } = req.body;
+
+    const updates = {};
+
+    if (intro) {
+      if (intro.title !== undefined) updates['services.intro.title'] = intro.title;
+      if (intro.description !== undefined) updates['services.intro.description'] = intro.description;
+    }
+
+    if (items !== undefined) {
+      updates['services.items'] = items;
+    }
+
+    const settings = await SiteSettings.updateSettings(updates);
+    await clearProductCaches();
+    res.json({ success: true, settings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST upload about page image
+router.post('/api/settings/about/image', requireAdminAuth, upload.single('image'), async (req, res) => {
+  try {
+    ensureCloudinaryConfig();
+    const { section, stepIndex } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+
+    const settings = await SiteSettings.getSettings();
+    let oldPublicId = null;
+    let updatePath = '';
+
+    // Determine which image to update
+    if (section === 'story') {
+      oldPublicId = settings.about?.story?.image?.publicId;
+      updatePath = 'about.story.image';
+    } else if (section === 'process' && stepIndex !== undefined) {
+      const idx = parseInt(stepIndex);
+      if (settings.about?.process?.steps?.[idx]) {
+        oldPublicId = settings.about.process.steps[idx].image?.publicId;
+        updatePath = `about.process.steps.${idx}.image`;
+      }
+    }
+
+    if (!updatePath) {
+      return res.status(400).json({ error: 'Invalid section specified' });
+    }
+
+    // Upload to Cloudinary with optimized settings
+    const folder = 'pawana/about';
+    const shortHash = Date.now().toString(36).slice(-4);
+    const uniqueId = `${section}${stepIndex !== undefined ? '-' + stepIndex : ''}_${shortHash}`;
+
+    const uploadResult = await uploadToCloudinary(req.file.buffer, {
+      folder,
+      publicId: uniqueId
+    });
+
+    // Delete old image if exists
+    if (oldPublicId) {
+      try {
+        await cloudinary.uploader.destroy(oldPublicId);
+      } catch (e) {
+        console.log('Could not delete old image:', e.message);
+      }
+    }
+
+    // Update settings with new image
+    const updates = {
+      [updatePath]: {
+        url: uploadResult.secure_url,
+        publicId: uploadResult.public_id
+      }
+    };
+
+    await SiteSettings.updateSettings(updates);
+    await clearProductCaches();
+
+    res.json({
+      success: true,
+      image: { url: uploadResult.secure_url, publicId: uploadResult.public_id }
+    });
+  } catch (error) {
+    console.error('About image upload error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST upload services page image
+router.post('/api/settings/services/image', requireAdminAuth, upload.single('image'), async (req, res) => {
+  try {
+    ensureCloudinaryConfig();
+    const { itemIndex } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+
+    if (itemIndex === undefined) {
+      return res.status(400).json({ error: 'Item index required' });
+    }
+
+    const idx = parseInt(itemIndex);
+    const settings = await SiteSettings.getSettings();
+
+    let oldPublicId = null;
+    if (settings.services?.items?.[idx]) {
+      oldPublicId = settings.services.items[idx].image?.publicId;
+    }
+
+    // Upload to Cloudinary with optimized settings
+    const folder = 'pawana/services';
+    const shortHash = Date.now().toString(36).slice(-4);
+    const uniqueId = `service-${idx}_${shortHash}`;
+
+    const uploadResult = await uploadToCloudinary(req.file.buffer, {
+      folder,
+      publicId: uniqueId
+    });
+
+    // Delete old image if exists
+    if (oldPublicId) {
+      try {
+        await cloudinary.uploader.destroy(oldPublicId);
+      } catch (e) {
+        console.log('Could not delete old image:', e.message);
+      }
+    }
+
+    // Update settings with new image
+    const updates = {
+      [`services.items.${idx}.image`]: {
+        url: uploadResult.secure_url,
+        publicId: uploadResult.public_id
+      }
+    };
+
+    await SiteSettings.updateSettings(updates);
+    await clearProductCaches();
+
+    res.json({
+      success: true,
+      image: { url: uploadResult.secure_url, publicId: uploadResult.public_id }
+    });
+  } catch (error) {
+    console.error('Services image upload error:', error);
     res.status(500).json({ error: error.message });
   }
 });
