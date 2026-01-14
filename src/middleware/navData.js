@@ -46,6 +46,15 @@ export const navDataMiddleware = async (req, res, next) => {
       tagline2: 'Redefining luxury interiors with timeless design and sustainable practices. Since 1980',
       copyright: `© ${new Date().getFullYear()} Pawana Furniture. All rights reserved.`
     };
+
+    // SEO settings for meta tags
+    res.locals.seoSettings = settings.seo || {
+      siteUrl: 'https://pawanafurniture.com',
+      siteName: 'Pawana® Furniture',
+      defaultDescription: 'Premium handcrafted furniture in Rajpura, Punjab. Luxury living room, bedroom, dining & office furniture.',
+      keywords: ['premium furniture Rajpura', 'luxury furniture Punjab', 'handcrafted furniture India']
+    };
+    res.locals.currentPath = req.originalUrl;
     next();
   } catch (error) {
     console.error("Error fetching navigation data:", error);

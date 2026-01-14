@@ -4,6 +4,11 @@ import FurnitureSet from "../models/FurnitureSet.js";
 import FurnitureItem from "../models/FurnitureItem.js";
 import SiteSettings from "../models/SiteSettings.js";
 import { getOrSet } from "../utils/cache.js";
+import {
+  generateCollectionSchema,
+  generateBreadcrumbSchema,
+  generateSchemaScript
+} from "../utils/seoHelper.js";
 
 const router = express.Router();
 
@@ -36,8 +41,20 @@ router.get("/:slug/:type", async (req, res) => {
     const typeDisplay = type.charAt(0).toUpperCase() + type.slice(1) +
                        (type.endsWith('s') ? '' : 's');
 
+    // SEO data for room-type page
+    const siteUrl = 'https://pawanafurniture.com';
+    const breadcrumbs = [
+      { name: 'Home', url: '/' },
+      { name: room.name, url: `/room/${room.slug}` },
+      { name: typeDisplay }
+    ];
+    const structuredData = generateSchemaScript(generateBreadcrumbSchema(breadcrumbs));
+
     res.render("pages/room-type", {
-      title: `${room.name} ${typeDisplay}`,
+      pageTitle: `${room.name} ${typeDisplay} | Pawana® Furniture`,
+      pageDescription: `Explore our ${typeDisplay.toLowerCase()} collection for your ${room.name.toLowerCase()}. Premium handcrafted furniture in Rajpura, Punjab.`,
+      canonicalUrl: `${siteUrl}/room/${slug}/${type}`,
+      structuredData,
       room,
       type: typeDisplay,
       typeSlug: type,
@@ -115,8 +132,21 @@ router.get("/:slug", async (req, res) => {
       });
     }
 
+    // SEO data for room page
+    const siteUrl = 'https://pawanafurniture.com';
+    const collectionSchema = generateCollectionSchema(room, items);
+    const breadcrumbs = [
+      { name: 'Home', url: '/' },
+      { name: room.name }
+    ];
+    const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+    const structuredData = generateSchemaScript({ '@context': 'https://schema.org', '@graph': [collectionSchema, breadcrumbSchema] });
+
     res.render("pages/room", {
-      title: room.name,
+      pageTitle: `${room.name} Furniture | Pawana® Furniture`,
+      pageDescription: `Explore our ${room.name.toLowerCase()} furniture collection. Premium sofas, chairs, tables & more. Handcrafted in Rajpura, Punjab.`,
+      canonicalUrl: `${siteUrl}/room/${room.slug}`,
+      structuredData,
       room,
       sets,
       items,

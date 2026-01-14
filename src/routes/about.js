@@ -8,9 +8,12 @@ router.get("/", async (req, res) => {
   try {
     const settings = await SiteSettings.getSettings();
     const aboutSettings = settings.about || {};
+    const siteUrl = settings.seo?.siteUrl || 'https://pawanafurniture.com';
 
     res.render("pages/about", {
-      title: "About Pawana Furniture",
+      pageTitle: "About Pawana Furniture | Handcrafted Since 1980",
+      pageDescription: "Discover the story of Pawana Furniture - crafting premium furniture since 1980. Master craftsmanship, sustainable practices, and timeless designs from Rajpura, Punjab.",
+      canonicalUrl: `${siteUrl}/about`,
       aboutSettings,
     });
   } catch (error) {

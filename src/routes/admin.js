@@ -111,10 +111,27 @@ async function uploadToCloudinary(fileBuffer, options = {}) {
     publicId = `upload_${Date.now().toString(36)}`,
     isHeroImage = false,      // Hero images can be larger (up to 1920px)
     maxWidth = 1200,          // Default max width for product/content images
+    aspectRatio = null        // Optional aspect ratio to enforce (e.g. '16:9')
   } = options;
 
   // Determine optimal width based on image type
   const targetWidth = isHeroImage ? 1920 : maxWidth;
+
+  // Base transformation
+  let mainTransform = {
+    width: targetWidth,
+    quality: 'auto:good',
+    fetch_format: 'webp'
+  };
+
+  // Apply aspect ratio cropping if specified, otherwise just limit width
+  if (aspectRatio) {
+    mainTransform.aspect_ratio = aspectRatio;
+    mainTransform.crop = 'fill';
+    mainTransform.gravity = 'auto'; // Focus on interesting part of image
+  } else {
+    mainTransform.crop = 'limit';
+  }
 
   // Consistent transformation settings for all uploads:
   // - webp format for best compression
@@ -126,12 +143,7 @@ async function uploadToCloudinary(fileBuffer, options = {}) {
     resource_type: 'image',
     format: 'webp',
     transformation: [
-      {
-        width: targetWidth,
-        crop: 'limit',              // Only resize if larger than target
-        quality: 'auto:good',       // Let Cloudinary optimize
-        fetch_format: 'webp'
-      },
+      mainTransform,
       {
         quality: 80,                // Cap quality at 80 for consistent file sizes
         flags: 'lossy'              // Allow lossy compression for smaller files
@@ -240,10 +252,14 @@ router.get('/dashboard', requireAdminAuth, async (req, res) => {
       return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
     });
 
+    // Get tab from query param for direct tab navigation
+    const activeTab = req.query.tab || 'sets';
+
     res.render('admin/dashboard', {
       layout: false,
       rooms,
-      adminRoute: process.env.ADMIN_ROUTE
+      adminRoute: process.env.ADMIN_ROUTE,
+      activeTab
     });
   } catch (error) {
     console.error('Dashboard error:', error);
@@ -1041,7 +1057,9 @@ router.post('/api/settings/home/hero-image', requireAdminAuth, upload.single('im
     const uploadResult = await uploadToCloudinary(req.file.buffer, {
       folder,
       publicId: uniqueId,
-      isHeroImage: true
+      isHeroImage: true,
+      aspectRatio: UPLOAD_CONFIG.aspectRatios.heroImage,
+      fileSizeLimit: UPLOAD_CONFIG.fileSizeLimits.heroImage
     });
 
     // Delete old image if exists

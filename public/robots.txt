@@ -1,0 +1,19 @@
+# Robots.txt for Pawana Furniture
+User-agent: *
+Allow: /
+
+# Block technical/private routes
+Disallow: /api/
+Disallow: /admin/
+
+# Prevent indexing of internal search results (avoids "thin content" penalties)
+Disallow: /api/search
+Disallow: /search?*
+
+# Allow images to be indexed for Google Image Search
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /public/
+
+# Sitemap location
+Sitemap: https://pawanafurniture.com/sitemap.xml

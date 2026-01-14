@@ -2,8 +2,8 @@
    Admin Dashboard Client-Side Logic
    ========================================== */
 
-// State
-let currentTab = 'sets';
+// State - initialize from server-provided active tab
+let currentTab = typeof ACTIVE_TAB !== 'undefined' ? ACTIVE_TAB : 'sets';
 let currentRoom = 'Living Room';
 let currentStyle = 'Royal';
 let currentType = '';
@@ -36,22 +36,20 @@ function setButtonLoading(button, isLoading) {
 // ==========================================
 
 tabButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', async () => {
     const tab = btn.dataset.tab;
 
-    // Update active states
-    tabButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    // Check for unsaved changes before switching tabs
+    if (hasAnyUnsavedChanges()) {
+      const confirmed = await showConfirmModal(
+        'Unsaved Changes',
+        'You have unsaved changes. Leave without saving?'
+      );
+      if (!confirmed) return;
+    }
 
-    tabContents.forEach(content => {
-      content.classList.remove('active');
-      if (content.id === `${tab}-tab`) {
-        content.classList.add('active');
-      }
-    });
-
-    currentTab = tab;
-    loadData();
+    // Force page reload for clean state (resolves form state issues)
+    window.location.href = `/${ADMIN_ROUTE}/dashboard?tab=${tab}`;
   });
 });
 
@@ -755,6 +753,38 @@ function closeModal(id) {
   document.getElementById(id).classList.remove('active');
 }
 
+// Promise-based confirmation modal
+function showConfirmModal(title, message) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById('confirm-modal');
+    const titleEl = document.getElementById('confirm-modal-title');
+    const messageEl = document.getElementById('confirm-modal-message');
+    const confirmBtn = document.getElementById('confirm-modal-confirm');
+    const cancelBtn = document.getElementById('confirm-modal-cancel');
+
+    if (!modal || !titleEl || !messageEl) {
+      resolve(confirm(message)); // Fallback to native confirm
+      return;
+    }
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    modal.classList.add('active');
+
+    const cleanup = () => {
+      modal.classList.remove('active');
+      confirmBtn.removeEventListener('click', onConfirm);
+      cancelBtn.removeEventListener('click', onCancel);
+    };
+
+    const onConfirm = () => { cleanup(); resolve(true); };
+    const onCancel = () => { cleanup(); resolve(false); };
+
+    confirmBtn.addEventListener('click', onConfirm);
+    cancelBtn.addEventListener('click', onCancel);
+  });
+}
+
 // Close modals on outside click or cancel button
 document.querySelectorAll('.modal').forEach(modal => {
   modal.addEventListener('click', (e) => {
@@ -838,7 +868,7 @@ async function loadUploadConfig() {
     // Fallback defaults
     uploadConfig = {
       fileSizeLimits: { default: 1, sets: 3, items: 3, heroImage: 5, aboutStory: 3 },
-      aspectRatios: { sets: '1:1', items: '1:1', heroImage: '16:9' },
+      aspectRatios: { sets: '4:3', items: '1:1', heroImage: '16:9' },
       allowedTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
     };
   }
@@ -953,7 +983,6 @@ document.getElementById('add-item-btn').addEventListener('click', async () => {
   document.getElementById('item-type-select').value = '';
   document.getElementById('item-type-new').value = '';
   document.getElementById('new-type-group').style.display = 'none';
-  document.getElementById('item-price').value = '';
   document.getElementById('item-description').value = '';
   document.getElementById('item-image').value = '';
   document.getElementById('item-image-preview').innerHTML = '';
@@ -1079,7 +1108,9 @@ document.getElementById('set-form').addEventListener('submit', async (e) => {
     if (response.ok) {
       showToast('Set created successfully', 'success');
       closeModal('set-modal');
-      loadSets();
+      // Reload page and scroll to bottom to show new item
+      sessionStorage.setItem('scrollToBottom', 'true');
+      window.location.reload();
     } else {
       const error = await response.json();
       showToast(error.error || 'Error creating set', 'error');
@@ -1114,7 +1145,6 @@ document.getElementById('item-form').addEventListener('submit', async (e) => {
   formData.append('style', style);
   formData.append('name', document.getElementById('item-name').value);
   formData.append('type', document.getElementById('item-type').value);
-  formData.append('price', document.getElementById('item-price').value || '');
   formData.append('description', document.getElementById('item-description').value);
   if (customCode) {
     formData.append('customCode', customCode);
@@ -1137,7 +1167,9 @@ document.getElementById('item-form').addEventListener('submit', async (e) => {
     if (response.ok) {
       showToast('Item created successfully', 'success');
       closeModal('item-modal');
-      loadItems();
+      // Reload page and scroll to bottom to show new item
+      sessionStorage.setItem('scrollToBottom', 'true');
+      window.location.reload();
     } else {
       const error = await response.json();
       showToast(error.error || 'Error creating item', 'error');
@@ -1158,6 +1190,18 @@ function openImageModal(collection, documentId, imageIndex) {
   document.getElementById('image-file').value = '';
   document.getElementById('image-preview').innerHTML = '';
 
+  // Reset size limit text with aspect ratio hint
+  const limitSpan = document.getElementById('upload-size-limit');
+  if (limitSpan) {
+    if (collection === 'FurnitureSet') {
+      limitSpan.textContent = 'Max 3MB, 4:3 Ratio';
+    } else if (collection === 'FurnitureItem') {
+      limitSpan.textContent = 'Max 3MB, 1:1 Ratio';
+    } else {
+      limitSpan.textContent = 'Max 3MB';
+    }
+  }
+
   // Reset button loading state when opening modal
   const submitBtn = document.querySelector('#image-form button[type="submit"]');
   if (submitBtn) {
@@ -1168,14 +1212,34 @@ function openImageModal(collection, documentId, imageIndex) {
 }
 
 // Image preview
-document.getElementById('image-file').addEventListener('change', (e) => {
+// Image preview with validation
+document.getElementById('image-file').addEventListener('change', async (e) => {
   const file = e.target.files[0];
+  const previewEl = document.getElementById('image-preview');
+  const collection = document.getElementById('image-collection').value;
+
   if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      document.getElementById('image-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-    };
-    reader.readAsDataURL(file);
+    try {
+      // Determine validation section based on collection
+      let section = 'default';
+      if (collection === 'FurnitureSet') section = 'sets';
+      else if (collection === 'FurnitureItem') section = 'items';
+      else if (collection === 'HeroImage') section = 'heroImage';
+
+      await validateImage(file, section);
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewEl.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      showToast(error, 'error');
+      e.target.value = '';
+      previewEl.innerHTML = '';
+    }
+  } else {
+    previewEl.innerHTML = '';
   }
 });
 
@@ -1440,6 +1504,17 @@ document.querySelectorAll('input[name="activeHeroImage"]').forEach(radio => {
       return;
     }
 
+    // Show confirmation modal before changing
+    const confirmed = await showConfirmModal(
+      'Change Active Hero Image',
+      'Set this image as the active hero image on the homepage?'
+    );
+
+    if (!confirmed) {
+      populateHomeSettings(); // Revert radio selection
+      return;
+    }
+
     try {
       const response = await fetch(`/${ADMIN_ROUTE}/api/settings/home/hero-active`, {
         method: 'PUT',
@@ -1478,6 +1553,12 @@ function openHeroImageUpload(slotIndex) {
   const submitBtn = form.querySelector('button[type="submit"]');
   if (submitBtn) {
     setButtonLoading(submitBtn, false);
+  }
+
+  // Update size limit text
+  const limitSpan = document.getElementById('upload-size-limit');
+  if (limitSpan) {
+    limitSpan.textContent = 'Max 5MB, 16:9 Ratio';
   }
 
   openModal('image-modal');
@@ -1537,9 +1618,12 @@ function addFaqRow(question = '', answer = '', index = null) {
       <textarea class="faq-answer" name="faqAnswer[]" rows="2" placeholder="Answer...">${answer}</textarea>
     </div>
   `;
-  row.querySelector('.btn-remove-row').addEventListener('click', () => {
-    row.remove();
-    document.getElementById('contact-settings-form')?.dispatchEvent(new Event('input'));
+  row.querySelector('.btn-remove-row').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this FAQ?');
+    if (confirmed) {
+      row.remove();
+      document.getElementById('contact-settings-form')?.dispatchEvent(new Event('input'));
+    }
   });
   container.appendChild(row);
   document.getElementById('contact-settings-form')?.dispatchEvent(new Event('input'));
@@ -1554,9 +1638,12 @@ function addStatRow(number = '', label = '', index = null) {
     <input type="text" placeholder="Years Crafting" value="${label}" class="stat-label" name="statLabels[]">
     <button type="button" class="btn-remove-stat">&times;</button>
   `;
-  row.querySelector('.btn-remove-stat').addEventListener('click', () => {
-    row.remove();
-    document.getElementById('home-settings-form')?.dispatchEvent(new Event('input'));
+  row.querySelector('.btn-remove-stat').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this stat?');
+    if (confirmed) {
+      row.remove();
+      document.getElementById('home-settings-form')?.dispatchEvent(new Event('input'));
+    }
   });
   statsContainer.appendChild(row);
   document.getElementById('home-settings-form')?.dispatchEvent(new Event('input'));
@@ -1574,8 +1661,9 @@ function addDeliveryParagraphRow(text = '', index = null) {
     <textarea class="delivery-paragraph" name="deliveryParagraphs[]" rows="2" placeholder="Enter paragraph text...">${text}</textarea>
     <button type="button" class="btn-remove-row">&times;</button>
   `;
-  row.querySelector('.btn-remove-row').addEventListener('click', () => {
-    if (confirm('Remove this paragraph?')) {
+  row.querySelector('.btn-remove-row').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this paragraph?');
+    if (confirmed) {
       row.remove();
       document.getElementById('home-settings-form')?.dispatchEvent(new Event('input'));
     }
@@ -1593,8 +1681,9 @@ function addIndiaLocationRow(location = '', index = null) {
     <input type="text" class="india-location" name="indiaLocations[]" value="${location}" placeholder="City/State name">
     <button type="button" class="btn-remove-row">&times;</button>
   `;
-  row.querySelector('.btn-remove-row').addEventListener('click', () => {
-    if (confirm('Remove this location?')) {
+  row.querySelector('.btn-remove-row').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this location?');
+    if (confirmed) {
       row.remove();
       document.getElementById('home-settings-form')?.dispatchEvent(new Event('input'));
     }
@@ -1616,10 +1705,10 @@ function addInternationalLocationRow(name = '', flagUrl = '', index = null) {
     <button type="button" class="btn-upload-flag">Upload Flag</button>
     <button type="button" class="btn-remove-row">&times;</button>
   `;
-  row.querySelector('.btn-remove-row').addEventListener('click', () => {
-    if (confirm('Remove this location?')) {
+  row.querySelector('.btn-remove-row').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this location?');
+    if (confirmed) {
       row.remove();
-      // Trigger change detection
       document.getElementById('home-settings-form')?.dispatchEvent(new Event('input'));
     }
   });
@@ -1642,6 +1731,11 @@ document.getElementById('add-india-location-btn')?.addEventListener('click', () 
 
 document.getElementById('add-international-location-btn')?.addEventListener('click', () => {
   addInternationalLocationRow();
+});
+
+// Map image upload button
+document.querySelector('[data-section="delivery-map"]')?.addEventListener('click', () => {
+  openSettingsImageModal('home', 'map');
 });
 
 // Add FAQ button
@@ -1854,12 +1948,14 @@ function populateAboutSettings() {
     storyPreview.innerHTML = '<span class="no-image-text">No image</span>';
   }
 
-  // Values
+  // Values (container may be commented out)
   const valuesContainer = document.getElementById('values-container');
-  valuesContainer.innerHTML = '';
-  (about.values || []).forEach((value, index) => {
-    addValueRow(value.icon, value.title, value.description, index);
-  });
+  if (valuesContainer) {
+    valuesContainer.innerHTML = '';
+    (about.values || []).forEach((value, index) => {
+      addValueRow(value.icon, value.title, value.description, index);
+    });
+  }
 
   // Process
   document.getElementById('about-process-intro').value = about.process?.intro || '';
@@ -1890,21 +1986,31 @@ function addValueRow(icon = '', title = '', description = '', index = null) {
     <div class="form-row">
       <div class="form-group">
         <label>Icon Key</label>
-        <input type="text" class="value-icon" value="${icon}" placeholder="craftsmanship">
+        <input type="text" class="value-icon" name="valueIcon[]" value="${icon}" placeholder="craftsmanship">
       </div>
       <div class="form-group">
         <label>Title</label>
-        <input type="text" class="value-title" value="${title}" placeholder="Craftsmanship">
+        <input type="text" class="value-title" name="valueTitle[]" value="${title}" placeholder="Craftsmanship">
       </div>
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea class="value-description" rows="2" placeholder="Value description...">${description}</textarea>
+      <textarea class="value-description" name="valueDesc[]" rows="2" placeholder="Value description...">${description}</textarea>
     </div>
   `;
-  row.querySelector('.btn-remove-row').addEventListener('click', () => {
-    row.remove();
-    renumberRows(valuesContainer, 'value-row');
+  row.querySelector('.btn-remove-row').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this value?');
+    if (confirmed) {
+      row.remove();
+      renumberRows(valuesContainer, 'value-row');
+      document.getElementById('about-settings-form')?.dispatchEvent(new Event('input'));
+    }
+  });
+  // Add input listeners for change detection
+  row.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      document.getElementById('about-settings-form')?.dispatchEvent(new Event('input'));
+    });
   });
   valuesContainer.appendChild(row);
 }
@@ -1923,7 +2029,7 @@ function addProcessStepRow(title = '', description = '', image = null, index = n
     <div class="form-row">
       <div class="form-group">
         <label>Step Title</label>
-        <input type="text" class="step-title" value="${title}" placeholder="Design Brief">
+        <input type="text" class="step-title" name="processStepTitle[]" value="${title}" placeholder="Design Brief">
       </div>
       <div class="form-group image-upload-inline">
         <label>Step Image</label>
@@ -1935,17 +2041,27 @@ function addProcessStepRow(title = '', description = '', image = null, index = n
     </div>
     <div class="form-group">
       <label>Step Description</label>
-      <textarea class="step-description" rows="2" placeholder="Step description...">${description}</textarea>
+      <textarea class="step-description" name="processStepDesc[]" rows="2" placeholder="Step description...">${description}</textarea>
     </div>
   `;
-  row.querySelector('.btn-remove-row').addEventListener('click', () => {
-    row.remove();
-    renumberRows(container, 'process-step-row');
-    updateStepIndices();
+  row.querySelector('.btn-remove-row').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this process step?');
+    if (confirmed) {
+      row.remove();
+      renumberRows(container, 'process-step-row');
+      updateStepIndices();
+      document.getElementById('about-settings-form')?.dispatchEvent(new Event('input'));
+    }
   });
   row.querySelector('.btn-upload-step').addEventListener('click', (e) => {
     const idx = e.target.dataset.stepIndex;
     openSettingsImageModal('about', 'process', idx);
+  });
+  // Add input listeners for change detection
+  row.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      document.getElementById('about-settings-form')?.dispatchEvent(new Event('input'));
+    });
   });
   container.appendChild(row);
 }
@@ -2105,7 +2221,7 @@ function addServiceRow(title = '', description = '', features = [], image = null
     <div class="form-row">
       <div class="form-group">
         <label>Service Title</label>
-        <input type="text" class="service-title" value="${title}" placeholder="Custom Furniture Design">
+        <input type="text" class="service-title" name="serviceTitle[]" value="${title}" placeholder="Custom Furniture Design">
       </div>
       <div class="form-group image-upload-inline">
         <label>Service Image</label>
@@ -2117,21 +2233,31 @@ function addServiceRow(title = '', description = '', features = [], image = null
     </div>
     <div class="form-group">
       <label>Service Description</label>
-      <textarea class="service-description" rows="2" placeholder="Service description...">${description}</textarea>
+      <textarea class="service-description" name="serviceDesc[]" rows="2" placeholder="Service description...">${description}</textarea>
     </div>
     <div class="form-group">
       <label>Features (one per line)</label>
-      <textarea class="service-features" rows="3" placeholder="Feature 1\nFeature 2\nFeature 3...">${(features || []).join('\n')}</textarea>
+      <textarea class="service-features" name="serviceFeatures[]" rows="3" placeholder="Feature 1\nFeature 2\nFeature 3...">${(features || []).join('\n')}</textarea>
     </div>
   `;
-  row.querySelector('.btn-remove-row').addEventListener('click', () => {
-    row.remove();
-    renumberRows(container, 'service-row');
-    updateServiceIndices();
+  row.querySelector('.btn-remove-row').addEventListener('click', async () => {
+    const confirmed = await showConfirmModal('Remove Item', 'Remove this service?');
+    if (confirmed) {
+      row.remove();
+      renumberRows(container, 'service-row');
+      updateServiceIndices();
+      document.getElementById('services-settings-form')?.dispatchEvent(new Event('input'));
+    }
   });
   row.querySelector('.btn-upload-service').addEventListener('click', (e) => {
     const idx = e.target.dataset.serviceIndex;
     openSettingsImageModal('services', null, idx);
+  });
+  // Add input listeners for change detection
+  row.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      document.getElementById('services-settings-form')?.dispatchEvent(new Event('input'));
+    });
   });
   container.appendChild(row);
 }
@@ -2419,6 +2545,12 @@ function openSettingsImageModal(page, section, itemIndex) {
   document.getElementById('image-doc-id').value = page;
   document.getElementById('image-index').value = itemIndex !== undefined ? itemIndex : '-1';
 
+  // Reset size limit text
+  const limitSpan = document.getElementById('upload-size-limit');
+  if (limitSpan) {
+    limitSpan.textContent = 'Max 3MB';
+  }
+
   document.getElementById('image-file').value = '';
   document.getElementById('image-preview').innerHTML = '';
 
@@ -2499,6 +2631,8 @@ document.getElementById('image-form')?.addEventListener('submit', async function
     endpoint = `/${ADMIN_ROUTE}/api/settings/services/image`;
   } else if (page === 'home' && section === 'flag') {
     endpoint = `/${ADMIN_ROUTE}/api/settings/home/international-flag`;
+  } else if (page === 'home' && section === 'map') {
+    endpoint = `/${ADMIN_ROUTE}/api/settings/home/delivery-map`;
   }
 
   try {
@@ -2544,6 +2678,9 @@ document.getElementById('image-form')?.addEventListener('submit', async function
           serviceRow.querySelector('.service-image-preview').innerHTML =
             `<img src="${result.image.url}" alt="Service">`;
         }
+      } else if (page === 'home' && section === 'map') {
+        document.getElementById('delivery-map-preview').innerHTML =
+          `<img src="${result.image.url}" alt="Map">`;
       }
     } else {
       const err = await response.json();
@@ -2677,6 +2814,16 @@ function storeOriginalSettingsData() {
   });
 }
 
+// Check if any settings form has unsaved changes
+function hasAnyUnsavedChanges() {
+  // Check save buttons for active state (indicates changes)
+  const settingsSaveBtns = document.querySelectorAll('.btn-save-settings');
+  for (const btn of settingsSaveBtns) {
+    if (btn.classList.contains('active')) return true;
+  }
+  return false;
+}
+
 // Initialize change detectors
 initAllChangeDetectors();
 
@@ -2685,6 +2832,19 @@ initAllChangeDetectors();
 // ==========================================
 
 loadData();
+
+// Check if we should scroll to bottom (after adding new item/set)
+if (sessionStorage.getItem('scrollToBottom') === 'true') {
+  sessionStorage.removeItem('scrollToBottom');
+  // Wait for content to load then scroll
+  setTimeout(() => {
+    const grid = document.querySelector('.cards-grid');
+    if (grid) {
+      grid.scrollTop = grid.scrollHeight;
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  }, 500);
+}
 
 // Store original data after initial load
 // Store original data after initial load

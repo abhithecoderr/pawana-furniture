@@ -18,6 +18,7 @@ import contactRoute from "./src/routes/contact.js";
 import searchRoute from "./src/routes/search.js";
 import wishlistRoute from "./src/routes/wishlist.js";
 import adminRoute from "./src/routes/admin.js";
+import sitemapRoute from "./src/routes/sitemap.js";
 import { navDataMiddleware } from "./src/middleware/navData.js";
 import { initRedis } from "./src/utils/cache.js";
 
@@ -109,6 +110,9 @@ app.use("/wishlist", wishlistRoute);
 // Admin route - mounted at the secret path from .env
 const adminRoutePath = process.env.ADMIN_ROUTE || 'admin';
 app.use(`/${adminRoutePath}`, adminRoute);
+
+// Sitemap route for SEO
+app.use("/sitemap.xml", sitemapRoute);
 
 mongoose
   .connect(process.env.DB_URI)

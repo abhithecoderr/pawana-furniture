@@ -2,6 +2,11 @@ import express from "express";
 import FurnitureItem from "../models/FurnitureItem.js";
 import SiteSettings from "../models/SiteSettings.js";
 import { getOrSet } from "../utils/cache.js";
+import {
+  generateProductSchema,
+  generateBreadcrumbSchema,
+  generateSchemaScript
+} from "../utils/seoHelper.js";
 
 const router = express.Router();
 
@@ -57,8 +62,24 @@ router.get("/:slug", async (req, res) => {
       { $sample: { size: 6 } }
     ]);
 
+    // SEO data for product page
+    const siteUrl = settings.seo?.siteUrl || 'https://pawanafurniture.com';
+    const productSchema = generateProductSchema(item, siteUrl);
+    const breadcrumbs = [
+      { name: 'Home', url: '/' },
+      { name: item.room, url: `/room/${item.room.toLowerCase().replace(/\s+/g, '-')}` },
+      { name: item.name }
+    ];
+    const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs, siteUrl);
+    const structuredData = generateSchemaScript({ '@context': 'https://schema.org', '@graph': [productSchema, breadcrumbSchema] });
+
     res.render("pages/item", {
-      title: item.name,
+      pageTitle: `${item.name} | ${item.room} Furniture | Pawana® Furniture`,
+      pageDescription: `${item.name} - ${item.style} style ${item.type.toLowerCase()} for your ${item.room.toLowerCase()}. Code: ${item.code}. Handcrafted premium furniture in Rajpura, Punjab.`,
+      canonicalUrl: `${siteUrl}/item/${item.slug}`,
+      ogImage: item.images?.[0]?.url,
+      ogType: 'product',
+      structuredData,
       item,
       styleVariants,
       similarItems,

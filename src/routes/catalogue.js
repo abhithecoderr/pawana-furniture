@@ -36,8 +36,12 @@ router.get("/", async (req, res) => {
 
     const settings = await SiteSettings.getSettings();
 
+    const siteUrl = settings.seo?.siteUrl || 'https://pawanafurniture.com';
+
     res.render("pages/catalogue", {
-      title: "Collection",
+      pageTitle: "Furniture Collection | Premium Handcrafted Furniture | Pawana® Furniture",
+      pageDescription: "Browse our complete collection of handcrafted furniture. Living room, bedroom, dining, office furniture & showpieces. Crafted in Rajpura, Punjab since 1980.",
+      canonicalUrl: `${siteUrl}/catalogue`,
       items,
       sets,
       allRooms,

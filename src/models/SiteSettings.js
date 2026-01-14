@@ -285,6 +285,39 @@ const siteSettingsSchema = new mongoose.Schema({
   catalogue: {
     pageTitle: { type: String, default: 'Our Collection' },
     pageDescription: { type: String, default: 'Explore our exquisite range of handcrafted furniture' }
+  },
+
+  // SEO Settings
+  seo: {
+    siteUrl: { type: String, default: 'https://pawanafurniture.com' },
+    siteName: { type: String, default: 'Pawana® Furniture' },
+    defaultDescription: {
+      type: String,
+      default: 'Premium handcrafted furniture in Rajpura, Punjab. Luxury living room, bedroom, dining & office furniture. Custom designs since 1980. Delivered across India.'
+    },
+    keywords: {
+      type: [String],
+      default: [
+        'premium furniture Rajpura',
+        'luxury furniture Punjab',
+        'handcrafted furniture India',
+        'custom furniture Rajpura',
+        'living room furniture Punjab',
+        'bedroom furniture India',
+        'dining furniture Rajpura',
+        'Pawana Furniture'
+      ]
+    },
+    ogImage: {
+      url: { type: String, default: '' },
+      publicId: { type: String, default: '' }
+    },
+    organization: {
+      name: { type: String, default: 'Pawana Furniture' },
+      legalName: { type: String, default: 'Pawana Furniture by Pawan Kumar' },
+      foundingDate: { type: String, default: '1980' },
+      logo: { type: String, default: 'https://res.cloudinary.com/dwa2d4onb/image/upload/v1763917320/pf_icon_rxglcl.png' }
+    }
   }
 }, {
   timestamps: true

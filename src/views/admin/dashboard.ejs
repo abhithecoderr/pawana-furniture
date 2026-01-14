@@ -18,7 +18,7 @@
       </div>
 
       <nav class="sidebar-nav">
-        <button class="nav-item active" data-tab="sets">
+        <button class="nav-item <%= activeTab === 'sets' ? 'active' : '' %>" data-tab="sets">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="3" width="7" height="7"></rect>
             <rect x="14" y="3" width="7" height="7"></rect>
@@ -27,14 +27,14 @@
           </svg>
           <span>Sets</span>
         </button>
-        <button class="nav-item" data-tab="items">
+        <button class="nav-item <%= activeTab === 'items' ? 'active' : '' %>" data-tab="items">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
           <span>Items</span>
         </button>
-        <button class="nav-item" data-tab="rooms">
+        <button class="nav-item <%= activeTab === 'rooms' ? 'active' : '' %>" data-tab="rooms">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -42,14 +42,14 @@
           <span>Rooms</span>
         </button>
         <div class="nav-divider"></div>
-        <button class="nav-item" data-tab="home-settings">
+        <button class="nav-item <%= activeTab === 'home-settings' ? 'active' : '' %>" data-tab="home-settings">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
           <span>Home</span>
         </button>
-        <button class="nav-item" data-tab="about-settings">
+        <button class="nav-item <%= activeTab === 'about-settings' ? 'active' : '' %>" data-tab="about-settings">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M12 16v-4"></path>
@@ -57,13 +57,13 @@
           </svg>
           <span>About</span>
         </button>
-        <button class="nav-item" data-tab="services-settings">
+        <button class="nav-item <%= activeTab === 'services-settings' ? 'active' : '' %>" data-tab="services-settings">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
           </svg>
           <span>Services</span>
         </button>
-        <button class="nav-item" data-tab="contact-settings">
+        <button class="nav-item <%= activeTab === 'contact-settings' ? 'active' : '' %>" data-tab="contact-settings">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
           </svg>
@@ -86,7 +86,7 @@
     <!-- Main Content -->
     <main class="main-content">
       <!-- Sets Tab -->
-      <div class="tab-content active" id="sets-tab">
+      <div class="tab-content <%= activeTab === 'sets' ? 'active' : '' %>" id="sets-tab">
         <div class="content-header">
           <h2>Furniture Sets</h2>
         </div>
@@ -124,7 +124,7 @@
       </div>
 
       <!-- Items Tab -->
-      <div class="tab-content" id="items-tab">
+      <div class="tab-content <%= activeTab === 'items' ? 'active' : '' %>" id="items-tab">
         <div class="content-header">
           <h2>Furniture Items</h2>
         </div>
@@ -169,7 +169,7 @@
       </div>
 
       <!-- Rooms Tab -->
-      <div class="tab-content" id="rooms-tab">
+      <div class="tab-content <%= activeTab === 'rooms' ? 'active' : '' %>" id="rooms-tab">
         <div class="settings-sticky-header">
           <h2 id="rooms-header-title">Room Settings</h2>
           <div class="settings-sticky-actions">
@@ -213,7 +213,7 @@
       </div>
 
       <!-- Home Settings Tab -->
-      <div class="tab-content settings-tab-container" id="home-settings-tab">
+      <div class="tab-content settings-tab-container <%= activeTab === 'home-settings' ? 'active' : '' %>" id="home-settings-tab">
         <div class="settings-sticky-header">
           <h2>Home Page Settings</h2>
           <div class="settings-sticky-actions">
@@ -331,55 +331,55 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="signature-title">Signature Pieces - Title</label>
-                  <input type="text" id="signature-title" placeholder="Signature Pieces">
+                  <input type="text" id="signature-title" name="signatureTitle" placeholder="Signature Pieces">
                 </div>
                 <div class="form-group">
                   <label for="signature-subtitle">Signature Pieces - Subtitle</label>
-                  <input type="text" id="signature-subtitle" placeholder="Masterpieces that define your living space">
+                  <input type="text" id="signature-subtitle" name="signatureSubtitle" placeholder="Masterpieces that define your living space">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
                   <label for="featured-items-title">Featured Items - Title</label>
-                  <input type="text" id="featured-items-title" placeholder="Featured Items">
+                  <input type="text" id="featured-items-title" name="featuredItemsTitle" placeholder="Featured Items">
                 </div>
                 <div class="form-group">
                   <label for="featured-items-subtitle">Featured Items - Subtitle</label>
-                  <input type="text" id="featured-items-subtitle" placeholder="Curated selection of our finest individual pieces">
+                  <input type="text" id="featured-items-subtitle" name="featuredItemsSubtitle" placeholder="Curated selection of our finest individual pieces">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
                   <label for="featured-sets-title">Featured Sets - Title</label>
-                  <input type="text" id="featured-sets-title" placeholder="Featured Sets">
+                  <input type="text" id="featured-sets-title" name="featuredSetsTitle" placeholder="Featured Sets">
                 </div>
                 <div class="form-group">
                   <label for="featured-sets-subtitle">Featured Sets - Subtitle</label>
-                  <input type="text" id="featured-sets-subtitle" placeholder="Complete furniture collections for every room">
+                  <input type="text" id="featured-sets-subtitle" name="featuredSetsSubtitle" placeholder="Complete furniture collections for every room">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
                   <label for="browse-rooms-title">Browse by Rooms - Title</label>
-                  <input type="text" id="browse-rooms-title" placeholder="Browse by Rooms">
+                  <input type="text" id="browse-rooms-title" name="browseRoomsTitle" placeholder="Browse by Rooms">
                 </div>
                 <div class="form-group">
                   <label for="browse-rooms-subtitle">Browse by Rooms - Subtitle</label>
-                  <input type="text" id="browse-rooms-subtitle" placeholder="Explore our curated collections for every space in your home">
+                  <input type="text" id="browse-rooms-subtitle" name="browseRoomsSubtitle" placeholder="Explore our curated collections for every space in your home">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
                   <label for="custom-order-title">Custom Order - Title</label>
-                  <input type="text" id="custom-order-title" placeholder="Ready to Start Your Custom Order?">
+                  <input type="text" id="custom-order-title" name="customOrderTitle" placeholder="Ready to Start Your Custom Order?">
                 </div>
                 <div class="form-group">
                   <label for="custom-order-description">Custom Order - Description</label>
-                  <input type="text" id="custom-order-description" placeholder="Tell us what you have in mind...">
+                  <input type="text" id="custom-order-description" name="customOrderDescription" placeholder="Tell us what you have in mind...">
                 </div>
               </div>
             </div>
@@ -409,7 +409,7 @@
       </div>
 
       <!-- Contact Settings Tab -->
-      <div class="tab-content settings-tab-container" id="contact-settings-tab">
+      <div class="tab-content settings-tab-container <%= activeTab === 'contact-settings' ? 'active' : '' %>" id="contact-settings-tab">
         <div class="settings-sticky-header">
           <h2>Contact Page Settings</h2>
           <div class="settings-sticky-actions">
@@ -541,7 +541,7 @@
       </div>
 
       <!-- About Settings Tab -->
-      <div class="tab-content settings-tab-container" id="about-settings-tab">
+      <div class="tab-content settings-tab-container <%= activeTab === 'about-settings' ? 'active' : '' %>" id="about-settings-tab">
         <div class="settings-sticky-header">
           <h2>About Page Settings</h2>
           <div class="settings-sticky-actions">
@@ -593,12 +593,14 @@
               </div>
             </div>
 
+            <!-- Values section temporarily disabled
             <div class="settings-section">
               <h3>Our Values</h3>
               <p class="section-hint">Define the 4 value cards displayed on the about page.</p>
               <div id="values-container"></div>
               <button type="button" class="btn-add-row" id="add-value-btn">+ Add Value</button>
             </div>
+            -->
 
             <div class="settings-section">
               <h3>Our Process</h3>
@@ -647,7 +649,7 @@
       </div>
 
       <!-- Services Settings Tab -->
-      <div class="tab-content settings-tab-container" id="services-settings-tab">
+      <div class="tab-content settings-tab-container <%= activeTab === 'services-settings' ? 'active' : '' %>" id="services-settings-tab">
         <div class="settings-sticky-header">
           <h2>Services Page Settings</h2>
           <div class="settings-sticky-actions">
@@ -725,6 +727,11 @@
         <input type="hidden" id="set-room" name="room">
         <input type="hidden" id="set-style" name="style">
 
+        <div class="form-info">
+          <p><strong>Room:</strong> <span id="set-room-display"></span></p>
+          <p><strong>Style:</strong> <span id="set-style-display"></span></p>
+        </div>
+
         <div class="form-group">
           <label for="set-name">Name *</label>
           <input type="text" id="set-name" name="name" required maxlength="100">
@@ -739,11 +746,6 @@
           <label for="set-image">Image (4:3 ratio, max 1MB)</label>
           <input type="file" id="set-image" name="image" accept="image/*">
           <div class="image-preview" id="set-image-preview"></div>
-        </div>
-
-        <div class="form-info">
-          <p><strong>Room:</strong> <span id="set-room-display"></span></p>
-          <p><strong>Style:</strong> <span id="set-style-display"></span></p>
         </div>
 
         <div class="form-group">
@@ -775,6 +777,11 @@
         <input type="hidden" id="item-room" name="room">
         <input type="hidden" id="item-style" name="style">
 
+        <div class="form-info">
+          <p><strong>Room:</strong> <span id="item-room-display"></span></p>
+          <p><strong>Style:</strong> <span id="item-style-display"></span></p>
+        </div>
+
         <div class="form-group">
           <label for="item-name">Name *</label>
           <input type="text" id="item-name" name="name" required maxlength="100">
@@ -795,11 +802,6 @@
         <input type="hidden" id="item-type" name="type">
 
         <div class="form-group">
-          <label for="item-price">Price (₹)</label>
-          <input type="number" id="item-price" name="price" min="0">
-        </div>
-
-        <div class="form-group">
           <label for="item-description">Description</label>
           <textarea id="item-description" name="description" rows="3"></textarea>
         </div>
@@ -808,11 +810,6 @@
           <label for="item-image">Image (1:1 ratio, max 1MB)</label>
           <input type="file" id="item-image" name="image" accept="image/*">
           <div class="image-preview" id="item-image-preview"></div>
-        </div>
-
-        <div class="form-info">
-          <p><strong>Room:</strong> <span id="item-room-display"></span></p>
-          <p><strong>Style:</strong> <span id="item-style-display"></span></p>
         </div>
 
         <div class="form-group">
@@ -845,7 +842,7 @@
         <input type="hidden" id="image-index" name="imageIndex" value="-1">
 
         <div class="form-group">
-          <label for="image-file">Select Image (JPG, PNG, WebP - Max 5MB)</label>
+          <label for="image-file">Select Image (JPG, PNG, WebP - <span id="upload-size-limit">Max 3MB</span>)</label>
           <input type="file" id="image-file" name="image" accept=".jpg,.jpeg,.png,.webp" required>
         </div>
 
@@ -877,11 +874,29 @@
     </div>
   </div>
 
+  <!-- Confirmation Modal (for unsaved changes, hero selection, etc.) -->
+  <div class="modal" id="confirm-modal">
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h3 id="confirm-modal-title">Confirm</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-modal-message">Are you sure?</p>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" id="confirm-modal-cancel">Cancel</button>
+        <button type="button" class="btn-save" id="confirm-modal-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
   <script>
     const ADMIN_ROUTE = '<%= adminRoute %>';
+    const ACTIVE_TAB = '<%= activeTab %>';
   </script>
   <script src="/js/admin.js"></script>
 </body>

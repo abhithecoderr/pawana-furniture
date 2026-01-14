@@ -4,6 +4,13 @@ import FurnitureSet from "../models/FurnitureSet.js";
 import Room from "../models/Room.js";
 import SiteSettings from "../models/SiteSettings.js";
 import { getOrSet } from "../utils/cache.js";
+import {
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+  generateNavigationSchema,
+  generateSchemaScript,
+  wrapSchemas
+} from "../utils/seoHelper.js";
 
 const router = express.Router();
 
@@ -92,8 +99,21 @@ router.get("/", async (req, res) => {
     const activeHeroIndex = settings.home.hero.activeImageIndex || 0;
     const activeHeroImage = heroImages[activeHeroIndex]?.url || null;
 
+    // Generate structured data for homepage
+    const orgSchema = generateOrganizationSchema(settings);
+    const webSiteSchema = generateWebSiteSchema(settings);
+    const navSchema = generateNavigationSchema(rooms);
+    const structuredData = generateSchemaScript(wrapSchemas(orgSchema, webSiteSchema, navSchema));
+
+    // SEO settings
+    const siteUrl = settings.seo?.siteUrl || 'https://pawanafurniture.com';
+
     res.render("pages/home", {
-      title: "Home",
+      pageTitle: settings.seo?.siteName || 'Pawana® Furniture',
+      pageDescription: 'Your Dreams, Our Responsibility. Premium handcrafted furniture in Rajpura, Punjab since 1980. By Pawan Kumar.',
+      canonicalUrl: siteUrl,
+      ogImage: activeHeroImage,
+      structuredData,
       pageClass: "page-home",
       featuredItems,
       carouselItems,
