@@ -275,6 +275,27 @@
   padding-top: 1rem;
 }
 
+/* Developer Credit */
+.credit-separator {
+  color: rgba(255,255,255,0.25);
+  margin: 0 0.5rem;
+}
+
+.developer-credit {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.35);
+}
+
+.developer-credit a {
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.developer-credit a:hover {
+  color: var(--color-accent);
+}
+
 /* Responsive Footer Grid */
 @media (max-width: 1024px) {
   .footer-grid {

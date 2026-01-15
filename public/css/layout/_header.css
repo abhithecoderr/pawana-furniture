@@ -783,8 +783,8 @@
 .search-category-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
 }
 
 .search-category-header h4 {
@@ -1146,9 +1146,7 @@
   color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 0.75rem;
   position: relative;
-  padding-bottom: 0.35rem;
 }
 
 .search-modal .search-category h4::after {
@@ -1160,6 +1158,11 @@
   height: 2px;
   background: var(--color-primary);
   border-radius: 1px;
+}
+
+/* Modal category header alignment */
+.search-modal .search-category-header {
+  align-items: flex-end;
 }
 
 /* Modal specific result item styling - matches desktop */

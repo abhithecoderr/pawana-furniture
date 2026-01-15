@@ -51,6 +51,11 @@
     margin-bottom: 0.6rem;
   }
 
+  /* Carousel cards: More bottom margin for title */
+  .carousel-item .card-name-row {
+    margin-bottom: 1rem;
+  }
+
   .item-card h3,
   .product-card h3,
   .set-card h3,
