@@ -1,7 +1,7 @@
 # Pawana Furniture - Project Documentation
 
 ## Overview
-This is a Node.js web application built with Express.js that serves as an online furniture catalog. The application displays furniture items organized by rooms, types, and styles, allowing users to browse and explore the collection.
+This is a Node.js express web application built with Express.js that serves as an online furniture catalog. The application displays furniture items organized by rooms, types, and styles, allowing users to browse and explore the collection.
 
 ## Project Structure
 
